@@ -27,11 +27,11 @@ import org.jetbrains.annotations.Nullable;
 
 public class TemplateButtonBlock extends ButtonBlock implements BlockEntityProvider {
 	public TemplateButtonBlock(Settings settings) {
-		this(settings, BlockSetType.OAK, 30, true);
+		this(settings, BlockSetType.OAK, 30);
 	}
 	
-	public TemplateButtonBlock(Settings settings, BlockSetType blockSetType, int i, boolean bl) {
-		super(settings, blockSetType, i, bl);
+	public TemplateButtonBlock(Settings settings, BlockSetType blockSetType, int i) {
+		super(blockSetType, i, settings);
 		setDefaultState(TemplateInteractionUtil.setDefaultStates(getDefaultState()));
 	}
 	
