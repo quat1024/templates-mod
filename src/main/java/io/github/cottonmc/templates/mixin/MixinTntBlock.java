@@ -22,7 +22,7 @@ public class MixinTntBlock {
 	)
 	private static void handleTemplateTnt(World world, BlockPos pos, @Nullable LivingEntity living, CallbackInfo info, TntEntity tnt) {
 		if (world.getBlockEntity(pos) instanceof ThemeableBlockEntity be) {
-			tnt.method_54455(be.getThemeState());
+			tnt.setBlockState(be.getThemeState());
 		}
 	}
 }
