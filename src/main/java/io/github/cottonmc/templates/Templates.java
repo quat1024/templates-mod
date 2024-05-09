@@ -1,24 +1,7 @@
 package io.github.cottonmc.templates;
 
 import io.github.cottonmc.templates.api.TemplateInteractionUtil;
-import io.github.cottonmc.templates.block.TemplateBlock;
-import io.github.cottonmc.templates.block.TemplateButtonBlock;
-import io.github.cottonmc.templates.block.TemplateCandleBlock;
-import io.github.cottonmc.templates.block.TemplateCarpetBlock;
-import io.github.cottonmc.templates.block.TemplateDoorBlock;
-import io.github.cottonmc.templates.block.TemplateEntity;
-import io.github.cottonmc.templates.block.TemplateFenceBlock;
-import io.github.cottonmc.templates.block.TemplateFenceGateBlock;
-import io.github.cottonmc.templates.block.TemplateLeverBlock;
-import io.github.cottonmc.templates.block.TemplatePaneBlock;
-import io.github.cottonmc.templates.block.TemplatePostBlock;
-import io.github.cottonmc.templates.block.TemplatePressurePlateBlock;
-import io.github.cottonmc.templates.block.TemplateSlabBlock;
-import io.github.cottonmc.templates.block.TemplateSlopeBlock;
-import io.github.cottonmc.templates.block.TemplateStairsBlock;
-import io.github.cottonmc.templates.block.TemplateTrapdoorBlock;
-import io.github.cottonmc.templates.block.TemplateVerticalSlabBlock;
-import io.github.cottonmc.templates.block.TemplateWallBlock;
+import io.github.cottonmc.templates.block.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
@@ -53,7 +36,7 @@ public class Templates implements ModInitializer {
 	
 	//addon devs: *Don't* add your blocks to this collection, it's just for my registration convenience since Templates adds a lot of blocks...
 	@ApiStatus.Internal static final ArrayList<Block> INTERNAL_TEMPLATES = new ArrayList<>();
-	@ApiStatus.Internal static Block CUBE, STAIRS, SLAB, VERTICAL_SLAB, POST, FENCE, FENCE_GATE, DOOR, TRAPDOOR, IRON_DOOR, IRON_TRAPDOOR, PRESSURE_PLATE, BUTTON, LEVER, WALL, CARPET, PANE, CANDLE, SLOPE, TINY_SLOPE, COOL_RIVULET;
+	@ApiStatus.Internal static Block CUBE, STAIRS, SLAB, VERTICAL_SLAB, POST, FENCE, FENCE_GATE, DOOR, TRAPDOOR, IRON_DOOR, IRON_TRAPDOOR, PRESSURE_PLATE, BUTTON, LEVER, WALL, CARPET, PANE, CANDLE, SLOPE, TINY_SLOPE, TNT, COOL_RIVULET;
 	
 	//For addon devs: Please don't stuff more blocks into this BlockEntityType, and register your own.
 	//You can even re-register the same TemplateEntity class under your own ID if you like. (It's an extensible block entity.)
@@ -89,6 +72,7 @@ public class Templates implements ModInitializer {
 		CANDLE         = registerTemplate("candle"        , new TemplateCandleBlock(TemplateCandleBlock.configureSettings(cp(Blocks.CANDLE))));
 		SLOPE          = registerTemplate("slope"         , new TemplateSlopeBlock(TemplateInteractionUtil.makeSettings()));
 		TINY_SLOPE     = registerTemplate("tiny_slope"    , new TemplateSlopeBlock.Tiny(TemplateInteractionUtil.makeSettings()));
+		TNT            = registerTemplate("tnt"           , new TemplateTntBlock(cp(Blocks.TNT)));
 		
 		//The block entity is still called templates:slope; this is a bit of a legacy mistake.
 		TEMPLATE_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, id("slope"),

@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "~I~",
+        "I~I",
+        "~I~"
+    ],
+    "key": {
+        "I": {
+            "item": "minecraft:bamboo"
+        },
+        "~": {
+            "item": "minecraft:gunpowder"
+        }
+    },
+    "result": {
+        "item": "templates:tnt",
+        "count": 1
+    },
+    "group": "templates"
+}

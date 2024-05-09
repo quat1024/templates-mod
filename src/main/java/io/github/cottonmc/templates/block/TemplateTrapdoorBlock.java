@@ -28,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class TemplateTrapdoorBlock extends TrapdoorBlock implements BlockEntityProvider, TemplateInteractionUtilExt {
 	public TemplateTrapdoorBlock(Settings settings, BlockSetType blah) {
-		super(settings, blah);
+		super(blah, settings);
 		setDefaultState(TemplateInteractionUtil.setDefaultStates(getDefaultState()));
 	}
 	
