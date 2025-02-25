@@ -1,21 +1,25 @@
 Versions before 2.1.2 have been backfilled; I gotta be more on top of changelogs.
 
-# next version (unreleased)
+# 2.2.0 (Feb 25, 2025)
 
-* Start sketching out a proper API, accessible through `TemplatesClientApi.getInstance()`.
-	* Not everything has been moved into the API package yet for ABI reasons.
+Old changes (~2023, unreleased until now):
+
+* Start sketching out an API, accessible through `TemplatesClientApi.getInstance()`
+  * (Note from the future: This API will break *hard* in 1.21 due to Mojang fuckery)
 * Code cleanups that hopefully didn't break ABI compat
 * Remove some unused stuff from the jar
-* Vertical slab placement no longer completely sucks
-* Fix a bug where templates that look like blocks with randomized models, such as stone, could reroll their blockstate on every resource load.
+* Vertical slab placement is a little better
+* Fix a bug where templates that look like blocks with randomized models, such as stone, could reroll their blockstate on every resource load
   * Forgot to specify a random seed.
-  * All templated blocks still use the *same* model, so templated stone will still not be randomly rotated/flipped, but at least it's now the *same* same model.
+  * Templated blocks always use the *same* model -- templated stone will still not be randomly rotated/flipped -- but at least now it uses the *same* same model.
 
-road map:
+New changes:
 
-* want to fix texture orientation on vertical slabs/doors
-* really want to fix the way vertical slabs place lmao (it's so buggy)
-* clean up `StairShapeMaker`
+* New template: "Post Cross" - a plus shape that fits squarely on fences or the Post template. Can be placed in three different orientations.
+* New template: "TNTemplate" - I'm sure this will end well.
+* Templated mushroom blocks should now work, maybe some other blocks were fixed by this (pass a blockstate to `getQuads`, should fix all multipart models)
+* Very slightly reduce memory usage of `TemplateAppearance`
+* Only declare dependencies on the Fabric API modules that I actually use
 
 # 2.1.1 (Aug 2, 2023)
 
