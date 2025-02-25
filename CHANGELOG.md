@@ -21,6 +21,10 @@ New changes:
 * Very slightly reduce memory usage of `TemplateAppearance`
 * Only declare dependencies on the Fabric API modules that I actually use
 
+TODO list:
+
+* Still depend on two deprecated modules, `fabric-rendering-data-attachment-v1` (has ABI implications) and `fabric-models-v0` (the replacement seems to be `fabric-model-loading-api-v1`, and this also has ABI implications)
+
 # 2.1.1 (Aug 2, 2023)
 
 Enable ambient-occlusion ("smooth lighting") on all Templates except for the slopes, which are still bugged
