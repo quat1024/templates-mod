@@ -64,7 +64,7 @@ public abstract class RetexturingBakedModel extends ForwardingBakedModel {
 	public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
 		BlockState theme = (((RenderAttachedBlockView) blockView).getBlockEntityRenderAttachment(pos) instanceof BlockState s) ? s : null;
 		if(theme == null || theme.isAir()) {
-			context.meshConsumer().accept(getUntintedRetexturedMesh(new CacheKey(state, tam.getDefaultAppearance())));
+			getUntintedRetexturedMesh(new CacheKey(state, tam.getDefaultAppearance())).outputTo(context.getEmitter());
 			return;
 		} else if(theme.getBlock() == Blocks.BARRIER) {
 			//TODO i don't love putting this rare specialcase smack in the middle of the hot code path
@@ -79,10 +79,10 @@ public abstract class RetexturingBakedModel extends ForwardingBakedModel {
 		//The specific tint might vary a lot; imagine grass color smoothly changing. Trying to bake the tint into
 		//the cached mesh will pollute it with a ton of single-use meshes with only slighly different colors.
 		if(tint == 0xFFFFFFFF) {
-			context.meshConsumer().accept(untintedMesh);
+			untintedMesh.outputTo(context.getEmitter());
 		} else {
 			context.pushTransform(new TintingTransformer(ta, tint));
-			context.meshConsumer().accept(untintedMesh);
+			untintedMesh.outputTo(context.getEmitter());
 			context.popTransform();
 		}
 	}
@@ -105,10 +105,10 @@ public abstract class RetexturingBakedModel extends ForwardingBakedModel {
 		Mesh untintedMesh = getUntintedRetexturedMesh(new CacheKey(itemModelState, nbtAppearance));
 		
 		if(tint == 0xFFFFFFFF) {
-			context.meshConsumer().accept(untintedMesh);
+			untintedMesh.outputTo(context.getEmitter());
 		} else {
 			context.pushTransform(new TintingTransformer(nbtAppearance, tint));
-			context.meshConsumer().accept(untintedMesh);
+			untintedMesh.outputTo(context.getEmitter());
 			context.popTransform();
 		}
 	}
