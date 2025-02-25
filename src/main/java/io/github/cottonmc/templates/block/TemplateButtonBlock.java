@@ -21,6 +21,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.BlockRenderView;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -92,5 +93,11 @@ public class TemplateButtonBlock extends ButtonBlock implements BlockEntityProvi
 	public int getStrongRedstonePower(BlockState state, BlockView view, BlockPos pos, Direction dir) {
 		if(getDirection(state) != dir) return 0;
 		else return getWeakRedstonePower(state, view, pos, dir);
+	}
+	
+	//from FabricBlock
+	@Override
+	public BlockState getAppearance(BlockState state, BlockRenderView renderView, BlockPos pos, Direction side, @Nullable BlockState sourceState, @Nullable BlockPos sourcePos) {
+		return TemplateInteractionUtil.getAppearance(state, renderView, pos, side, sourceState, sourcePos);
 	}
 }

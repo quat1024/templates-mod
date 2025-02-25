@@ -1,6 +1,7 @@
 package io.github.cottonmc.templates.api;
 
 import io.github.cottonmc.templates.block.TemplateEntity;
+import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachedBlockView;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
@@ -15,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -29,6 +31,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.world.BlockRenderView;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
@@ -178,5 +181,24 @@ public class TemplateInteractionUtil {
 	
 	public static int luminance(BlockState state) {
 		return state.contains(LIGHT) && state.get(LIGHT) ? 15 : 0;
+	}
+	
+	/** FabricBlock hook used by CTM mods */
+	public static BlockState getAppearance(BlockState state, BlockRenderView renderView, BlockPos pos, Direction side, @Nullable BlockState sourceState, @Nullable BlockPos sourcePos) {
+		BlockState renderState = null;
+		//See docs for FabricBlock
+		if(renderView instanceof ServerWorld sworld && sworld.getBlockEntity(pos) instanceof ThemeableBlockEntity te) {
+			renderState = te.getThemeState();
+		} else if(renderView instanceof RenderAttachedBlockView rabv && rabv.getBlockEntityRenderAttachment(pos) instanceof BlockState theme) {
+			renderState = theme;
+		}
+		
+		if(renderState == null || renderState.isAir() || renderState.getBlock() instanceof BlockEntityProvider) {
+			return state; //no change.
+			//We ignore BlockEntityProviders just in case someone somehow stuffs a template in a template.
+		}
+		
+		//delegate
+		return renderState.getAppearance(renderView, pos, side, sourceState, sourcePos);
 	}
 }
