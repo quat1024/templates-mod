@@ -16,14 +16,15 @@ Old changes (~2023, unreleased until now):
 New changes:
 
 * New template: "Post Cross" - a plus shape that fits squarely on fences or the Post template. Can be placed in three different orientations.
-* New template: "TNTemplate" - I'm sure this will end well.
-* Templated mushroom blocks should now work, maybe some other blocks were fixed by this (pass a blockstate to `getQuads`, should fix all multipart models)
-* Very slightly reduce memory usage of `TemplateAppearance`
-* Only declare dependencies on the Fabric API modules that I actually use
+* New template: "TNTemplate". This will end well.
+* Connected textures should work! I tested with Chisel Reborn. Other blocks should be OK as long as they implement `FabricBlock#getAppearance`.
+* Mushroom blocks now work (as well as any other blocks with `"multipart"` models).
+* Very slightly reduce memory usage of `TemplateAppearance`?
+* Only declare dependencies on the Fabric API modules I actually use.
 
 TODO list:
 
-* Still depend on two deprecated modules, `fabric-rendering-data-attachment-v1` (has ABI implications) and `fabric-models-v0` (the replacement seems to be `fabric-model-loading-api-v1`, and this also has ABI implications)
+* I still depend on two deprecated modules, `fabric-rendering-data-attachment-v1` (has ABI implications) and `fabric-models-v0` (the replacement seems to be `fabric-model-loading-api-v1`, and this also has ABI implications)
 
 # 2.1.1 (Aug 2, 2023)
 
