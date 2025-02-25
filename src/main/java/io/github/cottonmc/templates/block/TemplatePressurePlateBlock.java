@@ -26,13 +26,13 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class TemplatePressurePlateBlock extends PressurePlateBlock implements BlockEntityProvider {
-	public TemplatePressurePlateBlock(ActivationRule activationRule, Settings settings, BlockSetType blockSetType) {
-		super(activationRule, settings, blockSetType);
+	public TemplatePressurePlateBlock(Settings settings, BlockSetType blockSetType) {
+		super(blockSetType, settings);
 		setDefaultState(TemplateInteractionUtil.setDefaultStates(getDefaultState()));
 	}
 	
 	public TemplatePressurePlateBlock(Settings settings) {
-		this(ActivationRule.EVERYTHING, settings, BlockSetType.OAK);
+		this(settings, BlockSetType.OAK);
 	}
 	
 	@Override
