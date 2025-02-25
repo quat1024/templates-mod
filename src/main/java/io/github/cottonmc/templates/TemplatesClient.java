@@ -110,6 +110,7 @@ public class TemplatesClient implements ClientModInitializer {
 		api.assignItemModel(Templates.id("wall_inventory_special")        , Templates.WALL);
 		api.assignItemModel(Templates.id("slope_special")                 , Templates.SLOPE);
 		api.assignItemModel(Templates.id("tiny_slope_special")            , Templates.TINY_SLOPE);
+		api.assignItemModel(Templates.id("cube_special")                  , Templates.TNT); //TODO tnt theme
 		
 		//TODO: i could stick some kind of entrypoint here for signalling other mods that it's ok to register now?
 		// Dont think it rly matters though, everything's all kept in nice hash maps

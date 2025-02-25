@@ -22,7 +22,8 @@
 			"templates:vertical_slab",
 			"templates:wall",
 			"templates:slope",
-			"templates:tiny_slope"
+			"templates:tiny_slope",
+			"templates:tnt"
 		]
 	},
 	"criteria": {

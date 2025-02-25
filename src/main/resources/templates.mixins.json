@@ -5,13 +5,16 @@
 	"mixins": [
 		"MinecraftAccessor",
 		"WallBlockAccessor",
+		"TntBlockMixin",
+		"TntEntityMixin",
 		"particles.MixinEntity",
 		"particles.MixinLivingEntity"
 	],
 	"client": [
 		"particles.AccessorParticle",
 		"particles.AccessorSpriteBillboardParticle",
-		"particles.MixinBlockDustParticle"
+		"particles.MixinBlockDustParticle",
+		"TntEntityRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
