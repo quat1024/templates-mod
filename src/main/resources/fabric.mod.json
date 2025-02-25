@@ -38,6 +38,7 @@
 		"fabric-item-group-api-v1": "*",
 		"fabric-blockrenderlayer-v1": "*",
 		"fabric-object-builder-api-v1": "*",
+		"fabric-block-api-v1": "*",
 		"fabric-rendering-data-attachment-v1": "*",
 		"fabric-models-v0": "*"
 	}
