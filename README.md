@@ -2,7 +2,7 @@
 
 # Templates 2
 
-[>> Downloads <<](https://modrinth.com/mod/templates-2)
+[**>> Downloads on Modrinth <<**](https://modrinth.com/mod/templates-2) | [Source on Codeberg](https://codeberg.org/quat/templates-mod) | [Source on GitHub](https://github.com/quat1024/templates-mod)
 
 *Slopes?*
 
