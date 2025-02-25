@@ -1,0 +1,19 @@
+{
+	"variants": {
+		"axis=x": {
+			"model": "templates:post_cross_special",
+			"y": 90,
+			"uvlock": true
+		},
+		"axis=y": {
+			"model": "templates:post_cross_special",
+			"x": 90,
+			"y": 90,
+			"uvlock": true
+		},
+		"axis=z": {
+			"model": "templates:post_cross_special",
+			"uvlock": true
+		}
+	}
+}

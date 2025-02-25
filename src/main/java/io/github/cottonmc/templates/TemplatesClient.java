@@ -57,6 +57,7 @@ public class TemplatesClient implements ClientModInitializer {
 		api.addTemplateModel(Templates.id("glass_pane_post_special")      , api.auto(new Identifier("block/glass_pane_post")));
 		api.addTemplateModel(Templates.id("glass_pane_noside_special")    , api.auto(new Identifier("block/glass_pane_noside")));
 		api.addTemplateModel(Templates.id("glass_pane_noside_alt_special"), api.auto(new Identifier("block/glass_pane_noside_alt")));
+		api.addTemplateModel(Templates.id("post_cross_special")           , api.auto(Templates.id("block/post_cross")));
 		api.addTemplateModel(Templates.id("pressure_plate_up_special")    , api.auto(new Identifier("block/pressure_plate_up")));
 		api.addTemplateModel(Templates.id("pressure_plate_down_special")  , api.auto(new Identifier("block/pressure_plate_down")));
 		api.addTemplateModel(Templates.id("slab_bottom_special")          , api.auto(new Identifier("block/slab")));
@@ -100,6 +101,7 @@ public class TemplatesClient implements ClientModInitializer {
 		api.assignItemModel(Templates.id("fence_gate_special")            , Templates.FENCE_GATE);
 		api.assignItemModel(Templates.id("trapdoor_bottom_special")       , Templates.IRON_TRAPDOOR);
 		api.assignItemModel(Templates.id("fence_post_inventory_special")  , Templates.POST);
+		api.assignItemModel(Templates.id("post_cross_special")            , Templates.POST_CROSS);
 		api.assignItemModel(Templates.id("pressure_plate_up_special")     , Templates.PRESSURE_PLATE);
 		api.assignItemModel(Templates.id("slab_bottom_special")           , Templates.SLAB);
 		api.assignItemModel(Templates.id("stairs_special")                , Templates.STAIRS);

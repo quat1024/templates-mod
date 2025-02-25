@@ -14,6 +14,7 @@
 			"templates:lever",
 			"templates:pane",
 			"templates:post",
+			"templates:post_cross",
 			"templates:pressure_plate",
 			"templates:slab",
 			"templates:stairs",

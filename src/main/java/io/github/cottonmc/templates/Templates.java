@@ -12,6 +12,7 @@ import io.github.cottonmc.templates.block.TemplateFenceGateBlock;
 import io.github.cottonmc.templates.block.TemplateLeverBlock;
 import io.github.cottonmc.templates.block.TemplatePaneBlock;
 import io.github.cottonmc.templates.block.TemplatePostBlock;
+import io.github.cottonmc.templates.block.TemplatePostCrossBlock;
 import io.github.cottonmc.templates.block.TemplatePressurePlateBlock;
 import io.github.cottonmc.templates.block.TemplateSlabBlock;
 import io.github.cottonmc.templates.block.TemplateSlopeBlock;
@@ -53,7 +54,7 @@ public class Templates implements ModInitializer {
 	
 	//addon devs: *Don't* add your blocks to this collection, it's just for my registration convenience since Templates adds a lot of blocks...
 	@ApiStatus.Internal static final ArrayList<Block> INTERNAL_TEMPLATES = new ArrayList<>();
-	@ApiStatus.Internal static Block CUBE, STAIRS, SLAB, VERTICAL_SLAB, POST, FENCE, FENCE_GATE, DOOR, TRAPDOOR, IRON_DOOR, IRON_TRAPDOOR, PRESSURE_PLATE, BUTTON, LEVER, WALL, CARPET, PANE, CANDLE, SLOPE, TINY_SLOPE, COOL_RIVULET;
+	@ApiStatus.Internal static Block CUBE, STAIRS, SLAB, VERTICAL_SLAB, POST, POST_CROSS, FENCE, FENCE_GATE, DOOR, TRAPDOOR, IRON_DOOR, IRON_TRAPDOOR, PRESSURE_PLATE, BUTTON, LEVER, WALL, CARPET, PANE, CANDLE, SLOPE, TINY_SLOPE, COOL_RIVULET;
 	
 	//For addon devs: Please don't stuff more blocks into this BlockEntityType, and register your own.
 	//You can even re-register the same TemplateEntity class under your own ID if you like. (It's an extensible block entity.)
@@ -74,6 +75,7 @@ public class Templates implements ModInitializer {
 		SLAB           = registerTemplate("slab"          , new TemplateSlabBlock(cp(Blocks.OAK_SLAB)));
 		VERTICAL_SLAB  = registerTemplate("vertical_slab" , new TemplateVerticalSlabBlock(cp(Blocks.OAK_SLAB)));
 		POST           = registerTemplate("post"          , new TemplatePostBlock(cp(Blocks.OAK_FENCE)));
+		POST_CROSS     = registerTemplate("post_cross"    , new TemplatePostCrossBlock(cp(Blocks.OAK_FENCE)));
 		FENCE          = registerTemplate("fence"         , new TemplateFenceBlock(cp(Blocks.OAK_FENCE)));
 		FENCE_GATE     = registerTemplate("fence_gate"    , new TemplateFenceGateBlock(cp(Blocks.OAK_FENCE_GATE)));
 		DOOR           = registerTemplate("door"          , new TemplateDoorBlock(cp(Blocks.OAK_DOOR), BlockSetType.OAK));
