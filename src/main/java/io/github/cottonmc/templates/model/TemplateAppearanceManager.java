@@ -28,7 +28,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 //TODO: extract an API for the api package
@@ -44,11 +43,11 @@ public class TemplateAppearanceManager {
 		
 		Sprite defaultSprite = spriteLookup.apply(DEFAULT_SPRITE_ID);
 		if(defaultSprite == null) throw new IllegalStateException("Couldn't locate " + DEFAULT_SPRITE_ID + " !");
-		this.defaultAppearance = new SingleSpriteAppearance(defaultSprite, materialsWithoutAo.get(BlendMode.CUTOUT), serialNumber.getAndIncrement());
+		this.defaultAppearance = new SingleSpriteAppearance(defaultSprite, materialsWithoutAo.get(BlendMode.CUTOUT));
 		
 		Sprite barrier = spriteLookup.apply(BARRIER_SPRITE_ID);
 		if(barrier == null) barrier = defaultSprite; //eh
-		this.barrierItemAppearance = new SingleSpriteAppearance(barrier, materialsWithoutAo.get(BlendMode.CUTOUT), serialNumber.getAndIncrement());
+		this.barrierItemAppearance = new SingleSpriteAppearance(barrier, materialsWithoutAo.get(BlendMode.CUTOUT));
 	}
 	
 	//TODO ABI: Shouldn't have been made public. Noticed this in 2.2.
@@ -60,7 +59,6 @@ public class TemplateAppearanceManager {
 	private final TemplateAppearance barrierItemAppearance;
 	
 	private final ConcurrentHashMap<BlockState, TemplateAppearance> appearanceCache = new ConcurrentHashMap<>(); //Mutable, append-only cache
-	private final AtomicInteger serialNumber = new AtomicInteger(0); //Mutable
 	
 	private final EnumMap<BlendMode, RenderMaterial> materialsWithAo = new EnumMap<>(BlendMode.class);
 	private final EnumMap<BlendMode, RenderMaterial> materialsWithoutAo = new EnumMap<>(BlendMode.class); //Immutable contents
@@ -156,8 +154,7 @@ public class TemplateAppearanceManager {
 			bakeFlags,
 			hasColorMask,
 			getCachedMaterial(state, true),
-			getCachedMaterial(state, false),
-			serialNumber.getAndIncrement()
+			getCachedMaterial(state, false)
 		);
 	}
 	
@@ -165,15 +162,13 @@ public class TemplateAppearanceManager {
 		private final Sprite @NotNull[] sprites;
 		private final int @NotNull[] bakeFlags;
 		private final byte hasColorMask;
-		private final int id;
 		private final RenderMaterial matWithAo;
 		private final RenderMaterial matWithoutAo;
 		
-		private ComputedApperance(@NotNull Sprite @NotNull[] sprites, int @NotNull[] bakeFlags, byte hasColorMask, RenderMaterial withAo, RenderMaterial withoutAo, int id) {
+		private ComputedApperance(@NotNull Sprite @NotNull[] sprites, int @NotNull[] bakeFlags, byte hasColorMask, RenderMaterial withAo, RenderMaterial withoutAo) {
 			this.sprites = sprites;
 			this.bakeFlags = bakeFlags;
 			this.hasColorMask = hasColorMask;
-			this.id = id;
 			
 			this.matWithAo = withAo;
 			this.matWithoutAo = withoutAo;
@@ -200,21 +195,8 @@ public class TemplateAppearanceManager {
 		}
 		
 		@Override
-		public boolean equals(Object o) {
-			if(this == o) return true;
-			if(o == null || getClass() != o.getClass()) return false;
-			ComputedApperance that = (ComputedApperance) o;
-			return id == that.id;
-		}
-		
-		@Override
-		public int hashCode() {
-			return id;
-		}
-		
-		@Override
 		public String toString() {
-			return "ComputedApperance{sprites=%s, bakeFlags=%s, hasColorMask=%s, matWithoutAo=%s, matWithAo=%s, id=%d}".formatted(Arrays.toString(sprites), Arrays.toString(bakeFlags), hasColorMask, matWithoutAo, matWithAo, id);
+			return "ComputedApperance{sprites=%s, bakeFlags=%s, hasColorMask=%s, matWithoutAo=%s, matWithAo=%s}".formatted(Arrays.toString(sprites), Arrays.toString(bakeFlags), hasColorMask, matWithoutAo, matWithAo);
 		}
 	}
 	
@@ -222,12 +204,10 @@ public class TemplateAppearanceManager {
 	private static final class SingleSpriteAppearance implements TemplateAppearance {
 		private final @NotNull Sprite defaultSprite;
 		private final RenderMaterial mat;
-		private final int id;
 		
-		private SingleSpriteAppearance(@NotNull Sprite defaultSprite, RenderMaterial mat, int id) {
+		private SingleSpriteAppearance(@NotNull Sprite defaultSprite, RenderMaterial mat) {
 			this.defaultSprite = defaultSprite;
 			this.mat = mat;
-			this.id = id;
 		}
 		
 		@Override
@@ -251,21 +231,8 @@ public class TemplateAppearanceManager {
 		}
 		
 		@Override
-		public boolean equals(Object o) {
-			if(this == o) return true;
-			if(o == null || getClass() != o.getClass()) return false;
-			SingleSpriteAppearance that = (SingleSpriteAppearance) o;
-			return id == that.id;
-		}
-		
-		@Override
-		public int hashCode() {
-			return id;
-		}
-		
-		@Override
 		public String toString() {
-			return "SingleSpriteAppearance[defaultSprite=%s, mat=%s, id=%d]".formatted(defaultSprite, mat, id);
+			return "SingleSpriteAppearance[defaultSprite=%s, mat=%s]".formatted(defaultSprite, mat);
 		}
 	}
 }
