@@ -110,7 +110,7 @@ public class TemplateAppearanceManager {
 		
 		//Read quads off the model by their `cullface`
 		for(Direction dir : Direction.values()) {
-			List<BakedQuad> sideQuads = model.getQuads(null, dir, rand);
+			List<BakedQuad> sideQuads = model.getQuads(state, dir, rand);
 			if(sideQuads.isEmpty()) continue;
 			
 			BakedQuad arbitraryQuad = sideQuads.get(0); //TODO: maybe pick a largest quad instead?
