@@ -39,7 +39,26 @@ dependencies {
 	minecraft "com.mojang:minecraft:1.20.1"
 	mappings "net.fabricmc:yarn:1.20.1+build.2"
 	modApi "net.fabricmc:fabric-loader:0.16.10"
-	modApi "net.fabricmc.fabric-api:fabric-api:0.92.3+1.20.1"
+	
+	//See also fabric.mod.json
+	String fapiVer = "0.92.3+1.20.1"
+	List<String> modules = [
+		"fabric-api-base",
+		"fabric-renderer-api-v1", //FRAPI
+		"fabric-rendering-v1", //not frapi
+		"fabric-item-group-api-v1",
+		"fabric-blockrenderlayer-v1",
+		"fabric-object-builder-api-v1",
+		"fabric-rendering-data-attachment-v1", //TODO: Deprecated module (and in ABI)
+		"fabric-models-v0", //TODO: Deprecated module (maybe in ABI)
+		
+		//"Soft" dependencies (not in fabric.mod.json since they are replacable)
+		"fabric-registry-sync-v0", //Just needed to unfreeze registries
+		"fabric-renderer-indigo", //Any FRAPI implementation should do
+	]
+	for(String module : modules) {
+		modApi fabricApi.module(module, fapiVer)
+	}
 
 	implementation "com.google.code.findbugs:jsr305:3.0.2"
 

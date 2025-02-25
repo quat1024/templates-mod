@@ -32,6 +32,13 @@
 	"depends": {
 		"minecraft": ">=1.20.1",
 		"fabricloader": "*",
-		"fabric-api": "*"
+		"fabric-api-base": "*",
+		"fabric-renderer-api-v1": "*",
+		"fabric-rendering-v1": "*",
+		"fabric-item-group-api-v1": "*",
+		"fabric-blockrenderlayer-v1": "*",
+		"fabric-object-builder-api-v1": "*",
+		"fabric-rendering-data-attachment-v1": "*",
+		"fabric-models-v0": "*"
 	}
 }
