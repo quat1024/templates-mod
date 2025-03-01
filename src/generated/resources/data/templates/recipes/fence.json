@@ -10,11 +10,11 @@
     "I~I"
   ],
   "key": {
-    "~": {
-      "item": "minecraft:string"
-    },
     "I": {
       "item": "minecraft:bamboo"
+    },
+    "~": {
+      "item": "minecraft:string"
     }
   }
 }
