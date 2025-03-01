@@ -27,8 +27,7 @@
           "type": "minecraft:item",
           "name": "templates:slab"
         }
-      ],
-      "conditions": []
+      ]
     }
   ]
 }

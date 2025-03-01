@@ -3,12 +3,14 @@ package io.github.cottonmc.templates.dgen;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import io.github.cottonmc.templates.dgen.rcp.Ingr;
 import io.github.cottonmc.templates.dgen.rcp.Rcp;
 import io.github.cottonmc.templates.dgen.tbl.Tbl;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class Dgen {
@@ -22,18 +24,27 @@ public class Dgen {
 		
 		Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 		
+		Map<Character, Ingr<?>> key = Map.of(
+			'~', Ingr.fromString("minecraft:string"),
+			'I', Ingr.fromString("minecraft:bamboo"),
+			
+			'C', Ingr.fromString("#minecraft:candles"),
+			'X', Ingr.fromString("minecraft:iron_ingot"),
+			'S', Ingr.fromString("minecraft:cobblestone")
+		);
+		
 		List<Tmpl> templates = List.of(
 			new Tmpl("button") {{
 				selfdrops();
-				shaped(1, "~", "I");
+				shapedT(1).key(key).rows("~", "I");
 			}},
 			new Tmpl("candle") {{
 				//todo candle loot table (needs a weird loot function)
-				//TODO recipe
+				shapedT(1).key(key).rows("~", "I", "C");
 			}},
 			new Tmpl("carpet") {{
 				selfdrops();
-				shaped(12, "~~", "II");
+				shapedT(12).key(key).rows("~~", "II");
 			}},
 			new Tmpl("cool_rivulet") {{
 				selfdrops();
@@ -41,39 +52,39 @@ public class Dgen {
 			}},
 			new Tmpl("cube") {{
 				selfdrops();
-				shaped(4, "III", "I~I", "III");
+				shapedT(4).key(key).rows("III", "I~I", "III");
 			}},
 			new Tmpl("door") {{
 				doordrops();
-				shaped(2, "II ", "II~", "II ");
+				shapedT(2).key(key).rows("II ", "II~", "II ");
 			}},
 			new Tmpl("fence") {{
 				selfdrops();
-				shaped(8, "I~I", "I~I");
+				shapedT(8).key(key).rows("I~I", "I~I");
 			}},
 			new Tmpl("fence_gate") {{
 				selfdrops();
-				shaped(2, "~I~", "~I~");
+				shapedT(2).key(key).rows("~I~", "~I~");
 			}},
 			new Tmpl("iron_door") {{
 				doordrops();
-				//TODO needs custom recipe key
+				shapedT(2).key(key).rows("II ", "II~", "IIX");
 			}},
 			new Tmpl("iron_trapdoor") {{
 				selfdrops();
-				//TODO needs custom recipe key
+				shapedT(4).key(key).rows("III", "III", "~X~");
 			}},
 			new Tmpl("lever") {{
 				selfdrops();
-				//TODO needs custom recipe key
+				shapedT(1).key(key).rows("~", "I", "C");
 			}},
 			new Tmpl("pane") {{
 				selfdrops();
-				shaped(16, "~ ~", "III", "III");
+				shapedT(16).key(key).rows("~ ~", "III", "III");
 			}},
 			new Tmpl("post") {{
 				selfdrops();
-				shaped(8, "I~", "I ", "I~");
+				shapedT(8).key(key).rows("I~", "I ", "I~");
 			}},
 			new Tmpl("post_cross") {{
 				selfdrops();
@@ -81,23 +92,23 @@ public class Dgen {
 			}},
 			new Tmpl("pressure_plate") {{
 				selfdrops();
-				shaped(1, "~ ", "II");
+				shapedT(1).key(key).rows("~ ", "II");
 			}},
 			new Tmpl("slab") {{
 				slabdrops();
-				shaped(6, " ~ ", "III");
+				shapedT(6).key(key).rows(" ~ ", "III");
 			}},
 			new Tmpl("slope") {{
 				selfdrops();
-				shaped(4, "I  ", "I~ ", "III");
+				shapedT(4).key(key).rows("I  ", "I~ ", "III");
 			}},
 			new Tmpl("stairs") {{
 				selfdrops();
-				shaped(10, "I~ ", "II~", "III");
+				shapedT(10).key(key).rows("I~ ", "II~", "III");
 			}},
 			new Tmpl("tiny_slope") {{
 				selfdrops();
-				shaped(8, "I~", "II");
+				shapedT(8).key(key).rows("I~", "II");
 			}},
 			new Tmpl("tnt") {{
 				selfdrops();
@@ -105,15 +116,15 @@ public class Dgen {
 			}},
 			new Tmpl("trapdoor") {{
 				selfdrops();
-				shaped(4, "III", "III", "~ ~");
+				shapedT(4).key(key).rows("III", "III", "~ ~");
 			}},
 			new Tmpl("vertical_slab") {{
 				slabdrops();
-				shaped(6, "I ", "I~", "I ");
+				shapedT(6).key(key).rows("I ", "I~", "I ");
 			}},
 			new Tmpl("wall") {{
 				selfdrops();
-				shaped(8, " ~ ", "III", "III");
+				shapedT(8).key(key).rows(" ~ ", "III", "III");
 			}}
 		);
 		

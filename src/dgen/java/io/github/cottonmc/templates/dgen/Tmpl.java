@@ -28,30 +28,29 @@ public class Tmpl extends FacetHolder {
 	//dsl
 	
 	public Tbl selfdrops() {
-		Tbl selfdrops = new Tbl().id(blockId).selfdrops(itemId);
-		addFacet(selfdrops);
-		return selfdrops;
+		return addFacet(new Tbl().id(blockId).selfdrops(itemId));
 	}
 	
 	public Tbl doordrops() {
-		Tbl doordrops = new Tbl().id(blockId).doordrops(itemId, blockId);
-		addFacet(doordrops);
-		return doordrops;
+		return addFacet(new Tbl().id(blockId).doordrops(itemId, blockId));
 	}
 	
 	public Tbl slabdrops() {
-		Tbl slabdrops = new Tbl().id(itemId).slabdrops(itemId, blockId);
-		addFacet(slabdrops);
-		return slabdrops;
+		return addFacet(new Tbl().id(itemId).slabdrops(itemId, blockId));
 	}
 	
-	public void shaped(int count, String... rows) {
-		RcpShaped recipe = new RcpShaped()
+	public RcpShaped shapedT() {
+		return shapedT(1, itemId);
+	}
+	
+	public RcpShaped shapedT(int count) {
+		return shapedT(count, itemId);
+	}
+	
+	public RcpShaped shapedT(int count, String itemId) {
+		return addFacet(new RcpShaped()
 			.group("templates")
 			.result(itemId, count)
-			.id(itemId);
-		recipe.pattern = rows;
-		recipe.key = new TreeMap<>(Map.of('~', Ingr.fromString("minecraft:string"), 'I', Ingr.fromString("minecraft:bamboo")));
-		addFacet(recipe);
+			.id(itemId));
 	}
 }

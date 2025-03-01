@@ -20,10 +20,11 @@ public class FacetHolder {
 		else return getFacetKey(c.getSuperclass());
 	}
 	
-	public void addFacet(Object facet) {
+	public <T> T addFacet(T facet) {
 		Class<?> facetKey = getFacetKey(facet.getClass());
 		if(facetKey == null) throw new IllegalArgumentException("Not a facet type: " + facet.getClass());
 		addFacetUnchecked(facetKey, facet);
+		return facet;
 	}
 	
 	protected void addFacetUnchecked(Class<?> facetKey, Object facet) {
