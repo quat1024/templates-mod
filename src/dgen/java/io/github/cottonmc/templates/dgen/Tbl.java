@@ -1,12 +1,14 @@
 package io.github.cottonmc.templates.dgen;
 
 import com.google.gson.JsonObject;
+import io.github.cottonmc.templates.dgen.ann.Facet;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Tbl implements Ser<JsonObject> {
+@Facet
+public class Tbl extends Idable<Tbl> implements Ser<JsonObject> {
 	List<TblPool> pools = new ArrayList<>(2);
 	
 	@Override
@@ -15,6 +17,11 @@ public class Tbl implements Ser<JsonObject> {
 		obj.addProperty("type", "minecraft:block");
 		obj.add("pools", serList(pools));
 		return obj;
+	}
+	
+	public Tbl addPool(TblPool... pool) {
+		this.pools.addAll(Arrays.asList(pool));
+		return this;
 	}
 	
 	public static Tbl survivesExplosion(TblEntry entry) {
@@ -36,10 +43,5 @@ public class Tbl implements Ser<JsonObject> {
 		return survivesExplosion(new TblEntry.EItem(itemId)
 			.addFunction(new TblFunc.Count(2).addCondition(new TblCond.DoubleSlab(blockId)))
 			.addFunction(new TblFunc.ExplDecay()));
-	}
-	
-	public Tbl addPool(TblPool... pool) {
-		this.pools.addAll(Arrays.asList(pool));
-		return this;
 	}
 }

@@ -1,11 +1,9 @@
 package io.github.cottonmc.templates.dgen;
 
-import io.github.cottonmc.templates.dgen.ann.MakeLootTable;
-import io.github.cottonmc.templates.dgen.ann.MakeRecipe;
-
 import java.util.Map;
+import java.util.TreeMap;
 
-public class Tmpl extends FacetHolder<Tmpl> {
+public class Tmpl extends FacetHolder {
 	public Tmpl(String blockId) {
 		this(blockId, blockId);
 	}
@@ -25,26 +23,26 @@ public class Tmpl extends FacetHolder<Tmpl> {
 	
 	//dsl
 	public void selfdrops() {
-		addFacet(new MakeLootTable.Inst(), Tbl.selfdrops(itemId));
+		addFacet(Tbl.selfdrops(itemId).id(blockId));
 	}
 	
 	public void doordrops() {
-		addFacet(new MakeLootTable.Inst(), Tbl.doordrops(itemId, blockId));
+		addFacet(Tbl.doordrops(itemId, blockId).id(blockId));
 	}
 	
 	public void slabdrops() {
-		addFacet(new MakeLootTable.Inst(), Tbl.slabdrops(itemId, blockId));
+		addFacet(Tbl.slabdrops(itemId, blockId).id(blockId));
 	}
 	
 	///
 	
 	public void shaped(int count, String... rows) {
-		RcpShaped recipe = new RcpShaped();
-		recipe.group = "templates";
-		recipe.result = itemId;
-		recipe.count = count;
+		RcpShaped recipe = new RcpShaped()
+			.group("templates")
+			.result(itemId, count)
+			.id(itemId);
 		recipe.pattern = rows;
-		recipe.key = Map.of('~', "minecraft:string", 'I', "minecraft:bamboo");
-		addFacet(new MakeRecipe.Inst(itemId), recipe);
+		recipe.key = new TreeMap<>(Map.of('~', "minecraft:string", 'I', "minecraft:bamboo"));
+		addFacet(recipe);
 	}
 }

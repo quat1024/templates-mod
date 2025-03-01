@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 //TODO: better DSL for this (allow mixing pattern slots and items)
-public class RcpShaped extends Rcp {
+public class RcpShaped extends Rcp<RcpShaped> {
 	String[] pattern;
 	Map<Character, String> key = new HashMap<>();
 	

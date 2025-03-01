@@ -3,10 +3,7 @@ package io.github.cottonmc.templates.dgen;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
-import io.github.cottonmc.templates.dgen.ann.MakeLootTable;
-import io.github.cottonmc.templates.dgen.ann.MakeRecipe;
 
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -123,6 +120,7 @@ public class Dgen {
 			
 			try {
 				if(Files.notExists(dst)) {
+					System.out.println("writing new " + dst);
 					Files.createDirectories(dst.getParent());
 					Files.writeString(dst, gson.toJson(elem));
 				} else {
@@ -130,7 +128,10 @@ public class Dgen {
 					String curr = Files.readString(dst);
 					String next = gson.toJson(elem);
 					if(!curr.equals(next)) {
+						System.out.println("writing chg " + dst);
 						Files.writeString(dst, next);
+					} else {
+						System.out.println("    no chgs " + dst);
 					}
 				}
 			} catch (Exception e) {
@@ -143,19 +144,14 @@ public class Dgen {
 		try {
 			tmpl.gatherFacets();
 			
-			String[] blockId = tmpl.blockId.split(":");
-			
-			//only one loot table
-			FacetHolder.Ent<?, Tbl> tblFacet = tmpl.getFacet(MakeLootTable.class);
-			if(tblFacet != null) {
-				toWrite.accept("data/" + blockId[0] + "/loot_tables/blocks/" + blockId[1] + ".json", tblFacet.item().ser());
+			//loot tables
+			for(Tbl tbl : tmpl.<Tbl>getFacets(Tbl.class)) {
+				toWrite.accept("data/" + tbl.namespace() + "/loot_tables/blocks/" + tbl.path() + ".json", tbl.ser());
 			}
 			
 			//recipes
-			//TODO collect all the recipe IDs and stick them in the advancement
-			for(FacetHolder.Ent<MakeRecipe, Rcp> r : tmpl.<MakeRecipe, Rcp>getFacets(MakeRecipe.class)) {
-				String[] recipeId = r.ann().value().split(":");
-				toWrite.accept("data/" + recipeId[0] + "/recipes/" + recipeId[1] + ".json", r.item().ser());
+			for(Rcp<?> rcp : tmpl.<Rcp<?>>getFacets(Rcp.class)) {
+				toWrite.accept("data/" + rcp.namespace() + "/recipes/" + rcp.path() + ".json", rcp.ser());
 			}
 			
 		} catch (Exception e) {

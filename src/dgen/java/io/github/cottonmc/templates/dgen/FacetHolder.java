@@ -1,60 +1,79 @@
 package io.github.cottonmc.templates.dgen;
 
-import org.jetbrains.annotations.Nullable;
+import io.github.cottonmc.templates.dgen.ann.Facet;
+import io.github.cottonmc.templates.dgen.ann.Id;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FacetHolder<D extends FacetHolder<D>> {
-	record Ent<A extends Annotation, T>(A ann, T item){}
-	Map<Class<? extends Annotation>, List<Ent<?, ?>>> facets = new HashMap<>();
+public class FacetHolder {
+	public Map<Class<?>, List<Object>> facets = new HashMap<>();
 	
-	public D downcast() { return (D) this; }
-	
-	public <A extends Annotation, T> D addFacet(A a, T facet) {
-		Class<A> clzz = (Class<A>) a.annotationType();
-		facets.computeIfAbsent(clzz, __ -> new ArrayList<>())
-			.add(new Ent<>(a, facet));
-		return downcast();
+	//find "root" class with @Facet annotation
+	protected Class<?> getFacetKey(Class<?> c) {
+		if(c == null) return null;
+		else if(c.isAnnotationPresent(Facet.class)) return c;
+		else return getFacetKey(c.getSuperclass());
 	}
 	
-	public <A extends Annotation, T> @Nullable Ent<A, T> getFacet(Class<? extends A> clzz) {
-		if(!facets.containsKey(clzz)) return null;
-		List<Ent<?, ?>> o = facets.get(clzz);
-		if(o.isEmpty()) return null;
-		return (Ent<A, T>) o.get(0);
+	public void addFacet(Object facet) {
+		Class<?> facetKey = getFacetKey(facet.getClass());
+		if(facetKey == null) throw new IllegalArgumentException("Not a facet type: " + facet.getClass());
+		addFacetUnchecked(facetKey, facet);
 	}
 	
-	public <A extends Annotation, T> List<Ent<A, T>> getFacets(Class<? extends A> clzz) {
-		return (List<Ent<A, T>>) (Object) facets.getOrDefault(clzz, List.of());
+	protected void addFacetUnchecked(Class<?> facetKey, Object facet) {
+		facets.computeIfAbsent(facetKey, __ -> new ArrayList<>(2)).add(facet);
+	}
+	
+	public <T> List<T> getFacets(Class<?> facetType) {
+		if(!facetType.isAnnotationPresent(Facet.class)) throw new IllegalArgumentException("Not a facet type: " + facetType);
+		return (List<T>) facets.getOrDefault(facetType, List.of());
 	}
 	
 	public void gatherFacets() {
 		try {
-			
-			for(Field f : this.getClass().getDeclaredFields()) {
-				for(Annotation a : f.getAnnotations()) {
-					if(!a.annotationType().getName().contains("templates")) continue;
-					f.setAccessible(true);
-					addFacet(a, f.get(this));
+			for(Field field : this.getClass().getDeclaredFields()) {
+				try {
+					field.setAccessible(true);
+				} catch (Exception e) {
+					continue;
 				}
+				
+				if(field.getType().isPrimitive()) continue;
+				if(Modifier.isTransient(field.getModifiers())) continue;
+				
+				Class<?> facetKey = getFacetKey(field.getType());
+				if(facetKey == null) continue;
+				
+				Object facet = field.get(this);
+				
+				//apply an @Id annotation
+				if(facet instanceof Idable idable) {
+					Id idAnnotation = field.getAnnotation(Id.class);
+					if(idAnnotation != null) {
+						idable.id = idAnnotation.value().isEmpty() ? field.getName() : idAnnotation.value();
+					}
+				}
+				
+				addFacetUnchecked(facetKey, facet);
 			}
 			
-			for(Method m : this.getClass().getDeclaredMethods()) {
-				for(Annotation a : m.getAnnotations()) {
-					if(!a.annotationType().getName().contains("templates")) continue;
-					m.setAccessible(true);
-					addFacet(a, m.invoke(this));
-				}
-			}
+			//todo methods
 			
 		} catch (Exception e) {
-			throw new RuntimeException("failed gathering facets", e);
+			throw new RuntimeException(e);
 		}
 	}
+	
+//	public <T> Optional<T> getOneFacet(Class<?> facetType) {
+//		List<T> list = getFacets(facetType);
+//		if(list.isEmpty()) return Optional.empty();
+//		if(list.size() == 1) return Optional.of(list.get(0));
+//		else throw new IllegalStateException("More than one facet for " + facetType);
+//	}
 }
