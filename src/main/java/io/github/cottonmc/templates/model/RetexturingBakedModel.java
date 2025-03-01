@@ -71,8 +71,7 @@ public abstract class RetexturingBakedModel extends ForwardingBakedModel {
 			return;
 		}
 		
-		//Itf-inject from FabricBlock. Should improve "connected-texture" mods a *little* bit.
-		//Doubtful CTM mods will connect to *my* block but my block should connect to theirs at least.
+		//getAppearance is an itf-inject from FabricBlock. Calling this allows my block to connect to others with connected textures.
 		//See https://github.com/PepperCode1/Continuity/blob/c2b1d3cd085368ca360ecda991c1618545a11fc6/src/main/java/me/pepperbell/continuity/client/model/CtmBakedModel.java#L51-L66
 		theme = theme.getAppearance(blockView, pos, Direction.DOWN, theme, pos);
 		

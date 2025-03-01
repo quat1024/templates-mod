@@ -2,8 +2,9 @@ Versions before 2.1.2 have been backfilled; I gotta be more on top of changelogs
 
 # 2.2.1 (Mar 01, 2025)
 
-* People were wary of my sketchy TNT data-tracker edit so I put a priority on the mixin. It should hopefully apply in a consistent ordering.
-* TNTemplate feels more like a tnt block (breaks instantly, etc)
+* People were rightfully wary of my sketchy TNT data-tracker mixin, so I put a priority on it. It should hopefully apply in a consistent ordering and not cause problems.
+  * **Please remember to apply this update to the client AND server**
+* TNTemplate now feels more like a tnt block (breaks instantly, etc)
 
 # 2.2.0 (Feb 25, 2025)
 

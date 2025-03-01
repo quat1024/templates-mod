@@ -29,7 +29,7 @@ public class MeshTransformUtil {
 	
 	//Hard to explain what this is for...
 	//Basically, Templates 1.x manually emitted the north/south/east/west faces all individually.
-	//This means it was easy to get the orientation of the block correct - to popular the north face of the slope, look at
+	//This means it was easy to get the orientation of the block correct - to populate the north face of the slope, look at
 	//the north texture of the theme block. In this version, there is only *one* slope model that is dynamically rotated
 	//to form the other possible orientations. If I populate the north face of the model using the north face of the theme,
 	//then rotate the model, it's no longer facing the right way. So I need to "un-rotate" the face assignments first.
