@@ -17,6 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -73,7 +74,7 @@ public class Templates implements ModInitializer {
 		CANDLE         = registerTemplate("candle"        , new TemplateCandleBlock(TemplateCandleBlock.configureSettings(cp(Blocks.CANDLE))));
 		SLOPE          = registerTemplate("slope"         , new TemplateSlopeBlock(TemplateInteractionUtil.makeSettings()));
 		TINY_SLOPE     = registerTemplate("tiny_slope"    , new TemplateSlopeBlock.Tiny(TemplateInteractionUtil.makeSettings()));
-		TNT            = registerTemplate("tnt"           , new TemplateTntBlock(cp(Blocks.TNT)));
+		TNT            = registerTemplate("tnt"           , new TemplateTntBlock(cp(Blocks.TNT).breakInstantly().hardness(0).sounds(BlockSoundGroup.GRASS)));
 		
 		//The block entity is still called templates:slope; this is a bit of a legacy mistake.
 		TEMPLATE_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, id("slope"),
