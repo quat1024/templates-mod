@@ -27,16 +27,20 @@ public class Tmpl extends FacetHolder {
 	
 	//dsl
 	
+	public Tbl blockLoot() {
+		return addFacet(new Tbl().id(blockId));
+	}
+	
 	public Tbl selfdrops() {
-		return addFacet(new Tbl().id(blockId).selfdrops(itemId));
+		return blockLoot().selfdrops(itemId);
 	}
 	
 	public Tbl doordrops() {
-		return addFacet(new Tbl().id(blockId).doordrops(itemId, blockId));
+		return blockLoot().doordrops(itemId, blockId);
 	}
 	
 	public Tbl slabdrops() {
-		return addFacet(new Tbl().id(itemId).slabdrops(itemId, blockId));
+		return blockLoot().slabdrops(itemId, blockId);
 	}
 	
 	public RcpShaped shapedT() {
