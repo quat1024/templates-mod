@@ -50,10 +50,10 @@ public class MeshTransformUtil {
 	}
 	
 	public static RenderContext.QuadTransform applyAffine(ModelBakeSettings settings) {
-		return applyMatrix(settings.getRotation().getMatrix());
+		return applyAffine(settings.getRotation().getMatrix());
 	}
 	
-	public static RenderContext.QuadTransform applyMatrix(Matrix4f mat) {
+	public static RenderContext.QuadTransform applyAffine(Matrix4f mat) {
 		Map<Direction, Direction> facePermutation = facePermutation(mat);
 		Vector3f pos3 = new Vector3f();
 		Vector4f pos4 = new Vector4f();
@@ -61,17 +61,17 @@ public class MeshTransformUtil {
 		return quad -> {
 			//For each vertex:
 			for(int i = 0; i < 4; i++) {
-				//Copy pos into a vec3, then a vec4. the w component is set to 0 since this is a point, not a normal
+				//Copy pos into a vec3, then a vec4.
+				//the w component is set to 0 since this is a point, not a normal.
+				//Aslo, prepare to do a rotation about the origin.
 				quad.copyPos(i, pos3);
 				pos3.add(-0.5f, -0.5f, -0.5f);
 				pos4.set(pos3, 0);
 				
 				//Compute the matrix-vector product. This function mutates the vec4 in-place.
-				//Note that `transformAffine` has the same purpose as `transform`; the difference is it
-				//assumes (without checking) that the last row of the matrix is 0,0,0,1, as an optimization
-				mat.transform(pos4);
+				mat.transformAffine(pos4);
 				
-				//Manually copy the data back onto the vertex
+				//Copy back onto the vertex, transforming back to (0, 1)
 				quad.pos(i, pos4.x + 0.5f, pos4.y + 0.5f, pos4.z + 0.5f);
 			}
 			
@@ -89,5 +89,10 @@ public class MeshTransformUtil {
 			//Output the quad
 			return true;
 		};
+	}
+	
+	@Deprecated(forRemoval = true) //2.2.1; renaming this method since i only apply affine transformations
+	public static RenderContext.QuadTransform applyMatrix(Matrix4f mat) {
+		return applyAffine(mat);
 	}
 }

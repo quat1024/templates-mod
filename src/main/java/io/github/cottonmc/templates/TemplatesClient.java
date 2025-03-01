@@ -30,9 +30,9 @@ public class TemplatesClient implements ClientModInitializer {
 		//all templates mustn't be on the SOLID layer because they are not opaque!
 		BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), Templates.INTERNAL_TEMPLATES.toArray(new Block[0]));
 		
-		//now, assign special item models
 		TemplatesClientApi api = TemplatesClientApi.getInstance();
 		
+		//define auto-retextured models
 		api.addTemplateModel(Templates.id("button_special")               , api.auto(new Identifier("block/button")));
 		api.addTemplateModel(Templates.id("button_pressed_special")       , api.auto(new Identifier("block/button_pressed")));
 		api.addTemplateModel(Templates.id("one_candle_special")           , api.auto(new Identifier("block/template_candle")));
@@ -70,7 +70,7 @@ public class TemplatesClient implements ClientModInitializer {
 		api.addTemplateModel(Templates.id("vertical_slab_special")        , api.auto(Templates.id("block/vertical_slab"))); //my model not vanilla
 		api.addTemplateModel(Templates.id("wall_post_special")            , api.auto(new Identifier("block/template_wall_post")));
 		
-		//vanilla style models (using "special-sprite replacement" method)
+		//define special-sprite-replacement models
 		api.addTemplateModel(Templates.id("lever_special")                , api.json(Templates.id("block/lever")));
 		api.addTemplateModel(Templates.id("trapdoor_open_special")        , api.json(Templates.id("block/trapdoor_open")));
 		api.addTemplateModel(Templates.id("lever_on_special")             , api.json(Templates.id("block/lever_on")));
@@ -81,13 +81,13 @@ public class TemplatesClient implements ClientModInitializer {
 		api.addTemplateModel(Templates.id("wall_side_special")            , api.json(Templates.id("block/wall_side")));
 		api.addTemplateModel(Templates.id("wall_side_tall_special")       , api.json(Templates.id("block/wall_side_tall")));
 		
-		//mesh models
+		//define custom mesh models
 		api.addTemplateModel(Templates.id("slope_special")                , api.mesh(Templates.id("block/slope_base"), SlopeBaseMesh::makeUpright).disableAo());
 		api.addTemplateModel(Templates.id("slope_side_special")           , api.mesh(Templates.id("block/slope_base"), SlopeBaseMesh::makeSide).disableAo());
 		api.addTemplateModel(Templates.id("tiny_slope_special")           , api.mesh(Templates.id("block/tiny_slope_base"), SlopeBaseMesh::makeTinyUpright).disableAo());
 		api.addTemplateModel(Templates.id("tiny_slope_side_special")      , api.mesh(Templates.id("block/tiny_slope_base"), SlopeBaseMesh::makeTinySide).disableAo());
 		
-		//item only models
+		//these models are only used for item rendering
 		api.addTemplateModel(Templates.id("button_inventory_special")     , api.auto(new Identifier("block/button_inventory")));
 		api.addTemplateModel(Templates.id("fence_inventory_special")      , api.auto(new Identifier("block/fence_inventory")));
 		api.addTemplateModel(Templates.id("fence_post_inventory_special") , api.auto(Templates.id("block/fence_post_inventory")));
@@ -110,10 +110,7 @@ public class TemplatesClient implements ClientModInitializer {
 		api.assignItemModel(Templates.id("wall_inventory_special")        , Templates.WALL);
 		api.assignItemModel(Templates.id("slope_special")                 , Templates.SLOPE);
 		api.assignItemModel(Templates.id("tiny_slope_special")            , Templates.TINY_SLOPE);
-		api.assignItemModel(Templates.id("cube_special")                  , Templates.TNT); //TODO tnt theme
-		
-		//TODO: i could stick some kind of entrypoint here for signalling other mods that it's ok to register now?
-		// Dont think it rly matters though, everything's all kept in nice hash maps
+		api.assignItemModel(Templates.id("cube_special")                  , Templates.TNT);
 	}
 	
 	private void privateInit() {

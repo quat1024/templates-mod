@@ -58,7 +58,7 @@ public class SlopeBaseMesh {
 	public static Mesh makeSide() {
 		Matrix4f mat = new Matrix4f();
 		RotationAxis.POSITIVE_Z.rotationDegrees(90).get(mat);
-		return MeshTransformUtil.pretransformMesh(makeUpright(), MeshTransformUtil.applyMatrix(mat));
+		return MeshTransformUtil.pretransformMesh(makeUpright(), MeshTransformUtil.applyAffine(mat));
 	}
 	
 	//looks weird since i wrote a janky script to massage a .bbmodel, some manual fixups applied
@@ -108,6 +108,6 @@ public class SlopeBaseMesh {
 	public static Mesh makeTinySide() {
 		Matrix4f mat = new Matrix4f();
 		RotationAxis.POSITIVE_Z.rotationDegrees(90).get(mat);
-		return MeshTransformUtil.pretransformMesh(makeTinyUpright(), MeshTransformUtil.applyMatrix(mat));
+		return MeshTransformUtil.pretransformMesh(makeTinyUpright(), MeshTransformUtil.applyAffine(mat));
 	}
 }
