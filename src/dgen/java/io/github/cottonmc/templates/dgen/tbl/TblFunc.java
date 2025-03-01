@@ -1,6 +1,7 @@
-package io.github.cottonmc.templates.dgen;
+package io.github.cottonmc.templates.dgen.tbl;
 
 import com.google.gson.JsonObject;
+import io.github.cottonmc.templates.dgen.Ser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,7 +10,7 @@ import java.util.List;
 public abstract class TblFunc implements Ser<JsonObject> {
 	List<TblCond> conditions = new ArrayList<>(2);
 	
-	public TblFunc addCondition(TblCond... cond) {
+	public TblFunc cond(TblCond... cond) {
 		this.conditions.addAll(Arrays.asList(cond));
 		return this;
 	}

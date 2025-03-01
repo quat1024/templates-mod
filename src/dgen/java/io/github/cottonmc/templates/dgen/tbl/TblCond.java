@@ -1,6 +1,7 @@
-package io.github.cottonmc.templates.dgen;
+package io.github.cottonmc.templates.dgen.tbl;
 
 import com.google.gson.JsonObject;
+import io.github.cottonmc.templates.dgen.Ser;
 
 public abstract class TblCond implements Ser<JsonObject> {
 	
@@ -9,7 +10,7 @@ public abstract class TblCond implements Ser<JsonObject> {
 			this.blockId = blockId;
 		}
 		
-		String blockId;
+		public String blockId;
 		
 		@Override
 		public JsonObject ser() {
@@ -29,7 +30,7 @@ public abstract class TblCond implements Ser<JsonObject> {
 			this.blockId = blockId;
 		}
 		
-		String blockId;
+		public String blockId;
 		
 		@Override
 		public JsonObject ser() {

@@ -3,6 +3,8 @@ package io.github.cottonmc.templates.dgen;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import io.github.cottonmc.templates.dgen.rcp.Rcp;
+import io.github.cottonmc.templates.dgen.tbl.Tbl;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -55,15 +57,15 @@ public class Dgen {
 			}},
 			new Tmpl("iron_door") {{
 				doordrops();
-				//TODO needs custom key
+				//TODO needs custom recipe key
 			}},
 			new Tmpl("iron_trapdoor") {{
 				selfdrops();
-				//TODO needs custom key
+				//TODO needs custom recipe key
 			}},
 			new Tmpl("lever") {{
 				selfdrops();
-				//TODO needs custom key
+				//TODO needs custom recipe key
 			}},
 			new Tmpl("pane") {{
 				selfdrops();
@@ -75,7 +77,7 @@ public class Dgen {
 			}},
 			new Tmpl("post_cross") {{
 				selfdrops();
-				//TODO recipe
+				//TODO shapeless recipes
 			}},
 			new Tmpl("pressure_plate") {{
 				selfdrops();
@@ -99,7 +101,7 @@ public class Dgen {
 			}},
 			new Tmpl("tnt") {{
 				selfdrops();
-				//todo shapeless recipe
+				//TODO shapeless recipes
 			}},
 			new Tmpl("trapdoor") {{
 				selfdrops();

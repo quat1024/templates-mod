@@ -1,4 +1,4 @@
-package io.github.cottonmc.templates.dgen;
+package io.github.cottonmc.templates.dgen.rcp;
 
 import com.google.gson.JsonObject;
 
@@ -8,8 +8,8 @@ import java.util.Map;
 
 //TODO: better DSL for this (allow mixing pattern slots and items)
 public class RcpShaped extends Rcp<RcpShaped> {
-	String[] pattern;
-	Map<Character, String> key = new HashMap<>();
+	public String[] pattern;
+	public Map<Character, Ingr<?>> key = new HashMap<>();
 	
 	@Override
 	public JsonObject ser() {
@@ -20,11 +20,7 @@ public class RcpShaped extends Rcp<RcpShaped> {
 		
 		//key
 		JsonObject k = new JsonObject();
-		key.forEach((charr, item) -> {
-			JsonObject itemj = new JsonObject();
-			itemj.addProperty("item", item);
-			k.add(String.valueOf(charr), itemj);
-		});
+		key.forEach((charr, item) -> k.add(String.valueOf(charr), item.ser()));
 		obj.add("key", k);
 		
 		return obj;

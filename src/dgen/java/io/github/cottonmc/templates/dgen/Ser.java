@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 
 import java.util.List;
 
-interface Ser<E extends JsonElement> {
+public interface Ser<E extends JsonElement> {
 	E ser();
 	
 	default JsonArray serList(List<?> list) {

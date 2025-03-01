@@ -1,6 +1,7 @@
-package io.github.cottonmc.templates.dgen;
+package io.github.cottonmc.templates.dgen.tbl;
 
 import com.google.gson.JsonObject;
+import io.github.cottonmc.templates.dgen.Ser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,12 +11,12 @@ public abstract class TblEntry implements Ser<JsonObject> {
 	List<TblCond> conditions = new ArrayList<>(2);
 	List<TblFunc> functions = new ArrayList<>(2);
 	
-	public TblEntry addCondition(TblCond... cond) {
+	public TblEntry cond(TblCond... cond) {
 		this.conditions.addAll(Arrays.asList(cond));
 		return this;
 	}
 	
-	public TblEntry addFunction(TblFunc... func) {
+	public TblEntry func(TblFunc... func) {
 		this.functions.addAll(Arrays.asList(func));
 		return this;
 	}

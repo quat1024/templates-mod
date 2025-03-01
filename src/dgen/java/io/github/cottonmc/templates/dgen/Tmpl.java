@@ -1,5 +1,9 @@
 package io.github.cottonmc.templates.dgen;
 
+import io.github.cottonmc.templates.dgen.rcp.Ingr;
+import io.github.cottonmc.templates.dgen.rcp.RcpShaped;
+import io.github.cottonmc.templates.dgen.tbl.Tbl;
+
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -22,19 +26,24 @@ public class Tmpl extends FacetHolder {
 	public String itemId;
 	
 	//dsl
-	public void selfdrops() {
-		addFacet(Tbl.selfdrops(itemId).id(blockId));
+	
+	public Tbl selfdrops() {
+		Tbl selfdrops = new Tbl().id(blockId).selfdrops(itemId);
+		addFacet(selfdrops);
+		return selfdrops;
 	}
 	
-	public void doordrops() {
-		addFacet(Tbl.doordrops(itemId, blockId).id(blockId));
+	public Tbl doordrops() {
+		Tbl doordrops = new Tbl().id(blockId).doordrops(itemId, blockId);
+		addFacet(doordrops);
+		return doordrops;
 	}
 	
-	public void slabdrops() {
-		addFacet(Tbl.slabdrops(itemId, blockId).id(blockId));
+	public Tbl slabdrops() {
+		Tbl slabdrops = new Tbl().id(itemId).slabdrops(itemId, blockId);
+		addFacet(slabdrops);
+		return slabdrops;
 	}
-	
-	///
 	
 	public void shaped(int count, String... rows) {
 		RcpShaped recipe = new RcpShaped()
@@ -42,7 +51,7 @@ public class Tmpl extends FacetHolder {
 			.result(itemId, count)
 			.id(itemId);
 		recipe.pattern = rows;
-		recipe.key = new TreeMap<>(Map.of('~', "minecraft:string", 'I', "minecraft:bamboo"));
+		recipe.key = new TreeMap<>(Map.of('~', Ingr.fromString("minecraft:string"), 'I', Ingr.fromString("minecraft:bamboo")));
 		addFacet(recipe);
 	}
 }

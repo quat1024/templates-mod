@@ -1,6 +1,8 @@
-package io.github.cottonmc.templates.dgen;
+package io.github.cottonmc.templates.dgen.rcp;
 
 import com.google.gson.JsonObject;
+import io.github.cottonmc.templates.dgen.Idable;
+import io.github.cottonmc.templates.dgen.Ser;
 import io.github.cottonmc.templates.dgen.ann.Facet;
 import org.jetbrains.annotations.Nullable;
 

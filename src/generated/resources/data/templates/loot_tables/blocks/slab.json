@@ -28,11 +28,7 @@
           "name": "templates:slab"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ]
+      "conditions": []
     }
   ]
 }
