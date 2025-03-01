@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(TntEntity.class)
+@Mixin(value = TntEntity.class, priority = 984) //Randomly chosen priority so mixin apply order is consistent
 public class TntEntityMixin implements TntEntityExt {
 	//lets hope and pray i dont explode the data tracker
 	@Unique private static final TrackedData<BlockState> APPEARANCE = DataTracker.registerData(TntEntity.class, TrackedDataHandlerRegistry.BLOCK_STATE);
