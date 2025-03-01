@@ -24,6 +24,23 @@ tasks.withType(JavaCompile) {
 	options.release = 17
 }
 
+sourceSets {
+	main
+	generated
+	dgen {
+		java {
+			compileClasspath += main.compileClasspath
+			runtimeClasspath += main.runtimeClasspath
+		}
+	}
+}
+
+task dgen(type: JavaExec) {
+	classpath = sourceSets.dgen.runtimeClasspath
+	mainClass = "io.github.cottonmc.templates.dgen.Dgen"
+	args = [sourceSets.generated.getResources().srcDirs.iterator().next().toString()]
+}
+
 repositories {
 	mavenCentral()
 
@@ -76,6 +93,9 @@ loom {
 }
 
 processResources {
+	
+	from sourceSets.generated.resources
+	
 	inputs.property "version", project.version
 	filesMatching("**/fabric.mod.json") {
 		expand "version": project.version

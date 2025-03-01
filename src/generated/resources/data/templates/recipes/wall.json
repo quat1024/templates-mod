@@ -1,0 +1,21 @@
+{
+  "group": "templates",
+  "result": {
+    "item": "templates:wall",
+    "count": 8
+  },
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " ~ ",
+    "III",
+    "III"
+  ],
+  "key": {
+    "~": {
+      "item": "minecraft:string"
+    },
+    "I": {
+      "item": "minecraft:bamboo"
+    }
+  }
+}

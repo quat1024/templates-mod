@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "functions": [
+            {
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "templates:vertical_slab",
+                  "properties": {
+                    "type": "double"
+                  }
+                }
+              ],
+              "function": "minecraft:set_count",
+              "add": false,
+              "count": 2.0
+            },
+            {
+              "function": "minecraft:explosion_decay"
+            }
+          ],
+          "type": "minecraft:item",
+          "name": "templates:vertical_slab"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ]
+}

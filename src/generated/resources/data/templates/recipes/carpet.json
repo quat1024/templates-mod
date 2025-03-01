@@ -1,0 +1,20 @@
+{
+  "group": "templates",
+  "result": {
+    "item": "templates:carpet",
+    "count": 12
+  },
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "~~",
+    "II"
+  ],
+  "key": {
+    "~": {
+      "item": "minecraft:string"
+    },
+    "I": {
+      "item": "minecraft:bamboo"
+    }
+  }
+}

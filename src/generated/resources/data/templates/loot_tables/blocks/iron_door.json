@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "templates:iron_door",
+              "properties": {
+                "half": "lower"
+              }
+            }
+          ],
+          "type": "minecraft:item",
+          "name": "templates:iron_door"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ]
+}

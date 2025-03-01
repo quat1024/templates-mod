@@ -1,0 +1,21 @@
+{
+  "group": "templates",
+  "result": {
+    "item": "templates:door",
+    "count": 2
+  },
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "II ",
+    "II~",
+    "II "
+  ],
+  "key": {
+    "~": {
+      "item": "minecraft:string"
+    },
+    "I": {
+      "item": "minecraft:bamboo"
+    }
+  }
+}
