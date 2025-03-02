@@ -1,11 +1,8 @@
 package io.github.cottonmc.templates.dgen;
 
-import io.github.cottonmc.templates.dgen.rcp.Ingr;
 import io.github.cottonmc.templates.dgen.rcp.RcpShaped;
+import io.github.cottonmc.templates.dgen.tag.AddToTag;
 import io.github.cottonmc.templates.dgen.tbl.Tbl;
-
-import java.util.Map;
-import java.util.TreeMap;
 
 public class Tmpl extends FacetHolder {
 	public Tmpl(String blockId) {
@@ -25,7 +22,9 @@ public class Tmpl extends FacetHolder {
 	public String blockId;
 	public String itemId;
 	
-	//dsl
+	//dsl!
+	
+	/// drops ///
 	
 	public Tbl blockLoot() {
 		return addFacet(new Tbl().id(blockId));
@@ -43,6 +42,8 @@ public class Tmpl extends FacetHolder {
 		return blockLoot().slabdrops(itemId, blockId);
 	}
 	
+	/// recipes ///
+	
 	public RcpShaped shapedT() {
 		return shapedT(1, itemId);
 	}
@@ -56,5 +57,28 @@ public class Tmpl extends FacetHolder {
 			.group("templates")
 			.result(itemId, count)
 			.id(itemId));
+	}
+	
+	/// tags ///
+	
+	public AddToTag itag(String tagId) {
+		return addFacet(new AddToTag().id(tagId).item(itemId));
+	}
+	
+	public AddToTag btag(String tagId) {
+		return addFacet(new AddToTag().id(tagId).block(blockId));
+	}
+	
+	public void ibTag(String tagId) {
+		itag(tagId);
+		btag(tagId.replace(":blocks/", ":items/")); //boy this is janky
+	}
+	
+	public AddToTag mineableAxe() {
+		return btag("minecraft:blocks/mineable/axe");
+	}
+	
+	public AddToTag mineablePick() {
+		return btag("minecraft:blocks/mineable/pickaxe");
 	}
 }

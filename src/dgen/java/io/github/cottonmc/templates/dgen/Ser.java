@@ -3,12 +3,17 @@ package io.github.cottonmc.templates.dgen;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface Ser<E extends JsonElement> {
 	E ser();
 	
-	default JsonArray serList(List<?> list) {
+	//just for calling convenience (lmao?)
+	default JsonArray serList(Collection<?> list) {
+		return list(list);
+	}
+	
+	static JsonArray list(Collection<?> list) {
 		JsonArray arr = new JsonArray();
 		for(Object item : list) {
 			if(item instanceof Ser<?> s) arr.add(s.ser());

@@ -1,0 +1,24 @@
+{
+  "replace": false,
+  "values": [
+    "templates:button",
+    "templates:candle",
+    "templates:carpet",
+    "templates:cube",
+    "templates:door",
+    "templates:fence",
+    "templates:fence_gate",
+    "templates:lever",
+    "templates:pane",
+    "templates:post",
+    "templates:post_cross",
+    "templates:pressure_plate",
+    "templates:slab",
+    "templates:slope",
+    "templates:stairs",
+    "templates:tiny_slope",
+    "templates:trapdoor",
+    "templates:vertical_slab",
+    "templates:wall"
+  ]
+}
