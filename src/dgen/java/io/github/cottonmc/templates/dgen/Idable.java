@@ -4,10 +4,14 @@ package io.github.cottonmc.templates.dgen;
 public class Idable<D> extends Downcastable<D> {
 	public String id;
 	
-	//TODO downcast
 	public D id(String id) {
 		this.id = id;
 		return downcast();
+	}
+	
+	//getter
+	public String id() {
+		return namespace() + ":" + path();
 	}
 	
 	public String namespace() {

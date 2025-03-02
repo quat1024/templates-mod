@@ -3,6 +3,7 @@ package io.github.cottonmc.templates.dgen;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import io.github.cottonmc.templates.dgen.adv.AdvancementSketch;
 import io.github.cottonmc.templates.dgen.ann.Facet;
 import io.github.cottonmc.templates.dgen.rcp.Ingr;
 import io.github.cottonmc.templates.dgen.rcp.Rcp;
@@ -198,6 +199,7 @@ public class Dgen {
 		for(FacetHolder h : templates) h.gatherFacets(); //reflective stuff
 		
 		Map<String, Set<AddToTag>> tags = new HashMap<>();
+		AdvancementSketch recipeAdv = new AdvancementSketch().id("templates:recipes/decorations/templates");
 		
 		for(FacetHolder h : templates) {
 			//loot tables
@@ -208,6 +210,8 @@ public class Dgen {
 			//recipes
 			for(Rcp<?> rcp : h.<Rcp<?>>getFacets(Rcp.class)) {
 				jsonWriter.accept("data/" + rcp.namespace() + "/recipes/" + rcp.path() + ".json", rcp.ser());
+				
+				if("templates".equals(rcp.group)) recipeAdv.recipeReward(rcp);
 			}
 			
 			for(AddToTag att : h.<AddToTag>getFacets(AddToTag.class)) {
@@ -228,5 +232,8 @@ public class Dgen {
 			
 			jsonWriter.accept("data/" + namespace + "/tags/" + path + ".json", AddToTag.makeTag(atts));
 		});
+		
+		//recipe advancement (wip)
+		jsonWriter.accept("data/" + recipeAdv.namespace() + "/advancements/" + recipeAdv.path() + ".json", recipeAdv.ser());
 	}
 }

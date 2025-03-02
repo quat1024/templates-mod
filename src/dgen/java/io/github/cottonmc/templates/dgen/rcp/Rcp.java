@@ -8,9 +8,9 @@ import org.jetbrains.annotations.Nullable;
 
 @Facet
 public abstract class Rcp<D> extends Idable<D> implements Ser<JsonObject> {
-	@Nullable String group;
-	String result;
-	int count = 1;
+	public @Nullable String group;
+	public String result;
+	public int count = 1;
 	
 	public D group(String group) {
 		this.group = group;
