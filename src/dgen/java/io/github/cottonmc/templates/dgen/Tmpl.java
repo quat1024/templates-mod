@@ -11,17 +11,12 @@ public class Tmpl extends FacetHolder {
 	}
 	
 	public Tmpl(String blockId, String itemId) {
-		this.blockId = defPrefix(blockId);
-		this.itemId = defPrefix(itemId);
+		this.blockId = Id.fromStrT(blockId);
+		this.itemId = Id.fromStrT(itemId);
 	}
 	
-	private static String defPrefix(String in) {
-		if(in.indexOf(':') == -1) return "templates:" + in;
-		else return in;
-	}
-	
-	public String blockId;
-	public String itemId;
+	public Id blockId;
+	public Id itemId;
 	
 	//dsl!
 	
@@ -57,7 +52,7 @@ public class Tmpl extends FacetHolder {
 		return shapedT(count, itemId);
 	}
 	
-	public RcpShaped shapedT(int count, String itemId) {
+	public RcpShaped shapedT(int count, Id itemId) {
 		return addFacet(new RcpShaped()
 			.group("templates")
 			.result(itemId, count)
@@ -72,7 +67,7 @@ public class Tmpl extends FacetHolder {
 		return shapelessT(count, itemId);
 	}
 	
-	public RcpShapeless shapelessT(int count, String itemId) {
+	public RcpShapeless shapelessT(int count, Id itemId) {
 		return addFacet(new RcpShapeless()
 			.group("templates")
 			.result(itemId, count)
@@ -81,24 +76,37 @@ public class Tmpl extends FacetHolder {
 	
 	/// tags ///
 	
+	public AddToTag itag(Id tagId) {
+		return addFacet(new AddToTag().id(tagId.prefixPath("items")).item(itemId));
+	}
+	
+	public AddToTag btag(Id tagId) {
+		return addFacet(new AddToTag().id(tagId.prefixPath("blocks")).block(blockId));
+	}
+	
+	//add to an item and block tag that happen to have the same name
+	public void ibTag(Id tagId) {
+		itag(tagId);
+		btag(tagId);
+	}
+	
 	public AddToTag itag(String tagId) {
-		return addFacet(new AddToTag().id(tagId).item(itemId));
+		return itag(new Id(tagId));
 	}
 	
 	public AddToTag btag(String tagId) {
-		return addFacet(new AddToTag().id(tagId).block(blockId));
+		return btag(new Id(tagId));
 	}
 	
 	public void ibTag(String tagId) {
-		itag(tagId);
-		btag(tagId.replace(":blocks/", ":items/")); //boy this is janky
+		ibTag(new Id(tagId));
 	}
 	
 	public AddToTag mineableAxe() {
-		return btag("minecraft:blocks/mineable/axe");
+		return btag("minecraft:mineable/axe");
 	}
 	
 	public AddToTag mineablePick() {
-		return btag("minecraft:blocks/mineable/pickaxe");
+		return btag("minecraft:mineable/pickaxe");
 	}
 }

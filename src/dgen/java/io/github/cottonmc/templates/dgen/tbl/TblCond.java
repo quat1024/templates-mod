@@ -1,6 +1,7 @@
 package io.github.cottonmc.templates.dgen.tbl;
 
 import com.google.gson.JsonObject;
+import io.github.cottonmc.templates.dgen.Id;
 import io.github.cottonmc.templates.dgen.Ser;
 
 import java.util.HashMap;
@@ -9,24 +10,24 @@ import java.util.Map;
 public abstract class TblCond implements Ser<JsonObject> {
 	
 	public static class Bsp extends TblCond {
-		public Bsp(String blockId) {
+		public Bsp(Id blockId) {
 			this.blockId = blockId;
 		}
 		
-		public Bsp(String blockId, String k, String v) {
+		public Bsp(Id blockId, String k, String v) {
 			this.blockId = blockId;
 			this.props.put(k, v);
 		}
 		
-		public Bsp(String blockId, Map<String, String> props) {
+		public Bsp(Id blockId, Map<String, String> props) {
 			this.blockId = blockId;
 			this.props.putAll(props);
 		}
 		
-		public String blockId;
+		public Id blockId;
 		public Map<String, String> props = new HashMap<>();
 		
-		public Bsp blockId(String blockId) {
+		public Bsp blockId(Id blockId) {
 			this.blockId = blockId;
 			return this;
 		}
@@ -48,26 +49,26 @@ public abstract class TblCond implements Ser<JsonObject> {
 			
 			JsonObject obj = new JsonObject();
 			obj.addProperty("condition", "minecraft:block_state_property");
-			obj.addProperty("block", blockId);
+			obj.addProperty("block", blockId.toString());
 			obj.add("properties", properties);
 			return obj;
 		}
 	}
 	
 	public static class BottomDoor extends Bsp {
-		public BottomDoor(String blockId) {
+		public BottomDoor(Id blockId) {
 			super(blockId, "half", "lower");
 		}
 	}
 	
 	public static class DoubleSlab extends Bsp {
-		public DoubleSlab(String blockId) {
+		public DoubleSlab(Id blockId) {
 			super(blockId, "type", "double");
 		}
 	}
 	
 	public static class CandleCount extends Bsp {
-		public CandleCount(String blockId, int count) {
+		public CandleCount(Id blockId, int count) {
 			super(blockId, "candles", String.valueOf(count));
 		}
 	}

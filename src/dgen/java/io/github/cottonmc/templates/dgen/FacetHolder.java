@@ -1,7 +1,6 @@
 package io.github.cottonmc.templates.dgen;
 
 import io.github.cottonmc.templates.dgen.ann.Facet;
-import io.github.cottonmc.templates.dgen.ann.Id;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -52,14 +51,6 @@ public class FacetHolder {
 				if(facetKey == null) continue;
 				
 				Object facet = field.get(this);
-				
-				//apply an @Id annotation
-				if(facet instanceof Idable idable) {
-					Id idAnnotation = field.getAnnotation(Id.class);
-					if(idAnnotation != null) {
-						idable.id = idAnnotation.value().isEmpty() ? field.getName() : idAnnotation.value();
-					}
-				}
 				
 				addFacetUnchecked(facetKey, facet);
 			}

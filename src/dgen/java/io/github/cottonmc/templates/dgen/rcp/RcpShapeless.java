@@ -1,6 +1,7 @@
 package io.github.cottonmc.templates.dgen.rcp;
 
 import com.google.gson.JsonObject;
+import io.github.cottonmc.templates.dgen.Id;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,8 @@ public class RcpShapeless extends Rcp<RcpShapeless> {
 	public RcpShapeless add(Object... in) {
 		for(Object i : in) {
 			if(i instanceof Ingr<?> ing) ingrs.add(ing);
-			else if(i instanceof String s) ingrs.add(Ingr.fromString(s));
+			else if(i instanceof Id idd) ingrs.add(new Ingr.I(idd));
+			else if(i instanceof String s) ingrs.add(Ingr.parse(s));
 			else throw new IllegalArgumentException(i.getClass().toString());
 		}
 		return this;

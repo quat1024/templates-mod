@@ -1,6 +1,7 @@
 package io.github.cottonmc.templates.dgen.tbl;
 
 import com.google.gson.JsonObject;
+import io.github.cottonmc.templates.dgen.Id;
 import io.github.cottonmc.templates.dgen.Ser;
 
 import java.util.ArrayList;
@@ -35,17 +36,17 @@ public abstract class TblEntry implements Ser<JsonObject> {
 	}
 	
 	public static class EItem extends TblEntry {
-		public EItem(String itemId) {
+		public EItem(Id itemId) {
 			this.itemId = itemId;
 		}
 		
-		String itemId;
+		Id itemId;
 		
 		@Override
 		public JsonObject ser() {
 			JsonObject obj = super.ser();
 			obj.addProperty("type", "minecraft:item");
-			obj.addProperty("name", itemId);
+			obj.addProperty("name", itemId.toString());
 			return obj;
 		}
 	}

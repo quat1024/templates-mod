@@ -3,6 +3,7 @@ package io.github.cottonmc.templates.dgen.tag;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import io.github.cottonmc.templates.dgen.Id;
 import io.github.cottonmc.templates.dgen.Idable;
 import io.github.cottonmc.templates.dgen.Ser;
 import io.github.cottonmc.templates.dgen.ann.Facet;
@@ -12,7 +13,7 @@ import java.util.Objects;
 
 @Facet
 public class AddToTag extends Idable<AddToTag> implements Ser<JsonElement> { //id is the id of the tag
-	String thing;
+	String thing; //TODO should maybe be an Id
 	boolean optional = false;
 	
 	public AddToTag opt() {
@@ -26,12 +27,12 @@ public class AddToTag extends Idable<AddToTag> implements Ser<JsonElement> { //i
 	}
 	
 	//aliases
-	public AddToTag item(String itemId) {
-		return thing(itemId);
+	public AddToTag item(Id itemId) {
+		return thing(itemId.toString());
 	}
 	
-	public AddToTag block(String blockId) {
-		return thing(blockId);
+	public AddToTag block(Id blockId) {
+		return thing(blockId.toString());
 	}
 	
 	public AddToTag tag(String tagId) {

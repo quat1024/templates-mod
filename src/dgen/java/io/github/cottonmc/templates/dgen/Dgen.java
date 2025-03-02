@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import io.github.cottonmc.templates.dgen.adv.AdvancementSketch;
-import io.github.cottonmc.templates.dgen.ann.Facet;
 import io.github.cottonmc.templates.dgen.rcp.Ingr;
 import io.github.cottonmc.templates.dgen.rcp.Rcp;
 import io.github.cottonmc.templates.dgen.tag.AddToTag;
@@ -13,7 +12,6 @@ import io.github.cottonmc.templates.dgen.tbl.Tbl;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +34,9 @@ public class Dgen {
 			
 			try {
 				if(Files.notExists(dst)) {
+					
+					//if(true) throw new IllegalStateException("no new files! " + dst);
+					
 					System.out.println("writing new " + dst);
 					Files.createDirectories(dst.getParent());
 					Files.writeString(dst, json);
@@ -43,6 +44,9 @@ public class Dgen {
 					// we have ExistingFileHelper at home
 					String curr = Files.readString(dst);
 					if(!curr.equals(json)) {
+						
+						//if(true) throw new IllegalStateException("no changed files! $$$$$ old $$$$\n " + curr + "\n$$$$ new $$$$\n" + json);
+						
 						System.out.println("writing chg " + dst);
 						Files.writeString(dst, json);
 					} else {
@@ -54,33 +58,32 @@ public class Dgen {
 			}
 		};
 		
-		
 		Map<Character, Ingr<?>> key = Map.of(
-			'~', Ingr.fromString("minecraft:string"),
-			'I', Ingr.fromString("minecraft:bamboo"),
+			'~', Ingr.parse("minecraft:string"),
+			'I', Ingr.parse("minecraft:bamboo"),
 			
-			'C', Ingr.fromString("#minecraft:candles"),
-			'X', Ingr.fromString("minecraft:iron_ingot"),
-			'S', Ingr.fromString("minecraft:cobblestone")
+			'C', Ingr.parse("#minecraft:candles"),
+			'X', Ingr.parse("minecraft:iron_ingot"),
+			'S', Ingr.parse("minecraft:cobblestone")
 		);
 		
 		List<FacetHolder> templates = List.of(
 			new Tmpl("button") {{
 				selfdrops();
 				shapedT(1).key(key).rows("~", "I");
-				ibTag("minecraft:blocks/buttons");
+				ibTag("minecraft:buttons");
 				mineableAxe();
 			}},
 			new Tmpl("candle") {{
 				candledrops();
 				shapedT(1).key(key).rows("~", "I", "C");
-				ibTag("minecraft:blocks/candles");
+				ibTag("minecraft:candles");
 				mineableAxe();
 			}},
 			new Tmpl("carpet") {{
 				selfdrops();
 				shapedT(12).key(key).rows("~~", "II");
-				ibTag("minecraft:blocks/wool_carpets");
+				ibTag("minecraft:wool_carpets");
 				mineableAxe();
 			}},
 			new Tmpl("cool_rivulet") {{
@@ -96,31 +99,31 @@ public class Dgen {
 			new Tmpl("door") {{
 				doordrops();
 				shapedT(2).key(key).rows("II ", "II~", "II ");
-				ibTag("minecraft:blocks/wooden_doors");
+				ibTag("minecraft:wooden_doors");
 				mineableAxe();
 			}},
 			new Tmpl("fence") {{
 				selfdrops();
 				shapedT(8).key(key).rows("I~I", "I~I");
-				ibTag("minecraft:blocks/wooden_fences");
+				ibTag("minecraft:wooden_fences");
 				mineableAxe();
 			}},
 			new Tmpl("fence_gate") {{
 				selfdrops();
 				shapedT(2).key(key).rows("~I~", "~I~");
-				ibTag("minecraft:blocks/fence_gates");
+				ibTag("minecraft:fence_gates");
 				mineableAxe();
 			}},
 			new Tmpl("iron_door") {{
 				doordrops();
 				shapedT(2).key(key).rows("II ", "II~", "IIX");
-				ibTag("minecraft:blocks/doors");
+				ibTag("minecraft:doors");
 				mineablePick();
 			}},
 			new Tmpl("iron_trapdoor") {{
 				selfdrops();
 				shapedT(4).key(key).rows("III", "III", "~X~");
-				ibTag("minecraft:blocks/trapdoors");
+				ibTag("minecraft:trapdoors");
 				mineablePick();
 			}},
 			new Tmpl("lever") {{
@@ -146,13 +149,13 @@ public class Dgen {
 			new Tmpl("pressure_plate") {{
 				selfdrops();
 				shapedT(1).key(key).rows("~ ", "II");
-				ibTag("minecraft:blocks/wooden_pressure_plates");
+				ibTag("minecraft:wooden_pressure_plates");
 				mineableAxe();
 			}},
 			new Tmpl("slab") {{
 				slabdrops();
 				shapedT(6).key(key).rows(" ~ ", "III");
-				ibTag("minecraft:blocks/wooden_slabs");
+				ibTag("minecraft:wooden_slabs");
 				mineableAxe();
 			}},
 			new Tmpl("slope") {{
@@ -163,7 +166,7 @@ public class Dgen {
 			new Tmpl("stairs") {{
 				selfdrops();
 				shapedT(10).key(key).rows("I~ ", "II~", "III");
-				ibTag("minecraft:blocks/wooden_stairs");
+				ibTag("minecraft:wooden_stairs");
 				mineableAxe();
 			}},
 			new Tmpl("tiny_slope") {{
@@ -179,26 +182,26 @@ public class Dgen {
 			new Tmpl("trapdoor") {{
 				selfdrops();
 				shapedT(4).key(key).rows("III", "III", "~ ~");
-				ibTag("minecraft:blocks/wooden_trapdoors");
+				ibTag("minecraft:wooden_trapdoors");
 				mineableAxe();
 			}},
 			new Tmpl("vertical_slab") {{
 				slabdrops();
 				shapedT(6).key(key).rows("I ", "I~", "I ");
-				ibTag("minecraft:blocks/wooden_slabs");
+				ibTag("minecraft:wooden_slabs");
 				mineableAxe();
 			}},
 			new Tmpl("wall") {{
 				selfdrops();
 				shapedT(8).key(key).rows(" ~ ", "III", "III");
-				ibTag("minecraft:blocks/walls");
+				ibTag("minecraft:walls");
 				mineableAxe();
 			}}
 		);
 		
 		for(FacetHolder h : templates) h.gatherFacets(); //reflective stuff
 		
-		Map<String, Set<AddToTag>> tags = new HashMap<>();
+		Map<Id, Set<AddToTag>> tags = new HashMap<>();
 		AdvancementSketch recipeAdv = new AdvancementSketch().id("templates:recipes/decorations/templates");
 		
 		for(FacetHolder h : templates) {
@@ -220,18 +223,7 @@ public class Dgen {
 		}
 		
 		//tags
-		tags.forEach((id, atts) -> {
-			//TODO i should really use *actual* ID objects for the keys of this map
-			String[] split = id.split(":");
-			String namespace, path;
-			if(split.length == 2) {
-				namespace = split[0]; path = split[1];
-			} else {
-				namespace = "minecraft"; path = split[0];
-			}
-			
-			jsonWriter.accept("data/" + namespace + "/tags/" + path + ".json", AddToTag.makeTag(atts));
-		});
+		tags.forEach((id, atts) -> jsonWriter.accept("data/" + id.ns + "/tags/" + id.path + ".json", AddToTag.makeTag(atts)));
 		
 		//recipe advancement (wip)
 		jsonWriter.accept("data/" + recipeAdv.namespace() + "/advancements/" + recipeAdv.path() + ".json", recipeAdv.ser());
