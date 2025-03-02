@@ -1,0 +1,61 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "functions": [
+            {
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "templates:candle",
+                  "properties": {
+                    "candles": "2"
+                  }
+                }
+              ],
+              "function": "minecraft:set_count",
+              "add": false,
+              "count": 2.0
+            },
+            {
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "templates:candle",
+                  "properties": {
+                    "candles": "3"
+                  }
+                }
+              ],
+              "function": "minecraft:set_count",
+              "add": false,
+              "count": 3.0
+            },
+            {
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "templates:candle",
+                  "properties": {
+                    "candles": "4"
+                  }
+                }
+              ],
+              "function": "minecraft:set_count",
+              "add": false,
+              "count": 4.0
+            },
+            {
+              "function": "minecraft:explosion_decay"
+            }
+          ],
+          "type": "minecraft:item",
+          "name": "templates:candle"
+        }
+      ]
+    }
+  ]
+}

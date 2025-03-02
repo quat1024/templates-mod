@@ -41,7 +41,16 @@ public class Tbl extends Idable<Tbl> implements Ser<JsonObject> {
 	public Tbl slabdrops(String itemId, String blockId) {
 		return pool(new TblPool()
 			.entry(new TblEntry.EItem(itemId)
-				.func(new TblFunc.Count(2).cond(new TblCond.DoubleSlab(blockId)))
+				.countIf(2, new TblCond.DoubleSlab(blockId))
+				.func(new TblFunc.ExplDecay())));
+	}
+	
+	public Tbl candledrops(String itemId, String blockid) {
+		return pool(new TblPool()
+			.entry(new TblEntry.EItem(itemId)
+				.countIf(2, new TblCond.CandleCount(blockid, 2))
+				.countIf(3, new TblCond.CandleCount(blockid, 3))
+				.countIf(4, new TblCond.CandleCount(blockid, 4))
 				.func(new TblFunc.ExplDecay())));
 	}
 }

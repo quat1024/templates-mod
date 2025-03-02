@@ -21,6 +21,11 @@ public abstract class TblEntry implements Ser<JsonObject> {
 		return this;
 	}
 	
+	//common idiom
+	public TblEntry countIf(int count, TblCond... conds) {
+		return func(new TblFunc.Count(count).cond(conds));
+	}
+	
 	@Override
 	public JsonObject ser() {
 		JsonObject obj = new JsonObject();

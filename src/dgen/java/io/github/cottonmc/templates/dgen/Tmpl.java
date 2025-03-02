@@ -43,6 +43,10 @@ public class Tmpl extends FacetHolder {
 		return blockLoot().slabdrops(itemId, blockId);
 	}
 	
+	public Tbl candledrops() {
+		return blockLoot().candledrops(itemId, blockId);
+	}
+	
 	/// recipes ///
 	
 	public RcpShaped shapedT() {

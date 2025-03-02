@@ -71,7 +71,7 @@ public class Dgen {
 				mineableAxe();
 			}},
 			new Tmpl("candle") {{
-				//todo candle loot table (needs a weird loot function)
+				candledrops();
 				shapedT(1).key(key).rows("~", "I", "C");
 				ibTag("minecraft:blocks/candles");
 				mineableAxe();
