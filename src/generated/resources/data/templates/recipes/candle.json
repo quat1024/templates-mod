@@ -1,8 +1,7 @@
 {
   "group": "templates",
   "result": {
-    "item": "templates:candle",
-    "count": 1
+    "item": "templates:candle"
   },
   "type": "minecraft:crafting_shaped",
   "pattern": [

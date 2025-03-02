@@ -1,8 +1,7 @@
 {
   "group": "templates",
   "result": {
-    "item": "templates:button",
-    "count": 1
+    "item": "templates:button"
   },
   "type": "minecraft:crafting_shaped",
   "pattern": [

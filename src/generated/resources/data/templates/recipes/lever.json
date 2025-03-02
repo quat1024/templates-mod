@@ -1,8 +1,7 @@
 {
   "group": "templates",
   "result": {
-    "item": "templates:lever",
-    "count": 1
+    "item": "templates:lever"
   },
   "type": "minecraft:crafting_shaped",
   "pattern": [

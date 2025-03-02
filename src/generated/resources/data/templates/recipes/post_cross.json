@@ -1,8 +1,7 @@
 {
   "group": "templates",
   "result": {
-    "item": "templates:post_cross",
-    "count": 1
+    "item": "templates:post_cross"
   },
   "type": "minecraft:crafting_shapeless",
   "ingredients": [

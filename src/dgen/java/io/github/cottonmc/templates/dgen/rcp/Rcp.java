@@ -36,7 +36,7 @@ public abstract class Rcp<D> extends Idable<D> implements Ser<JsonObject> {
 		
 		JsonObject result = new JsonObject();
 		result.addProperty("item", this.result);
-		result.addProperty("count", count); //TODO is it needed if it's 1
+		if(count != 1) result.addProperty("count", count);
 		obj.add("result", result);
 		
 		return obj;
