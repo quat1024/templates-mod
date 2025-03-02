@@ -1,6 +1,7 @@
 package io.github.cottonmc.templates.dgen;
 
 import io.github.cottonmc.templates.dgen.rcp.RcpShaped;
+import io.github.cottonmc.templates.dgen.rcp.RcpShapeless;
 import io.github.cottonmc.templates.dgen.tag.AddToTag;
 import io.github.cottonmc.templates.dgen.tbl.Tbl;
 
@@ -45,7 +46,7 @@ public class Tmpl extends FacetHolder {
 	/// recipes ///
 	
 	public RcpShaped shapedT() {
-		return shapedT(1, itemId);
+		return shapedT(1);
 	}
 	
 	public RcpShaped shapedT(int count) {
@@ -54,6 +55,21 @@ public class Tmpl extends FacetHolder {
 	
 	public RcpShaped shapedT(int count, String itemId) {
 		return addFacet(new RcpShaped()
+			.group("templates")
+			.result(itemId, count)
+			.id(itemId));
+	}
+	
+	public RcpShapeless shapelessT() {
+		return shapelessT(1);
+	}
+	
+	public RcpShapeless shapelessT(int count) {
+		return shapelessT(count, itemId);
+	}
+	
+	public RcpShapeless shapelessT(int count, String itemId) {
+		return addFacet(new RcpShapeless()
 			.group("templates")
 			.result(itemId, count)
 			.id(itemId));

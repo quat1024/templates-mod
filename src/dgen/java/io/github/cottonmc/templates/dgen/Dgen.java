@@ -139,7 +139,7 @@ public class Dgen {
 			}},
 			new Tmpl("post_cross") {{
 				selfdrops();
-				//TODO shapeless recipes
+				shapelessT().rep(2, "templates:post");
 				mineableAxe();
 			}},
 			new Tmpl("pressure_plate") {{
@@ -172,7 +172,7 @@ public class Dgen {
 			}},
 			new Tmpl("tnt") {{
 				selfdrops();
-				//TODO shapeless recipes
+				shapelessT().add("templates:cube", "minecraft:tnt");
 				//no minable tag, instabreak
 			}},
 			new Tmpl("trapdoor") {{
