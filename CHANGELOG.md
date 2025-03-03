@@ -5,6 +5,8 @@ Versions before 2.1.2 have been backfilled; I gotta be more on top of changelogs
 * People were rightfully wary of my sketchy TNT data-tracker mixin, so I put a priority on it. It should hopefully apply in a consistent ordering and not cause problems.
   * **Please remember to apply this update to the client AND server**
 * TNTemplate now feels more like a tnt block (breaks instantly, etc)
+* Fix recipe unlocking! It now only unlocks when you get bamboo for the first time. Nobody noticed.
+* A significant portion of the mod's assets and data files are now automatically generated. Let me know if something feels off.
 
 # 2.2.0 (Feb 25, 2025)
 
