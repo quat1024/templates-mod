@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class FacetHolder {
 	public Map<Class<?>, List<Object>> facets = new HashMap<>();
@@ -36,33 +37,8 @@ public class FacetHolder {
 		return (List<T>) facets.getOrDefault(facetType, List.of());
 	}
 	
-	public FacetHolder gatherReflectiveFacets() {
-		//TODO: don't even use this
-		try {
-			for(Field field : this.getClass().getDeclaredFields()) {
-				try {
-					field.setAccessible(true);
-				} catch (Exception e) {
-					continue;
-				}
-				
-				if(field.getType().isPrimitive()) continue;
-				if(Modifier.isTransient(field.getModifiers())) continue;
-				
-				Class<?> facetKey = getFacetKey(field.getType());
-				if(facetKey == null) continue;
-				
-				Object facet = field.get(this);
-				
-				addFacetUnchecked(facetKey, facet);
-			}
-			
-			//todo methods
-			return this;
-			
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+	public <T> void forEachFacet(Class<T> facetType, Consumer<? super T> action) {
+		getFacets(facetType).forEach(action);
 	}
 	
 	public FacetHolder addAll(Collection<? extends FacetHolder> others) {
