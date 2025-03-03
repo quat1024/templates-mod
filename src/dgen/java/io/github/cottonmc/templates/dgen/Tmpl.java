@@ -1,5 +1,6 @@
 package io.github.cottonmc.templates.dgen;
 
+import io.github.cottonmc.templates.dgen.lang.AddToLang;
 import io.github.cottonmc.templates.dgen.rcp.RcpShaped;
 import io.github.cottonmc.templates.dgen.rcp.RcpShapeless;
 import io.github.cottonmc.templates.dgen.tag.AddToTag;
@@ -108,5 +109,11 @@ public class Tmpl extends FacetHolder {
 	
 	public AddToTag mineablePick() {
 		return btag("minecraft:mineable/pickaxe");
+	}
+	
+	/// lang ///
+	
+	public AddToLang enUS(String name) {
+		return addFacet(new AddToLang(Dgen.EN_US, itemId.toTranslationKey("block"), name));
 	}
 }

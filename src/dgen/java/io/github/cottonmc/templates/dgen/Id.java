@@ -57,6 +57,11 @@ public class Id implements Ser<JsonPrimitive> {
 		return ns + ":" + path;
 	}
 	
+	//domain = "block", "item", etc
+	public String toTranslationKey(String domain) {
+		return domain + "." + ns + "." + path.replace('/', '.');
+	}
+	
 	@Override
 	public JsonPrimitive ser() {
 		return new JsonPrimitive(toString());

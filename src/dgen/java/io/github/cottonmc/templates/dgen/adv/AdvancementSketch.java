@@ -15,7 +15,7 @@ public class AdvancementSketch extends Idable<AdvancementSketch> implements Ser<
 	
 	public AdvancementSketch recipeReward(Object... things) {
 		for(Object thing : things) {
-			if(thing instanceof Rcp<?> r) recipeRewards.add(r.id().toString());
+			if(thing instanceof Rcp<?> r) recipeRewards.add(r.id.toString());
 			else if(thing instanceof String s) recipeRewards.add(s);
 			else throw new IllegalArgumentException(thing.getClass().toString());
 		}

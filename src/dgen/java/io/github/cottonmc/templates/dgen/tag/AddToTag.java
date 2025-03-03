@@ -26,7 +26,6 @@ public class AddToTag extends Idable<AddToTag> implements Ser<JsonElement> { //i
 		return this;
 	}
 	
-	//aliases
 	public AddToTag item(Id itemId) {
 		return thing(itemId.toString());
 	}

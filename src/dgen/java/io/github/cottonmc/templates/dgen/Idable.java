@@ -15,12 +15,7 @@ public class Idable<D> extends Downcastable<D> {
 		return downcast();
 	}
 	
-	//getter
-	public Id id() {
-		return id;
-	}
-	
-	public String namespace() {
+	public String ns() {
 		return id.ns;
 	}
 	

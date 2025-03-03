@@ -5,6 +5,7 @@ import io.github.cottonmc.templates.dgen.ann.Facet;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,12 +31,13 @@ public class FacetHolder {
 		facets.computeIfAbsent(facetKey, __ -> new ArrayList<>(2)).add(facet);
 	}
 	
-	public <T> List<T> getFacets(Class<?> facetType) {
+	public <T> List<T> getFacets(Class<T> facetType) {
 		if(!facetType.isAnnotationPresent(Facet.class)) throw new IllegalArgumentException("Not a facet type: " + facetType);
 		return (List<T>) facets.getOrDefault(facetType, List.of());
 	}
 	
-	public void gatherFacets() {
+	public FacetHolder gatherReflectiveFacets() {
+		//TODO: don't even use this
 		try {
 			for(Field field : this.getClass().getDeclaredFields()) {
 				try {
@@ -56,10 +58,16 @@ public class FacetHolder {
 			}
 			
 			//todo methods
+			return this;
 			
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public FacetHolder addAll(Collection<? extends FacetHolder> others) {
+		others.forEach(other -> other.facets.forEach((key, facets) -> facets.forEach(facet -> addFacetUnchecked(key, facet))));
+		return this;
 	}
 	
 //	public <T> Optional<T> getOneFacet(Class<?> facetType) {
