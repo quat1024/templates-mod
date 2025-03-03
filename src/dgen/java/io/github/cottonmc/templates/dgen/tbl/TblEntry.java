@@ -1,8 +1,8 @@
 package io.github.cottonmc.templates.dgen.tbl;
 
 import com.google.gson.JsonObject;
-import io.github.cottonmc.templates.dgen.Id;
-import io.github.cottonmc.templates.dgen.Ser;
+import io.github.cottonmc.templates.gensupport.Id;
+import io.github.cottonmc.templates.gensupport.Ser;
 
 import java.util.ArrayList;
 import java.util.Arrays;

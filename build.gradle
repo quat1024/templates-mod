@@ -29,8 +29,9 @@ sourceSets {
 	generated
 	dgen {
 		java {
-			compileClasspath += main.compileClasspath
-			runtimeClasspath += main.runtimeClasspath
+			compileClasspath += sourceSets.main.compileClasspath
+			runtimeClasspath += sourceSets.main.runtimeClasspath
+			//also see dependencies { dgenImplementation ... } below
 		}
 	}
 }
@@ -53,6 +54,8 @@ repositories {
 }
 
 dependencies {
+	dgenImplementation sourceSets.main.output
+	
 	minecraft "com.mojang:minecraft:1.20.1"
 	mappings "net.fabricmc:yarn:1.20.1+build.10"
 	modApi "net.fabricmc:fabric-loader:0.16.10"

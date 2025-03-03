@@ -3,7 +3,7 @@ package io.github.cottonmc.templates.dgen.adv;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.github.cottonmc.templates.dgen.Idable;
-import io.github.cottonmc.templates.dgen.Ser;
+import io.github.cottonmc.templates.gensupport.Ser;
 import io.github.cottonmc.templates.dgen.rcp.Rcp;
 
 import java.util.ArrayList;

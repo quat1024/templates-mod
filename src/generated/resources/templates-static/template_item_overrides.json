@@ -1,0 +1,70 @@
+[
+  {
+    "item": "templates:button",
+    "model": "templates:button_inventory_special"
+  },
+  {
+    "item": "templates:carpet",
+    "model": "templates:carpet_special"
+  },
+  {
+    "item": "templates:cube",
+    "model": "templates:cube_special"
+  },
+  {
+    "item": "templates:fence",
+    "model": "templates:fence_post_inventory_special"
+  },
+  {
+    "item": "templates:fence_gate",
+    "model": "templates:fence_gate_special"
+  },
+  {
+    "item": "templates:iron_trapdoor",
+    "model": "templates:trapdoor_bottom_special"
+  },
+  {
+    "item": "templates:post",
+    "model": "templates:fence_inventory_special"
+  },
+  {
+    "item": "templates:post_cross",
+    "model": "templates:post_cross_special"
+  },
+  {
+    "item": "templates:pressure_plate",
+    "model": "templates:pressure_plate_up_special"
+  },
+  {
+    "item": "templates:slab",
+    "model": "templates:slab_bottom_special"
+  },
+  {
+    "item": "templates:slope",
+    "model": "templates:slope_special"
+  },
+  {
+    "item": "templates:stairs",
+    "model": "templates:stairs_special"
+  },
+  {
+    "item": "templates:tiny_slope",
+    "model": "templates:tiny_slope_special"
+  },
+  {
+    "item": "templates:tnt",
+    "model": "templates:cube_special"
+  },
+  {
+    "item": "templates:trapdoor",
+    "model": "templates:trapdoor_bottom_special"
+  },
+  {
+    "item": "templates:vertical_slab",
+    "model": "templates:vertical_slab_special"
+  },
+  {
+    "item": "templates:wall",
+    "model": "templates:wall_inventory_special"
+  }
+]

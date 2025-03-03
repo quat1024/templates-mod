@@ -1,5 +1,7 @@
 package io.github.cottonmc.templates.dgen;
 
+import io.github.cottonmc.templates.gensupport.Id;
+
 /** Something with an id. */
 public class Idable<D> extends Downcastable<D> {
 	public Id id;

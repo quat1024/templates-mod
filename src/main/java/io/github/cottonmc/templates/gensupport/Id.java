@@ -1,6 +1,8 @@
-package io.github.cottonmc.templates.dgen;
+package io.github.cottonmc.templates.gensupport;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
@@ -26,11 +28,11 @@ public class Id implements Ser<JsonPrimitive> {
 		this.path = path.toLowerCase(Locale.ROOT);
 	}
 	
-	public static Id fromStrM(String str) {
+	public static Id mc(String str) {
 		return fromStrFallback(str, "minecraft");
 	}
 	
-	public static Id fromStrT(String str) {
+	public static Id t(String str) {
 		return fromStrFallback(str, "templates");
 	}
 	
@@ -62,10 +64,21 @@ public class Id implements Ser<JsonPrimitive> {
 		return domain + "." + ns + "." + path.replace('/', '.');
 	}
 	
+	public Identifier toMinecraft() {
+		return new Identifier(ns, path);
+	}
+	
 	@Override
 	public JsonPrimitive ser() {
 		return new JsonPrimitive(toString());
 	}
+	
+	public static Id de(JsonElement elem) {
+		if(elem instanceof JsonPrimitive prim) return new Id(prim.getAsString());
+		else throw new IllegalArgumentException("expected a prim, got " + elem.getClass().getSimpleName());
+	}
+	
+	//generated
 	
 	@Override
 	public boolean equals(Object o) {

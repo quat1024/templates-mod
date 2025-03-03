@@ -1,4 +1,4 @@
-package io.github.cottonmc.templates.dgen.ann;
+package io.github.cottonmc.templates.gensupport;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

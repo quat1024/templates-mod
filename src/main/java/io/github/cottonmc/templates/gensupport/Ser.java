@@ -1,4 +1,4 @@
-package io.github.cottonmc.templates.dgen;
+package io.github.cottonmc.templates.gensupport;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

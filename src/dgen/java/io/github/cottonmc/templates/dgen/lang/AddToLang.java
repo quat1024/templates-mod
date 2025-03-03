@@ -2,9 +2,9 @@ package io.github.cottonmc.templates.dgen.lang;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import io.github.cottonmc.templates.dgen.Id;
+import io.github.cottonmc.templates.gensupport.Id;
 import io.github.cottonmc.templates.dgen.Idable;
-import io.github.cottonmc.templates.dgen.ann.Facet;
+import io.github.cottonmc.templates.gensupport.Facet;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;

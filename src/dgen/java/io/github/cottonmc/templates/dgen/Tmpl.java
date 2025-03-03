@@ -5,6 +5,9 @@ import io.github.cottonmc.templates.dgen.rcp.RcpShaped;
 import io.github.cottonmc.templates.dgen.rcp.RcpShapeless;
 import io.github.cottonmc.templates.dgen.tag.AddToTag;
 import io.github.cottonmc.templates.dgen.tbl.Tbl;
+import io.github.cottonmc.templates.gensupport.Id;
+import io.github.cottonmc.templates.gensupport.ItemOverrideMapping;
+import io.github.cottonmc.templates.gensupport.TemplateModelMapping;
 
 public class Tmpl extends FacetHolder {
 	public Tmpl(String blockId) {
@@ -12,8 +15,8 @@ public class Tmpl extends FacetHolder {
 	}
 	
 	public Tmpl(String blockId, String itemId) {
-		this.blockId = Id.fromStrT(blockId);
-		this.itemId = Id.fromStrT(itemId);
+		this.blockId = Id.t(blockId);
+		this.itemId = Id.t(itemId);
 	}
 	
 	public Id blockId;
@@ -123,5 +126,27 @@ public class Tmpl extends FacetHolder {
 	
 	public AddToLang enUS(String name) {
 		return addFacet(new AddToLang(Dgen.EN_US, itemId.toTranslationKey("block"), name));
+	}
+	
+	/// model handling ///
+	
+	public TemplateModelMapping autoRetexture() {
+		return addFacet(new TemplateModelMapping()).kind(TemplateModelMapping.Kind.AUTO);
+	}
+	
+	public TemplateModelMapping jsonRetexture() {
+		return addFacet(new TemplateModelMapping()).kind(TemplateModelMapping.Kind.JSON);
+	}
+	
+	public ItemOverrideMapping itemOverride(Id modelId) {
+		return addFacet(new ItemOverrideMapping()).itemId(itemId).model(modelId);
+	}
+	
+	public ItemOverrideMapping itemOverride(String modelId) {
+		return itemOverride(new Id(modelId));
+	}
+	
+	public ItemOverrideMapping itemOverride(TemplateModelMapping asThis) {
+		return itemOverride(asThis.id);
 	}
 }

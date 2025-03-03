@@ -1,9 +1,7 @@
 package io.github.cottonmc.templates.dgen;
 
-import io.github.cottonmc.templates.dgen.ann.Facet;
+import io.github.cottonmc.templates.gensupport.Facet;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
