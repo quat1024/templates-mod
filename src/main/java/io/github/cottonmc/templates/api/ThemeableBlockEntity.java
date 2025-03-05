@@ -7,9 +7,9 @@ import net.minecraft.block.BlockState;
 /**
  * This class is not loaded by Templates. It exists only to avoid an ABI break when I switched from
  * RenderAttachmentBlockEntity (fabric-rendering-data-attachment-v1) to RenderDataBlockEntity (fabric-block-view-api-v2).
- * Basically Templates addons formerly implemented this class from their block entities and overrode either
- * getRenderAttachmentData. When these classes are loaded against the latest version of Templates they will now
- * automatically implement RenderDataBlockEntity instead and things should be groovy
+ * Basically Templates addons formerly implemented this class from their block entities and overrode
+ * getRenderAttachmentData from FRDAv1. When these classes are loaded against the latest version of Templates
+ * they will now automatically implement RenderDataBlockEntity from FBVAv2 instead and things should be groovy
  *
  * @deprecated Implement ThemeableBlockEntity2 instead
  */
