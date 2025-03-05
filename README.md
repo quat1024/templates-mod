@@ -21,7 +21,7 @@ Templates adds a handful of common shapes, but it's not too hard for other mods 
 
 All templates need a block entity to store what block they look like. Templates registers one under `templates:slope`. As an addon developer, you should not hack additional blocks onto this block entity.
 
-However, nothing in Templates relies on the *specific* block entity ID. The only hard requirement is that it `implements ThemeableBlockEntity`. (This implies it returns a `BlockState` from `getRenderAttachmentData`.)
+However, nothing in Templates relies on the *specific* block entity ID. The only hard requirement is that it `implements ThemeableBlockEntity2` and returns a `BlockState` from `getRenderAttachmentData`.
 
 You may return `TemplateEntity` or create a subclass of it.
 

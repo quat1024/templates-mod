@@ -2,7 +2,7 @@ package io.github.cottonmc.templates.block;
 
 import io.github.cottonmc.templates.Templates;
 import io.github.cottonmc.templates.api.TemplateInteractionUtil;
-import io.github.cottonmc.templates.api.ThemeableBlockEntity;
+import io.github.cottonmc.templates.api.ThemeableBlockEntity2;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
@@ -26,7 +26,7 @@ import java.util.Objects;
 //Keeping the weight of this block entity down, both in terms of memory consumption and NBT sync traffic,
 //is pretty important since players might place a lot of them. There were tons and tons of these at Blanketcon.
 //To that end, most of the state has been crammed into a bitfield.
-public class TemplateEntity extends BlockEntity implements ThemeableBlockEntity {
+public class TemplateEntity extends BlockEntity implements ThemeableBlockEntity2 {
 	protected BlockState renderedState = Blocks.AIR.getDefaultState();
 	protected byte bitfield = DEFAULT_BITFIELD;
 	
@@ -116,9 +116,9 @@ public class TemplateEntity extends BlockEntity implements ThemeableBlockEntity 
 		return state;
 	}
 	
-	//RenderAttachmentBlockEntity impl. Note that ThemeableBlockEntity depends on this returning a BlockState object.
+	//RenderDataBlockEntity impl. Note that ThemeableBlockEntity depends on this returning a BlockState object.
 	@Override
-	public BlockState getRenderAttachmentData() {
+	public BlockState getRenderData() {
 		return renderedState;
 	}
 	

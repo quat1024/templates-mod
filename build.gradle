@@ -70,7 +70,7 @@ dependencies {
 		"fabric-blockrenderlayer-v1",
 		"fabric-object-builder-api-v1",
 		"fabric-block-api-v1",
-		"fabric-rendering-data-attachment-v1", //TODO: Deprecated module (and in ABI)
+		"fabric-block-view-api-v2",
 		"fabric-models-v0", //TODO: Deprecated module (maybe in ABI)
 		
 		//"Soft" dependencies (not in fabric.mod.json since they are replacable)
@@ -80,6 +80,9 @@ dependencies {
 	for(String module : modules) {
 		modApi fabricApi.module(module, fapiVer)
 	}
+	
+	//Keeping this deprecated module around to avoid an ABI break, not used throughout the code
+	modCompileOnly fabricApi.module("fabric-rendering-data-attachment-v1", fapiVer)
 	
 	//Some mods I want to test in-dev depend on fabric api though...
 	modLocalRuntime "net.fabricmc.fabric-api:fabric-api:${fapiVer}"

@@ -1,6 +1,6 @@
 package io.github.cottonmc.templates.mixin.particles;
 
-import io.github.cottonmc.templates.api.ThemeableBlockEntity;
+import io.github.cottonmc.templates.api.ThemeableBlockEntity2;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.particle.BlockDustParticle;
@@ -20,7 +20,7 @@ public class MixinBlockDustParticle {
 	)
 	void templates$init$modifyParticleSprite(ClientWorld clientWorld, double d, double e, double f, double g, double h, double i, BlockState state, BlockPos pos, CallbackInfo ci) {
 		AccessorParticle a = (AccessorParticle) this;
-		if(a.templates$getRandom().nextBoolean() && clientWorld.getBlockEntity(pos) instanceof ThemeableBlockEntity themeable) {
+		if(a.templates$getRandom().nextBoolean() && clientWorld.getBlockEntity(pos) instanceof ThemeableBlockEntity2 themeable) {
 			BlockState theme = themeable.getThemeState();
 			if(theme == null || theme.isAir()) return;
 			

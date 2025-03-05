@@ -1,6 +1,6 @@
 package io.github.cottonmc.templates.mixin.particles;
 
-import io.github.cottonmc.templates.api.ThemeableBlockEntity;
+import io.github.cottonmc.templates.api.ThemeableBlockEntity2;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
@@ -21,7 +21,7 @@ public abstract class MixinEntity {
 	private BlockState templates$spawnSprintingParticles$modifyParticleState(BlockState origState) {
 		World world = ((Entity) (Object) this).getWorld();
 		
-		if(world.getBlockEntity(getLandingPos()) instanceof ThemeableBlockEntity themeable) {
+		if(world.getBlockEntity(getLandingPos()) instanceof ThemeableBlockEntity2 themeable) {
 			BlockState theme = themeable.getThemeState();
 			if(!theme.isAir()) return theme;
 		}

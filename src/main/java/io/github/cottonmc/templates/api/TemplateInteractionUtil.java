@@ -1,7 +1,6 @@
 package io.github.cottonmc.templates.api;
 
 import io.github.cottonmc.templates.block.TemplateEntity;
-import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachedBlockView;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
@@ -187,9 +186,9 @@ public class TemplateInteractionUtil {
 	public static BlockState getAppearance(BlockState state, BlockRenderView renderView, BlockPos pos, Direction side, @Nullable BlockState sourceState, @Nullable BlockPos sourcePos) {
 		BlockState renderState = null;
 		//See docs for FabricBlock
-		if(renderView instanceof ServerWorld sworld && sworld.getBlockEntity(pos) instanceof ThemeableBlockEntity te) {
+		if(renderView instanceof ServerWorld sworld && sworld.getBlockEntity(pos) instanceof ThemeableBlockEntity2 te) {
 			renderState = te.getThemeState();
-		} else if(renderView instanceof RenderAttachedBlockView rabv && rabv.getBlockEntityRenderAttachment(pos) instanceof BlockState theme) {
+		} else if(renderView.getBlockEntityRenderData(pos) instanceof BlockState theme) { //FabricBlockView itf-inject
 			renderState = theme;
 		}
 		

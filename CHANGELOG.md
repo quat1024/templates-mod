@@ -1,4 +1,7 @@
-Versions before 2.1.2 have been backfilled; I gotta be more on top of changelogs.
+# 2.3.0 (unreleased)
+
+* **Potential ABI break**: Use `fabric-block-view-api-v2` instead of the deprecated `fabric-rendering-data-attachment-v1`. This means I use `RenderDataBlockEntity` instead of the deprecated `RenderAttachmentBlockEntity` to read information about templates from the world.
+  * *If you implement `ThemeableBlockEntity`*, please implement `ThemeableBlockEntity2` instead. However, the old interface has been changed to extend the new interface and forward calls from `fabric-rendering-data-attachment-v1`, so mods **should still work**.
 
 # 2.2.1 (Mar 01, 2025)
 
