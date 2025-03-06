@@ -35,9 +35,9 @@ There are various block interactions in Templates, like adding redstone to make 
 
 ## Creating the custom model
 
-(TL;DR look at `assets/templates/blockstates` and the bottom of `TemplatesClient`)
+(TL;DR look at `assets/templates/blockstates` and the bottom of `TemplatesClient` **TODO: after applying more datagen, Templates's source is no longer a good source of documentation**)
 
-**TODO, I need to document how this can be datagenned now. Have a look at the JSON files in `src/generated/resources/assets/templates/`**
+**TODO, I need to document how this can be datagenned now as well. Have a look at the JSON files in `src/generated/resources/assets/templates/`**
 
 Of course Templates leverages custom baked models. All of Templates's baked model implementations find and retexture quads from an upstream model that you will need to provide.
 

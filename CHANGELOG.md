@@ -1,12 +1,19 @@
-# 2.3.0 (unreleased)
+# 2.3.0 (Mar 06, 2025)
 
-* Fix messed up Fence Template and Post Template item models from last update.
+* Fix messed up Fence Template and Post Template items from last update.
+* Add a tooltip to the Slope and Tiny Slope templates reminding you that they can be placed sideways on walls by holding Shift.
+* Retexturable models (for "json" and "auto" types), as well as item model overrides, can now be loaded out of a resource pack.
+  * See the json files lurking in `assets/templates/`. 
+  * This isn't *too* useful, since the models only make *sense* when applied to a block from Templates.
+  * The existing code-registration API still works. These are dubbed "permanent" mappings (since they aren't cleared on resource reload).
+  * Permanent mappings can be overridden with resource-pack ones.
+* More datagen.
 * **Potential ABI break**: Use `fabric-block-view-api-v2` instead of the deprecated `fabric-rendering-data-attachment-v1`.
-  * This means I use `RenderDataBlockEntity` instead of the deprecated `RenderAttachmentBlockEntity` to read information about templates from the world.
-  * *If you implement `ThemeableBlockEntity`*, please implement `ThemeableBlockEntity2` instead. However, the old interface has been changed to extend the new interface and forward calls from `fabric-rendering-data-attachment-v1`, so addons **should still work**.
+	* This means I use `RenderDataBlockEntity` instead of the deprecated `RenderAttachmentBlockEntity` to read information about templates from the world.
+	* *If you implement `ThemeableBlockEntity`*, please implement `ThemeableBlockEntity2` instead. However, the old interface has been changed to extend the new interface and forward calls from `fabric-rendering-data-attachment-v1`, so addons **should still work**.
 * **Potential ABI break**: Use `fabric-model-loading-api-v1` instead of the deprecated `fabric-models-v0`.
-  * Due to shortcomings of this API (no ability to directly set an `UnbakedModel` for items) addons might need a dummy model for their Template items to suppress "missing model" logspam. The replacement should still work.
-* Datagen more things
+	* Due to shortcomings of this API (no ability to directly set an `UnbakedModel` for items), Template items now need an arbitrary json item model to suppress "missing model" logspam.
+  * In the future I intend to make fuller use of the features afforded by this library.
 
 # 2.2.1 (Mar 01, 2025)
 

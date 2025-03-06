@@ -35,9 +35,11 @@ import java.util.function.Function;
  */
 public class TemplatesModelProvider implements PreparableModelLoadingPlugin<TemplatesModelProvider.DataModels>, PreparableModelLoadingPlugin.DataLoader<TemplatesModelProvider.DataModels> {
 	
-	private final Map<Identifier, UnbakedModel> permanentModels = new HashMap<>(); //Stuff registered thru the code api. Maybe remove??
+	//Stuff registered thru the code api, ends up underneath all resourcepacks
+	private final Map<Identifier, UnbakedModel> permanentModels = new HashMap<>();
 	private final Map<ModelIdentifier, Identifier> permanentItemAssignments = new HashMap<>();
 	
+	//Cache of all template models, dumped on resource-reload
 	private volatile TemplateAppearanceManager appearanceManager;
 	
 	/// fabric model loading plugin
@@ -50,8 +52,6 @@ public class TemplatesModelProvider implements PreparableModelLoadingPlugin<Temp
 	@Override
 	public CompletableFuture<DataModels> load(ResourceManager res, Executor executor) {
 		return CompletableFuture.supplyAsync(() -> {
-			Templates.LOG.info("loading item model mappings from resource packs");
-			
 			DataModels dms = new DataModels();
 			//throw in the permanently-registered code stuff first, so data can override it
 			dms.models.putAll(permanentModels);
@@ -129,6 +129,7 @@ public class TemplatesModelProvider implements PreparableModelLoadingPlugin<Temp
 	}
 	
 	/// template appearance manager cache
+	//TODO: push this up into the model loading process, the new fabric apis are a lot nicer about this
 	
 	public TemplateAppearanceManager getOrCreateTemplateApperanceManager(Function<SpriteIdentifier, Sprite> spriteLookup) {
 		//This is kind of needlessly sketchy using the "volatile double checked locking" pattern.
