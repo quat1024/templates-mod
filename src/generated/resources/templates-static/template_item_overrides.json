@@ -13,7 +13,7 @@
   },
   {
     "item": "templates:fence",
-    "model": "templates:fence_post_inventory_special"
+    "model": "templates:fence_inventory_special"
   },
   {
     "item": "templates:fence_gate",
@@ -25,7 +25,7 @@
   },
   {
     "item": "templates:post",
-    "model": "templates:fence_inventory_special"
+    "model": "templates:fence_post_inventory_special"
   },
   {
     "item": "templates:post_cross",

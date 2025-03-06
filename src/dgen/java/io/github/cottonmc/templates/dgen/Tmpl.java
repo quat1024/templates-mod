@@ -1,6 +1,7 @@
 package io.github.cottonmc.templates.dgen;
 
 import io.github.cottonmc.templates.dgen.lang.AddToLang;
+import io.github.cottonmc.templates.dgen.mdl.ItemModel;
 import io.github.cottonmc.templates.dgen.rcp.RcpShaped;
 import io.github.cottonmc.templates.dgen.rcp.RcpShapeless;
 import io.github.cottonmc.templates.dgen.tag.AddToTag;
@@ -139,6 +140,11 @@ public class Tmpl extends FacetHolder {
 	}
 	
 	public ItemOverrideMapping itemOverride(Id modelId) {
+		//need to datagen a sacrificial item model, since fabric-model-loading-api-v1 doesn't
+		//seem to allow submitting models for arbitrary ModelIdentifiers, only replacing them.
+		//so if there is no model to be replaced, you get logspam about missing models
+		addFacet(new ItemModel.TemplatesDummy().id(itemId));
+		
 		return addFacet(new ItemOverrideMapping()).itemId(itemId).model(modelId);
 	}
 	
@@ -148,5 +154,18 @@ public class Tmpl extends FacetHolder {
 	
 	public ItemOverrideMapping itemOverride(TemplateModelMapping asThis) {
 		return itemOverride(asThis.id);
+	}
+	
+	//vanilla modelstuff
+	public ItemModel<ItemModel.ItemGenerated> itemGenerated(String layer0) {
+		return addFacet(new ItemModel.ItemGenerated(layer0)).id(itemId);
+	}
+	
+	public ItemModel<ItemModel.Forwarding> itemModelParent(String parent) {
+		return addFacet(new ItemModel.Forwarding(parent)).id(itemId);
+	}
+	
+	public ItemModel<ItemModel.Forwarding> itemForwardingToBlock() {
+		return itemModelParent(blockId.prefixPath("block/").toString()); //TODO assumes the blockmodel is named after the block id
 	}
 }

@@ -96,8 +96,8 @@
   },
   {
     "kind": "auto",
-    "id": "templates:fence_post_inventory_special",
-    "base": "templates:block/fence_post_inventory"
+    "id": "templates:fence_inventory_special",
+    "base": "minecraft:block/fence_inventory"
   },
   {
     "kind": "auto",
@@ -156,8 +156,8 @@
   },
   {
     "kind": "auto",
-    "id": "templates:fence_inventory_special",
-    "base": "minecraft:block/fence_inventory"
+    "id": "templates:fence_post_inventory_special",
+    "base": "templates:block/fence_post_inventory"
   },
   {
     "kind": "auto",

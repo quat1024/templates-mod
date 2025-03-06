@@ -8,15 +8,10 @@ import io.github.cottonmc.templates.gensupport.TemplateModelMapping;
 import io.github.cottonmc.templates.model.SlopeBaseMesh;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
+import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.resource.ResourceType;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ChunkSectionPos;
 import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.ApiStatus;
@@ -47,13 +42,9 @@ public class TemplatesClient implements ClientModInitializer {
 		};
 		
 		//supporting code for the TemplatesModelProvider
-		ModelLoadingRegistry.INSTANCE.registerResourceProvider(rm -> provider); //block models
-		ModelLoadingRegistry.INSTANCE.registerVariantProvider(rm -> provider); //item models
 		
-		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new SimpleSynchronousResourceReloadListener() {
-			@Override public Identifier getFabricId() { return Templates.id("dump-caches"); }
-			@Override public void reload(ResourceManager blah) { provider.dumpCache(); }
-		});
+		//model loading plugin
+		ModelLoadingPlugin.register(provider);
 		
 		//put all template blocks on the cutout layer
 		BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), Templates.INTERNAL_TEMPLATES.toArray(new Block[0]));

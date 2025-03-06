@@ -40,6 +40,6 @@
 		"fabric-object-builder-api-v1": "*",
 		"fabric-block-api-v1": "*",
 		"fabric-block-view-api-v2": "*",
-		"fabric-models-v0": "*"
+		"fabric-model-loading-api-v1": "*"
 	}
 }

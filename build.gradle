@@ -71,7 +71,7 @@ dependencies {
 		"fabric-object-builder-api-v1",
 		"fabric-block-api-v1",
 		"fabric-block-view-api-v2",
-		"fabric-models-v0", //TODO: Deprecated module (maybe in ABI)
+		"fabric-model-loading-api-v1",
 		
 		//"Soft" dependencies (not in fabric.mod.json since they are replacable)
 		"fabric-registry-sync-v0", //Just needed to unfreeze registries

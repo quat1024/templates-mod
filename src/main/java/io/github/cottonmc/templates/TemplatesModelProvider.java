@@ -1,9 +1,8 @@
 package io.github.cottonmc.templates;
 
 import io.github.cottonmc.templates.model.TemplateAppearanceManager;
-import net.fabricmc.fabric.api.client.model.ModelProviderContext;
-import net.fabricmc.fabric.api.client.model.ModelResourceProvider;
-import net.fabricmc.fabric.api.client.model.ModelVariantProvider;
+import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
+import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier;
 import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.ModelIdentifier;
@@ -11,35 +10,54 @@ import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 
-public class TemplatesModelProvider implements ModelResourceProvider, ModelVariantProvider {
+public class TemplatesModelProvider implements ModelLoadingPlugin {
 	private final Map<Identifier, UnbakedModel> models = new HashMap<>();
 	private final Map<ModelIdentifier, Identifier> itemAssignments = new HashMap<>();
 	
 	private volatile TemplateAppearanceManager appearanceManager;
 	
-	/// fabric model provider api
+	/// fabric model loading plugin
 	
 	@Override
-	public @Nullable UnbakedModel loadModelResource(Identifier resourceId, ModelProviderContext context) {
-		return models.get(resourceId);
-	}
-	
-	//For blocks, you can point the game directly at the custom model in the blockstate json file.
-	//Item models don't have that layer of indirection; it always wants to load the hardcoded "item:id#inventory" model.
-	//You *would* be able to create a model json for it and set the "parent" field to the custom model,
-	//but json models are never allowed to have non-json models as a parent, and template unbaked models are not json models. Ah well.
-	//So, instead, we use a ModelVariantProvider to redirect attempts to load the item:id#inventory model.
-	@Override
-	public @Nullable UnbakedModel loadModelVariant(ModelIdentifier modelId, ModelProviderContext context) {
-		Identifier customModelId = itemAssignments.get(modelId);
-		return customModelId == null ? null : loadModelResource(customModelId, context);
+	public void onInitializeModelLoader(Context ctx) {
+		//Dump TAM cache while we're at it
+		dumpCache();
+		
+		//Ensure all special models are referenced.
+		//Fixes weird problems I was having with the Post. Its item model is based off of
+		//`templates:models/block/fence_post_inventory` which is not referenced by anything else.
+		//Without this line, the Post model was kinda working (it looked like a post in my hand)
+		//but it had default transforms instead of block/block. But other models like the fencegate
+		//model, which are retextured versions of vanilla inventory models, had correct transforms.
+		//Very surprising, don't really understand it. Feels almost like a fabric bug
+		ctx.addModels(models.keySet());
+		
+		//Register a model resolver for loading blockmodels; returning null if we don't load
+		//a particular blockmodel is the correct course of action.
+		ctx.resolveModel().register(rCtx -> models.get(rCtx.id()));
+		
+		//Swap out the item models. Here we have to return the original model if we're not
+		//interested in swapping a particular item model.
+		ctx.modifyModelBeforeBake().register(ModelModifier.OVERRIDE_PHASE, (model, context) -> {
+			@SuppressWarnings("SuspiciousMethodCalls") //modelidentifier is a subtype of identifier
+			Identifier modelId = itemAssignments.get(context.id());
+			if(modelId == null) return model;
+			
+			UnbakedModel base = models.get(modelId);
+			if(base == null) return model;
+			
+			if(context.id().toString().contains("post#inven")) {
+				System.out.println("Hi");
+			}
+			
+			return base;
+		});
 	}
 	
 	/// template appearance manager cache

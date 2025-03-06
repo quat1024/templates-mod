@@ -1,7 +1,12 @@
 # 2.3.0 (unreleased)
 
-* **Potential ABI break**: Use `fabric-block-view-api-v2` instead of the deprecated `fabric-rendering-data-attachment-v1`. This means I use `RenderDataBlockEntity` instead of the deprecated `RenderAttachmentBlockEntity` to read information about templates from the world.
-  * *If you implement `ThemeableBlockEntity`*, please implement `ThemeableBlockEntity2` instead. However, the old interface has been changed to extend the new interface and forward calls from `fabric-rendering-data-attachment-v1`, so mods **should still work**.
+* Fix messed up Fence Template and Post Template item models from last update.
+* **Potential ABI break**: Use `fabric-block-view-api-v2` instead of the deprecated `fabric-rendering-data-attachment-v1`.
+  * This means I use `RenderDataBlockEntity` instead of the deprecated `RenderAttachmentBlockEntity` to read information about templates from the world.
+  * *If you implement `ThemeableBlockEntity`*, please implement `ThemeableBlockEntity2` instead. However, the old interface has been changed to extend the new interface and forward calls from `fabric-rendering-data-attachment-v1`, so addons **should still work**.
+* **Potential ABI break**: Use `fabric-model-loading-api-v1` instead of the deprecated `fabric-models-v0`.
+  * Due to shortcomings of this API (no ability to directly set an `UnbakedModel` for items) addons might need a dummy model for their Template items to suppress "missing model" logspam. The replacement should still work.
+* Datagen more things
 
 # 2.2.1 (Mar 01, 2025)
 

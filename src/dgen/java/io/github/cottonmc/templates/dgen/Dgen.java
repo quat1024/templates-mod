@@ -6,6 +6,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import io.github.cottonmc.templates.dgen.adv.AdvancementSketch;
 import io.github.cottonmc.templates.dgen.lang.AddToLang;
+import io.github.cottonmc.templates.dgen.mdl.ItemModel;
 import io.github.cottonmc.templates.dgen.rcp.Ingr;
 import io.github.cottonmc.templates.dgen.rcp.Rcp;
 import io.github.cottonmc.templates.dgen.tag.AddToTag;
@@ -74,7 +75,7 @@ public class Dgen {
 			autoRetexture().id("templates:two_candles_special").base("minecraft:block/template_two_candles");
 			autoRetexture().id("templates:three_candles_special").base("minecraft:block/template_three_candles");
 			autoRetexture().id("templates:four_candles_special").base("minecraft:block/template_four_candles");
-			//uses json item model
+			itemGenerated("templates:item/candle");
 		}});
 		
 		Tmpl carpet = add(templates, new Tmpl("carpet") {{
@@ -91,6 +92,7 @@ public class Dgen {
 			enUS("cool rivulet");
 			selfdrops();
 			mineablePick();
+			itemForwardingToBlock();
 		}});
 		
 		Tmpl cube = add(templates, new Tmpl("cube") {{
@@ -115,7 +117,7 @@ public class Dgen {
 			autoRetexture().id("templates:door_bottom_right_open_special").base("minecraft:block/door_bottom_right_open");
 			autoRetexture().id("templates:door_top_left_open_special").base("minecraft:block/door_top_left_open");
 			autoRetexture().id("templates:door_top_right_open_special").base("minecraft:block/door_top_right_open");
-			//uses json item model
+			itemGenerated("templates:item/door");
 		}});
 		
 		Tmpl fence = add(templates, new Tmpl("fence") {{
@@ -126,7 +128,7 @@ public class Dgen {
 			mineableAxe();
 			autoRetexture().id("templates:fence_post_special").base("minecraft:block/fence_post");
 			jsonRetexture().id("templates:fence_side_special").base("templates:block/fence_side");
-			itemOverride(autoRetexture().id("templates:fence_post_inventory_special").base("templates:block/fence_post_inventory"));
+			itemOverride(autoRetexture().id("templates:fence_inventory_special").base("minecraft:block/fence_inventory"));
 		}});
 		
 		Tmpl fence_gate = add(templates, new Tmpl("fence_gate") {{
@@ -148,7 +150,7 @@ public class Dgen {
 			ibTag("minecraft:doors");
 			mineablePick();
 			//uses door models
-			//uses json item model
+			itemGenerated("templates:item/door");
 		}});
 		
 		Tmpl iron_trapdoor = add(templates, new Tmpl("iron_trapdoor") {{
@@ -168,7 +170,7 @@ public class Dgen {
 			mineableAxe();
 			jsonRetexture().id("templates:lever_special").base("templates:block/lever");
 			jsonRetexture().id("templates:lever_on_special").base("templates:block/lever_on");
-			//uses json item model
+			itemGenerated("templates:item/lever");
 		}});
 		
 		Tmpl pane = add(templates, new Tmpl("pane") {{
@@ -181,7 +183,7 @@ public class Dgen {
 			autoRetexture().id("templates:glass_pane_noside_alt_special").base("minecraft:block/glass_pane_noside_alt");
 			jsonRetexture().id("templates:glass_pane_side_special").base("templates:block/glass_pane_side");
 			jsonRetexture().id("templates:glass_pane_side_alt_special").base("templates:block/glass_pane_side_alt");
-			//uses json item model
+			itemGenerated("minecraft:block/scaffolding_top");
 		}});
 		
 		Tmpl post = add(templates, new Tmpl("post") {{
@@ -190,7 +192,7 @@ public class Dgen {
 			shapedT(8).key(key).rows("I~", "I ", "I~");
 			mineableAxe();
 			//uses fence model for blocks
-			itemOverride(autoRetexture().id("templates:fence_inventory_special").base("minecraft:block/fence_inventory"));
+			itemOverride(autoRetexture().id("templates:fence_post_inventory_special").base("templates:block/fence_post_inventory"));
 		}});
 		
 		Tmpl post_cross = add(templates, new Tmpl("post_cross") {{
@@ -320,6 +322,10 @@ public class Dgen {
 		Map<Id, Set<AddToLang>> langs = new HashMap<>();
 		allFacets.forEachFacet(AddToLang.class, lang -> langs.computeIfAbsent(lang.id, __ -> new LinkedHashSet<>()).add(lang));
 		langs.forEach((id, atls) -> writeJson("assets/" + id.ns + "/lang/" + id.path + ".json", AddToLang.makeLang(atls)));
+		
+		//models (TODO datagen more models)
+		allFacets.forEachFacet(ItemModel.class, dim ->
+			writeJson("assets/" + dim.id.ns + "/models/item/" + dim.id.path + ".json", dim.ser()));
 		
 		//CUSTOM STUFF!
 		//template model mappings
