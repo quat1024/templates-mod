@@ -37,6 +37,8 @@ There are various block interactions in Templates, like adding redstone to make 
 
 (TL;DR look at `assets/templates/blockstates` and the bottom of `TemplatesClient`)
 
+**TODO, I need to document how this can be datagenned now. Have a look at the JSON files in `src/generated/resources/assets/templates/`**
+
 Of course Templates leverages custom baked models. All of Templates's baked model implementations find and retexture quads from an upstream model that you will need to provide.
 
 Templates tries hard to retain the orientation of blocks placed inside of them - you can place specifically an *east-facing* log into a Template, for example, and east/west faces get the cut wood while the other faces get the bark. To that end, Templates needs three pieces of information to perform retexturing:

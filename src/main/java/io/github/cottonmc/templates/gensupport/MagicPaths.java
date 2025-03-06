@@ -13,8 +13,6 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class MagicPaths {
-	public static final String TEMPLATE_MODEL_MAPPINGS = "/templates-static/template_model_mappings.json";
-	public static final String TEMPLATE_ITEM_OVERRIDES = "/templates-static/template_item_overrides.json";
 	public static final String TOOLTIPS = "/templates-static/tooltips.json";
 	
 	public static InputStreamReader get(String path) throws IOException {

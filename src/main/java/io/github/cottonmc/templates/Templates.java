@@ -29,6 +29,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,6 +43,7 @@ import java.util.stream.Collectors;
 
 public class Templates implements ModInitializer {
 	public static final String MODID = "templates";
+	public static final Logger LOG = LogManager.getLogger(MODID);
 	
 	//addon devs: *Don't* add your blocks to this collection, it's just for my registration convenience since Templates adds a lot of blocks...
 	@ApiStatus.Internal static final ArrayList<Block> INTERNAL_TEMPLATES = new ArrayList<>();
@@ -69,7 +71,7 @@ public class Templates implements ModInitializer {
 			}
 		} catch (Exception e) {
 			tooltips.clear();
-			LogManager.getLogger(MODID).error("Failed to read tooltip information", e);
+			LOG.error("Failed to read tooltip information", e);
 		}
 		
 		//registerTemplate mutates MY_TEMPLATES as a side effect, which is a List, so order is preserved

@@ -341,12 +341,12 @@ public class Dgen {
 		//template model mappings
 		JsonArray everyModelMapping = new JsonArray();
 		allFacets.forEachFacet(TemplateModelMapping.class, tmm -> everyModelMapping.add(tmm.ser()));
-		writeJson(MagicPaths.TEMPLATE_MODEL_MAPPINGS, everyModelMapping);
+		writeJson("assets/templates/template_model_mappings.json", everyModelMapping);
 		
 		//item model overrides
 		JsonArray everyItemOverride = new JsonArray();
 		allFacets.forEachFacet(ItemOverrideMapping.class, iom -> everyItemOverride.add(iom.ser()));
-		writeJson(MagicPaths.TEMPLATE_ITEM_OVERRIDES, everyItemOverride);
+		writeJson("assets/templates/template_item_overrides.json", everyItemOverride);
 		
 		//tooltips
 		JsonArray everyTooltip = new JsonArray();

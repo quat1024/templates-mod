@@ -8,6 +8,7 @@ import io.github.cottonmc.templates.model.SlopeBaseMesh;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
+import net.fabricmc.fabric.api.client.model.loading.v1.PreparableModelLoadingPlugin;
 import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
@@ -41,7 +42,7 @@ public class TemplatesClient implements ClientModInitializer {
 		//supporting code for the TemplatesModelProvider
 		
 		//model loading plugin
-		ModelLoadingPlugin.register(provider);
+		PreparableModelLoadingPlugin.register(provider, provider);
 		
 		//put all template blocks on the cutout layer
 		BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), Templates.INTERNAL_TEMPLATES.toArray(new Block[0]));
@@ -57,24 +58,25 @@ public class TemplatesClient implements ClientModInitializer {
 		api.addTemplateModel(Templates.id("tiny_slope_special")           , api.mesh(Templates.id("block/tiny_slope_base"), SlopeBaseMesh::makeTinyUpright).disableAo());
 		api.addTemplateModel(Templates.id("tiny_slope_side_special")      , api.mesh(Templates.id("block/tiny_slope_base"), SlopeBaseMesh::makeTinySide).disableAo());
 		
-		try(
-			Reader templateModels = MagicPaths.get(MagicPaths.TEMPLATE_MODEL_MAPPINGS);
-			Reader itemOverrides = MagicPaths.get(MagicPaths.TEMPLATE_ITEM_OVERRIDES)
-		) {
-			List<TemplateModelMapping> modelMappings = MagicPaths.parseJsonArray(templateModels, TemplateModelMapping.class, TemplateModelMapping::de).toList();
-			LogManager.getLogger("Templates").info("Found {} model mappings.", modelMappings.size());
-			modelMappings.forEach(modelMapping ->
-				api.addTemplateModel(modelMapping.id.toMinecraft(), switch(modelMapping.kind) {
-					case AUTO -> api.auto(modelMapping.base.toMinecraft());
-					case JSON -> api.json(modelMapping.base.toMinecraft());
-				}));
-			
-			List<ItemOverrideMapping> itemMappings = MagicPaths.parseJsonArray(itemOverrides, ItemOverrideMapping.class, ItemOverrideMapping::de).toList();
-			LogManager.getLogger("Templates").info("Found {} item model overrides.", modelMappings.size());
-			itemMappings.forEach(itemMapping -> api.assignItemModel(itemMapping.modelId.toMinecraft(), itemMapping.itemId.toMinecraft()));
-			
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		//template models are now loaded at resource load time
+//		try(
+//			Reader templateModels = MagicPaths.get(MagicPaths.TEMPLATE_MODEL_MAPPINGS);
+//			Reader itemOverrides = MagicPaths.get(MagicPaths.TEMPLATE_ITEM_OVERRIDES)
+//		) {
+//			List<TemplateModelMapping> modelMappings = MagicPaths.parseJsonArray(templateModels, TemplateModelMapping.class, TemplateModelMapping::de).toList();
+//			LogManager.getLogger("Templates").info("Found {} model mappings.", modelMappings.size());
+//			modelMappings.forEach(modelMapping ->
+//				api.addTemplateModel(modelMapping.id.toMinecraft(), switch(modelMapping.kind) {
+//					case AUTO -> api.auto(modelMapping.base.toMinecraft());
+//					case JSON -> api.json(modelMapping.base.toMinecraft());
+//				}));
+//
+//			List<ItemOverrideMapping> itemMappings = MagicPaths.parseJsonArray(itemOverrides, ItemOverrideMapping.class, ItemOverrideMapping::de).toList();
+//			LogManager.getLogger("Templates").info("Found {} item model overrides.", modelMappings.size());
+//			itemMappings.forEach(itemMapping -> api.assignItemModel(itemMapping.modelId.toMinecraft(), itemMapping.itemId.toMinecraft()));
+//
+//		} catch (Exception e) {
+//			throw new RuntimeException(e);
+//		}
 	}
 }
