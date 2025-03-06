@@ -1,9 +1,8 @@
 package io.github.cottonmc.templates;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import io.github.cottonmc.templates.api.TemplatesClientApi;
 import io.github.cottonmc.templates.gensupport.ItemOverrideMapping;
+import io.github.cottonmc.templates.gensupport.MagicPaths;
 import io.github.cottonmc.templates.gensupport.TemplateModelMapping;
 import io.github.cottonmc.templates.model.SlopeBaseMesh;
 import net.fabricmc.api.ClientModInitializer;
@@ -16,10 +15,8 @@ import net.minecraft.util.math.ChunkSectionPos;
 import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.List;
-import java.util.Objects;
 
 public class TemplatesClient implements ClientModInitializer {
 	@ApiStatus.Internal //2.2 - Please use the new TemplatesClientApi.getInstance() method.
@@ -61,17 +58,10 @@ public class TemplatesClient implements ClientModInitializer {
 		api.addTemplateModel(Templates.id("tiny_slope_side_special")      , api.mesh(Templates.id("block/tiny_slope_base"), SlopeBaseMesh::makeTinySide).disableAo());
 		
 		try(
-			Reader templateModels = new InputStreamReader(
-				Objects.requireNonNull(
-					TemplatesClient.class.getResourceAsStream("/templates-static/template_model_mappings.json")));
-			
-			Reader itemOverrides = new InputStreamReader(
-				Objects.requireNonNull(
-					TemplatesClient.class.getResourceAsStream("/templates-static/template_item_overrides.json")))
+			Reader templateModels = MagicPaths.get(MagicPaths.TEMPLATE_MODEL_MAPPINGS);
+			Reader itemOverrides = MagicPaths.get(MagicPaths.TEMPLATE_ITEM_OVERRIDES)
 		) {
-			Gson gson = new Gson();
-			
-			List<TemplateModelMapping> modelMappings = gson.fromJson(templateModels, JsonArray.class).asList().stream().map(TemplateModelMapping::de).toList();
+			List<TemplateModelMapping> modelMappings = MagicPaths.parseJsonArray(templateModels, TemplateModelMapping.class, TemplateModelMapping::de).toList();
 			LogManager.getLogger("Templates").info("Found {} model mappings.", modelMappings.size());
 			modelMappings.forEach(modelMapping ->
 				api.addTemplateModel(modelMapping.id.toMinecraft(), switch(modelMapping.kind) {
@@ -79,7 +69,7 @@ public class TemplatesClient implements ClientModInitializer {
 					case JSON -> api.json(modelMapping.base.toMinecraft());
 				}));
 			
-			List<ItemOverrideMapping> itemMappings = gson.fromJson(itemOverrides, JsonArray.class).asList().stream().map(ItemOverrideMapping::de).toList();
+			List<ItemOverrideMapping> itemMappings = MagicPaths.parseJsonArray(itemOverrides, ItemOverrideMapping.class, ItemOverrideMapping::de).toList();
 			LogManager.getLogger("Templates").info("Found {} item model overrides.", modelMappings.size());
 			itemMappings.forEach(itemMapping -> api.assignItemModel(itemMapping.modelId.toMinecraft(), itemMapping.itemId.toMinecraft()));
 			

@@ -1,11 +1,10 @@
 package io.github.cottonmc.templates.dgen;
 
-import io.github.cottonmc.templates.dgen.lang.AddToLang;
-import io.github.cottonmc.templates.dgen.mdl.ItemModel;
 import io.github.cottonmc.templates.dgen.rcp.RcpShaped;
 import io.github.cottonmc.templates.dgen.rcp.RcpShapeless;
 import io.github.cottonmc.templates.dgen.tag.AddToTag;
 import io.github.cottonmc.templates.dgen.tbl.Tbl;
+import io.github.cottonmc.templates.gensupport.AddTooltip;
 import io.github.cottonmc.templates.gensupport.Id;
 import io.github.cottonmc.templates.gensupport.ItemOverrideMapping;
 import io.github.cottonmc.templates.gensupport.TemplateModelMapping;
@@ -167,5 +166,11 @@ public class Tmpl extends FacetHolder {
 	
 	public ItemModel<ItemModel.Forwarding> itemForwardingToBlock() {
 		return itemModelParent(blockId.prefixPath("block/").toString()); //TODO assumes the blockmodel is named after the block id
+	}
+	
+	/// tooltips ///
+	
+	public AddTooltip tooltip(String... keys) {
+		return addFacet(new AddTooltip()).id(itemId).tipKeys(keys);
 	}
 }

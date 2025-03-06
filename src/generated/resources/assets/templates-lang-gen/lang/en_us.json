@@ -22,5 +22,6 @@
   "block.templates.trapdoor": "Trapdoor Template",
   "block.templates.vertical_slab": "Vertical Slab Template",
   "block.templates.wall": "Wall Template",
-  "itemGroup.templates.tab": "Templates"
+  "itemGroup.templates.tab": "Templates",
+  "templates.tooltip.sneakSideways": "Sneak to place sideways against walls"
 }

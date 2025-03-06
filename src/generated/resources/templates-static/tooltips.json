@@ -1,0 +1,20 @@
+[
+  {
+    "item": "templates:cool_rivulet",
+    "tip": [
+      "block.templates.cool_rivulet"
+    ]
+  },
+  {
+    "item": "templates:slope",
+    "tip": [
+      "templates.tooltip.sneakSideways"
+    ]
+  },
+  {
+    "item": "templates:tiny_slope",
+    "tip": [
+      "templates.tooltip.sneakSideways"
+    ]
+  }
+]

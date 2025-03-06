@@ -1,7 +1,7 @@
 package io.github.cottonmc.templates.dgen.rcp;
 
 import com.google.gson.JsonObject;
-import io.github.cottonmc.templates.dgen.Downcastable;
+import io.github.cottonmc.templates.gensupport.Downcastable;
 import io.github.cottonmc.templates.gensupport.Id;
 import io.github.cottonmc.templates.gensupport.Ser;
 

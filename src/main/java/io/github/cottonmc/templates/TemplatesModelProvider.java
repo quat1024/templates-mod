@@ -52,10 +52,6 @@ public class TemplatesModelProvider implements ModelLoadingPlugin {
 			UnbakedModel base = models.get(modelId);
 			if(base == null) return model;
 			
-			if(context.id().toString().contains("post#inven")) {
-				System.out.println("Hi");
-			}
-			
 			return base;
 		});
 	}

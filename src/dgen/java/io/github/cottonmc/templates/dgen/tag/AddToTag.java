@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import io.github.cottonmc.templates.gensupport.Id;
-import io.github.cottonmc.templates.dgen.Idable;
+import io.github.cottonmc.templates.gensupport.Idable;
 import io.github.cottonmc.templates.gensupport.Ser;
 import io.github.cottonmc.templates.gensupport.Facet;
 

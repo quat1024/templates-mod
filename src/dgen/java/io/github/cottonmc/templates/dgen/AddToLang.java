@@ -1,9 +1,9 @@
-package io.github.cottonmc.templates.dgen.lang;
+package io.github.cottonmc.templates.dgen;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.github.cottonmc.templates.gensupport.Id;
-import io.github.cottonmc.templates.dgen.Idable;
+import io.github.cottonmc.templates.gensupport.Idable;
 import io.github.cottonmc.templates.gensupport.Facet;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,7 +17,7 @@ public class AddToLang extends Idable<AddToLang> implements Comparable<AddToLang
 		this.value = value;
 	}
 	
-	String key, value;
+	public String key, value;
 	
 	@Override
 	public int compareTo(@NotNull AddToLang o) {

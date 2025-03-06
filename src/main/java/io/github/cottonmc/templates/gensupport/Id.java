@@ -5,6 +5,7 @@ import com.google.gson.JsonPrimitive;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Comparator;
 import java.util.Locale;
 import java.util.function.UnaryOperator;
 
@@ -12,7 +13,7 @@ import java.util.function.UnaryOperator;
  * basically, when working with mods, sometimes you want an unprefixed id to mean "minecraft"
  * and sometimes you mean "your mod". this forces you to disambiguate which one you mean
  */
-public class Id implements Ser<JsonPrimitive> {
+public class Id implements Ser<JsonPrimitive>, Comparable<Id> {
 	public Id(@NotNull String str) {
 		String[] split = str.split(":");
 		if(split.length == 1) {
@@ -76,6 +77,13 @@ public class Id implements Ser<JsonPrimitive> {
 	public static Id de(JsonElement elem) {
 		if(elem instanceof JsonPrimitive prim) return new Id(prim.getAsString());
 		else throw new IllegalArgumentException("expected a prim, got " + elem.getClass().getSimpleName());
+	}
+	
+	public static final Comparator<Id> COMPARATOR = Comparator.<Id, String>comparing(id -> id.ns).thenComparing(id -> id.path);
+	
+	@Override
+	public int compareTo(@NotNull Id o) {
+		return COMPARATOR.compare(this, o);
 	}
 	
 	//generated

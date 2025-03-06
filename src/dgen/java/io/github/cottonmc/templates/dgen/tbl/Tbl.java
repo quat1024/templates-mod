@@ -2,7 +2,7 @@ package io.github.cottonmc.templates.dgen.tbl;
 
 import com.google.gson.JsonObject;
 import io.github.cottonmc.templates.gensupport.Id;
-import io.github.cottonmc.templates.dgen.Idable;
+import io.github.cottonmc.templates.gensupport.Idable;
 import io.github.cottonmc.templates.gensupport.Ser;
 import io.github.cottonmc.templates.gensupport.Facet;
 

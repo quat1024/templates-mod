@@ -2,6 +2,8 @@ package io.github.cottonmc.templates;
 
 import io.github.cottonmc.templates.api.TemplateInteractionUtil;
 import io.github.cottonmc.templates.block.*;
+import io.github.cottonmc.templates.gensupport.AddTooltip;
+import io.github.cottonmc.templates.gensupport.MagicPaths;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
@@ -19,16 +21,22 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.text.Text;
+import net.minecraft.text.TextContent;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.Reader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
@@ -46,8 +54,24 @@ public class Templates implements ModInitializer {
 	//Changed in TemplatesClient (which is safe since client initializers load after common initializers)
 	@ApiStatus.Internal public static BiConsumer<World, BlockPos> chunkRerenderProxy = (world, pos) -> {};
 	
+	@ApiStatus.Internal
+	public static Map<Identifier, List<? extends Text>> tooltips = new HashMap<>();
+	
 	@Override
 	public void onInitialize() {
+		//load datagenned tooltips
+		try(Reader tooltipReader = MagicPaths.get(MagicPaths.TOOLTIPS)) {
+			for(AddTooltip att : MagicPaths.parseJsonArray(tooltipReader, AddTooltip.class, AddTooltip::de).toList()) {
+				tooltips.put(att.id.toMinecraft(), att.tipKeys.stream()
+					.map(Text::translatable)
+					.map(text -> text.styled(s -> s.withColor(Formatting.GRAY))) //lol
+					.toList());
+			}
+		} catch (Exception e) {
+			tooltips.clear();
+			LogManager.getLogger(MODID).error("Failed to read tooltip information", e);
+		}
+		
 		//registerTemplate mutates MY_TEMPLATES as a side effect, which is a List, so order is preserved
 		//the ordering is used in the creative tab, so they're roughly sorted by encounter order of the
 		//corresponding vanilla block in the "search" creative tab... with the non-vanilla "post" and
@@ -81,18 +105,12 @@ public class Templates implements ModInitializer {
 			FabricBlockEntityTypeBuilder.create((pos, state) -> new TemplateEntity(TEMPLATE_BLOCK_ENTITY, pos, state), INTERNAL_TEMPLATES.toArray(new Block[0])).build(null)
 		);
 		
-		//hey guys rate my registration code
-		Registry.register(Registries.ITEM, id("cool_rivulet"), new BlockItem(
-			COOL_RIVULET = Registry.register(Registries.BLOCK, id("cool_rivulet"), new GlazedTerracottaBlock(
-				AbstractBlock.Settings.create().hardness(0.2f)) {
-				@Override
-				public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext eggbals) {
-					tooltip.add(Text.translatable("block.templates.cool_rivulet").formatted(Formatting.GRAY));
-				}
-			}),
-			new Item.Settings()
-		));
+		//The funny
+		Identifier crv = id("cool_rivulet");
+		COOL_RIVULET = Registry.register(Registries.BLOCK, crv, new GlazedTerracottaBlock(AbstractBlock.Settings.create().hardness(0.2f)));
+		Registry.register(Registries.ITEM, crv, new TemplatesBlockItem(COOL_RIVULET, new Item.Settings()).tooltip(tooltips.get(crv)));
 		
+		//Item group
 		Registry.register(Registries.ITEM_GROUP, id("tab"), FabricItemGroup.builder()
 			.displayName(Text.translatable("itemGroup.templates.tab"))
 			.icon(() -> new ItemStack(SLOPE))
@@ -112,7 +130,8 @@ public class Templates implements ModInitializer {
 		Identifier id = id(path);
 		
 		Registry.register(Registries.BLOCK, id, block);
-		Registry.register(Registries.ITEM, id, new BlockItem(block, new Item.Settings()));
+		Registry.register(Registries.ITEM, id, new TemplatesBlockItem(block, new Item.Settings())
+			.tooltip(tooltips.get(id)));
 		INTERNAL_TEMPLATES.add(block);
 		return block;
 	}

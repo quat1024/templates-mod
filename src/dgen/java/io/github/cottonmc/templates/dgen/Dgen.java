@@ -4,16 +4,16 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import io.github.cottonmc.templates.dgen.adv.AdvancementSketch;
-import io.github.cottonmc.templates.dgen.lang.AddToLang;
-import io.github.cottonmc.templates.dgen.mdl.ItemModel;
 import io.github.cottonmc.templates.dgen.rcp.Ingr;
 import io.github.cottonmc.templates.dgen.rcp.Rcp;
 import io.github.cottonmc.templates.dgen.tag.AddToTag;
 import io.github.cottonmc.templates.dgen.tbl.Tbl;
+import io.github.cottonmc.templates.gensupport.AddTooltip;
 import io.github.cottonmc.templates.gensupport.Id;
 import io.github.cottonmc.templates.gensupport.ItemOverrideMapping;
+import io.github.cottonmc.templates.gensupport.MagicPaths;
 import io.github.cottonmc.templates.gensupport.TemplateModelMapping;
+import net.minecraft.util.Formatting;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -51,6 +51,13 @@ public class Dgen {
 			'X', Ingr.parse("minecraft:iron_ingot"),
 			'S', Ingr.parse("minecraft:cobblestone")
 		);
+		
+		//build the final facet holder containing all facets
+		FacetHolder allFacets = new FacetHolder();
+		
+		allFacets.addFacet(new AddToLang(EN_US, "itemGroup.templates.tab", "Templates"));
+		String sneakSideways = allFacets.addFacet(new AddToLang(EN_US, "templates.tooltip.sneakSideways", "Sneak to place sideways against walls"))
+			.key;
 		
 		List<FacetHolder> templates = new ArrayList<>();
 		
@@ -93,6 +100,8 @@ public class Dgen {
 			selfdrops();
 			mineablePick();
 			itemForwardingToBlock();
+			
+			tooltip(blockId.toTranslationKey("block")); //put the block name again on the tooltip. the funny!!!!!
 		}});
 		
 		Tmpl cube = add(templates, new Tmpl("cube") {{
@@ -230,6 +239,8 @@ public class Dgen {
 			mineableAxe();
 			//mesh model defined in-code with this id
 			itemOverride("templates:slope_special");
+			
+			tooltip(sneakSideways);
 		}});
 		
 		Tmpl stairs = add(templates, new Tmpl("stairs") {{
@@ -250,6 +261,8 @@ public class Dgen {
 			mineableAxe();
 			//mesh model defined in-code with this id
 			itemOverride("templates:tiny_slope_special");
+			
+			tooltip(sneakSideways);
 		}});
 		
 		Tmpl tnt = add(templates, new Tmpl("tnt") {{
@@ -293,10 +306,7 @@ public class Dgen {
 			itemOverride(autoRetexture().id("templates:wall_inventory_special").base("minecraft:block/wall_inventory"));
 		}});
 		
-		//build the final facet holder containing all facets
-		FacetHolder allFacets = new FacetHolder().addAll(templates);
-		//creative tab name
-		allFacets.addFacet(new AddToLang(EN_US, "itemGroup.templates.tab", "Templates"));
+		allFacets.addAll(templates);
 		
 		/// WRITING ! ///
 		
@@ -331,12 +341,17 @@ public class Dgen {
 		//template model mappings
 		JsonArray everyModelMapping = new JsonArray();
 		allFacets.forEachFacet(TemplateModelMapping.class, tmm -> everyModelMapping.add(tmm.ser()));
-		writeJson("templates-static/template_model_mappings.json", everyModelMapping);
+		writeJson(MagicPaths.TEMPLATE_MODEL_MAPPINGS, everyModelMapping);
 		
 		//item model overrides
 		JsonArray everyItemOverride = new JsonArray();
 		allFacets.forEachFacet(ItemOverrideMapping.class, iom -> everyItemOverride.add(iom.ser()));
-		writeJson("templates-static/template_item_overrides.json", everyItemOverride);
+		writeJson(MagicPaths.TEMPLATE_ITEM_OVERRIDES, everyItemOverride);
+		
+		//tooltips
+		JsonArray everyTooltip = new JsonArray();
+		allFacets.forEachFacet(AddTooltip.class, tt -> everyTooltip.add(tt.ser()));
+		writeJson(MagicPaths.TOOLTIPS, everyTooltip);
 		
 		writeFile("templates-static/README.md", """
 			# Note
@@ -350,6 +365,10 @@ public class Dgen {
 	}
 	
 	private void writeFile(String subpath, String contents) {
+		//paths intended to be loaded with getResourceAsStream need a leading slash
+		//we don't want the leading slash right now
+		if(subpath.startsWith("/")) subpath = subpath.substring(1);
+		
 		try {
 			Path dst = genRoot.resolve(subpath);
 			if(Files.notExists(dst)) {
