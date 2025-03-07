@@ -230,6 +230,8 @@ public class Dgen {
 			mineableAxe();
 			itemOverride(autoRetexture().id("templates:slab_bottom_special").base("minecraft:block/slab"));
 			autoRetexture().id("templates:slab_top_special").base("minecraft:block/slab_top");
+			
+			shapelessT().id(Id.t("slab_from_vert_slab")).add("templates:vertical_slab");
 		}});
 		
 		Tmpl slope = add(templates, new Tmpl("slope") {{
@@ -292,6 +294,8 @@ public class Dgen {
 			ibTag("minecraft:wooden_slabs");
 			mineableAxe();
 			itemOverride(autoRetexture().id("templates:vertical_slab_special").base("templates:block/vertical_slab"));
+			
+			shapelessT().id(Id.t("vert_slab_from_slab")).add(slab);
 		}});
 		
 		Tmpl wall = add(templates, new Tmpl("wall") {{

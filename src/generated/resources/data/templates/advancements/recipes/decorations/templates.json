@@ -43,12 +43,14 @@
       "templates:post_cross",
       "templates:pressure_plate",
       "templates:slab",
+      "templates:slab_from_vert_slab",
       "templates:slope",
       "templates:stairs",
       "templates:tiny_slope",
       "templates:tnt",
       "templates:trapdoor",
       "templates:vertical_slab",
+      "templates:vert_slab_from_slab",
       "templates:wall"
     ]
   }
