@@ -28,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class TemplateDoorBlock extends DoorBlock implements BlockEntityProvider {
 	public TemplateDoorBlock(Settings settings, BlockSetType blockSetType) {
-		super(settings, blockSetType);
+		super(blockSetType, settings);
 		setDefaultState(TemplateInteractionUtil.setDefaultStates(getDefaultState()));
 	}
 	

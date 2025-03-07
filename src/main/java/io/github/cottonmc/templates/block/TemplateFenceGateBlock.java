@@ -29,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class TemplateFenceGateBlock extends FenceGateBlock implements BlockEntityProvider, TemplateInteractionUtilExt {
 	public TemplateFenceGateBlock(Settings settings, WoodType woodType) {
-		super(settings, woodType);
+		super(woodType, settings);
 		setDefaultState(TemplateInteractionUtil.setDefaultStates(getDefaultState()));
 	}
 	
