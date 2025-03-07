@@ -146,6 +146,9 @@ public class TemplateAppearanceManager {
 		
 		//Fill out any missing values in the sprites array, since failure to pick textures shouldn't lead to NPEs later on
 		for(int i = 0; i < sprites.length; i++) {
+			if(sprites[i] == null) sprites[i] = model.getParticleSprite();
+			
+			//i really doubt returning null from getParticleSprite is okay, but let's not make it my problem
 			if(sprites[i] == null) sprites[i] = defaultAppearance.getSprite(Direction.byId(i));
 		}
 		
