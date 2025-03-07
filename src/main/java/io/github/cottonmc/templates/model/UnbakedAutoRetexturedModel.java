@@ -63,7 +63,7 @@ public class UnbakedAutoRetexturedModel implements UnbakedModel, TemplatesClient
 	
 	@Nullable
 	@Override
-	public BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> spriteLookup, ModelBakeSettings modelBakeSettings, Identifier identifier) {
+	public BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> spriteLookup, ModelBakeSettings modelBakeSettings) {
 		return new RetexturingBakedModel(
 			baker.bake(parent, modelBakeSettings),
 			TemplatesClientApi.getInstance().getOrCreateTemplateApperanceManager(spriteLookup),

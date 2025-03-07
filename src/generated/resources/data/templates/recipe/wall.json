@@ -1,14 +1,14 @@
 {
   "group": "templates",
   "result": {
-    "item": "templates:vertical_slab",
-    "count": 6
+    "id": "templates:wall",
+    "count": 8
   },
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "I ",
-    "I~",
-    "I "
+    " ~ ",
+    "III",
+    "III"
   ],
   "key": {
     "I": {

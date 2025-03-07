@@ -66,7 +66,7 @@ public class Id implements Ser<JsonPrimitive>, Comparable<Id> {
 	}
 	
 	public Identifier toMinecraft() {
-		return new Identifier(ns, path);
+		return Identifier.of(ns, path);
 	}
 	
 	@Override

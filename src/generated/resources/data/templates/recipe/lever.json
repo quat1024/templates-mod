@@ -1,15 +1,18 @@
 {
   "group": "templates",
   "result": {
-    "item": "templates:fence_gate",
-    "count": 2
+    "id": "templates:lever"
   },
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "~I~",
-    "~I~"
+    "~",
+    "I",
+    "C"
   ],
   "key": {
+    "C": {
+      "tag": "minecraft:candles"
+    },
     "I": {
       "item": "minecraft:bamboo"
     },

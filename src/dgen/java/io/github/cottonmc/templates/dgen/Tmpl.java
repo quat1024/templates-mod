@@ -85,11 +85,11 @@ public class Tmpl extends FacetHolder {
 	}
 	
 	public AddToTag itag(Id tagId) {
-		return tag(tagId.prefixPath("items"));
+		return tag(tagId.prefixPath("item"));
 	}
 	
 	public AddToTag btag(Id tagId) {
-		return tag(tagId.prefixPath("blocks"));
+		return tag(tagId.prefixPath("block"));
 	}
 	
 	//add to an item and block tag that happen to have the same name

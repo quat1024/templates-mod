@@ -1,14 +1,13 @@
 {
   "group": "templates",
   "result": {
-    "item": "templates:wall",
+    "id": "templates:tiny_slope",
     "count": 8
   },
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " ~ ",
-    "III",
-    "III"
+    "I~",
+    "II"
   ],
   "key": {
     "I": {

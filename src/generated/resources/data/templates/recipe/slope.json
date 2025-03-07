@@ -1,12 +1,14 @@
 {
   "group": "templates",
   "result": {
-    "item": "templates:pressure_plate"
+    "id": "templates:slope",
+    "count": 4
   },
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "~ ",
-    "II"
+    "I  ",
+    "I~ ",
+    "III"
   ],
   "key": {
     "I": {

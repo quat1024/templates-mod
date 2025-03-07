@@ -1,18 +1,16 @@
 {
   "group": "templates",
   "result": {
-    "item": "templates:lever"
+    "id": "templates:cube",
+    "count": 4
   },
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "~",
-    "I",
-    "C"
+    "III",
+    "I~I",
+    "III"
   ],
   "key": {
-    "C": {
-      "tag": "minecraft:candles"
-    },
     "I": {
       "item": "minecraft:bamboo"
     },

@@ -1,13 +1,14 @@
 {
   "group": "templates",
   "result": {
-    "item": "templates:carpet",
-    "count": 12
+    "id": "templates:post",
+    "count": 8
   },
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "~~",
-    "II"
+    "I~",
+    "I ",
+    "I~"
   ],
   "key": {
     "I": {

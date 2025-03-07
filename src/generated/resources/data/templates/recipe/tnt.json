@@ -1,12 +1,15 @@
 {
   "group": "templates",
   "result": {
-    "item": "templates:slab"
+    "id": "templates:tnt"
   },
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "templates:vertical_slab"
+      "item": "templates:cube"
+    },
+    {
+      "item": "minecraft:tnt"
     }
   ]
 }

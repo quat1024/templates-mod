@@ -1,13 +1,14 @@
 {
   "group": "templates",
   "result": {
-    "item": "templates:fence",
-    "count": 8
+    "id": "templates:pane",
+    "count": 16
   },
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "I~I",
-    "I~I"
+    "~ ~",
+    "III",
+    "III"
   ],
   "key": {
     "I": {

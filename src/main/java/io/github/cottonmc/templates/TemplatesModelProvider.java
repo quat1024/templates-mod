@@ -59,12 +59,12 @@ public class TemplatesModelProvider implements PreparableModelLoadingPlugin<Temp
 			
 			TemplatesClientApi api = TemplatesClientApi.getInstance();
 			
-			for(Resource modelMappingRes : res.getAllResources(new Identifier("templates", "template_model_mappings.json"))) {
+			for(Resource modelMappingRes : res.getAllResources(Identifier.of("templates", "template_model_mappings.json"))) {
 				try(Reader reader = modelMappingRes.getReader()) {
 					List<TemplateModelMapping> modelMappings = MagicPaths.parseJsonArray(
 						reader, TemplateModelMapping.class, TemplateModelMapping::de).toList();
 					
-					Templates.LOG.info("Found {} model mappings from pack '{}'", modelMappings.size(), modelMappingRes.getResourcePackName());
+					Templates.LOG.info("Found {} model mappings from pack '{}'", modelMappings.size(), modelMappingRes.getPackId());
 					
 					modelMappings.forEach(modelMapping ->
 						dms.models.put(modelMapping.id.toMinecraft(), switch(modelMapping.kind) {
@@ -72,23 +72,23 @@ public class TemplatesModelProvider implements PreparableModelLoadingPlugin<Temp
 							case JSON -> api.json(modelMapping.base.toMinecraft());
 						}));
 				} catch (Exception e) {
-					Templates.LOG.error("Failed to load model mappings from pack '{}'", modelMappingRes.getResourcePackName(), e);
+					Templates.LOG.error("Failed to load model mappings from pack '{}'", modelMappingRes.getPackId(), e);
 				}
 			}
 			
-			for(Resource itemOverrideRes : res.getAllResources(new Identifier("templates", "template_item_overrides.json"))) {
+			for(Resource itemOverrideRes : res.getAllResources(Identifier.of("templates", "template_item_overrides.json"))) {
 				try(Reader reader = itemOverrideRes.getReader()) {
 					List<ItemOverrideMapping> itemOverrideMappings = MagicPaths.parseJsonArray(
 						reader, ItemOverrideMapping.class, ItemOverrideMapping::de).toList();
 					
-					Templates.LOG.info("Found {} item model overrides from pack '{}'.", itemOverrideMappings.size(), itemOverrideRes.getResourcePackName());
+					Templates.LOG.info("Found {} item model overrides from pack '{}'.", itemOverrideMappings.size(), itemOverrideRes.getPackId());
 					
 					itemOverrideMappings.forEach(iom -> dms.itemAssignments.put(
 						new ModelIdentifier(iom.itemId.toMinecraft(), "inventory"),
 						iom.modelId.toMinecraft()
 					));
 				} catch (Exception e) {
-					Templates.LOG.error("Failed to load item overrides from pack '{}'", itemOverrideRes.getResourcePackName(), e);
+					Templates.LOG.error("Failed to load item overrides from pack '{}'", itemOverrideRes.getPackId(), e);
 				}
 			}
 			
@@ -117,8 +117,7 @@ public class TemplatesModelProvider implements PreparableModelLoadingPlugin<Temp
 		//Swap out the item models. Here we have to return the original model if we're not
 		//interested in swapping a particular item model.
 		ctx.modifyModelBeforeBake().register(ModelModifier.OVERRIDE_PHASE, (model, context) -> {
-			@SuppressWarnings("SuspiciousMethodCalls") //modelidentifier is a subtype of identifier
-			Identifier modelId = data.itemAssignments.get(context.id());
+			Identifier modelId = data.itemAssignments.get(context.topLevelId());
 			if(modelId == null) return model;
 			
 			UnbakedModel base = data.models.get(modelId);

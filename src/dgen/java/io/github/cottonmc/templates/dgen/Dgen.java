@@ -315,17 +315,17 @@ public class Dgen {
 		/// WRITING ! ///
 		
 		//loot tables
-		allFacets.forEachFacet(Tbl.class, tbl -> writeJson("data/" + tbl.ns() + "/loot_tables/blocks/" + tbl.path() + ".json", tbl.ser()));
+		allFacets.forEachFacet(Tbl.class, tbl -> writeJson("data/" + tbl.ns() + "/loot_table/blocks/" + tbl.path() + ".json", tbl.ser()));
 		
 		//recipes
 		AdvancementSketch recipeAdv = new AdvancementSketch().id("templates:recipes/decorations/templates");
 		allFacets.forEachFacet(Rcp.class, rcp -> {
-			writeJson("data/" + rcp.ns() + "/recipes/" + rcp.path() + ".json", rcp.ser());
+			writeJson("data/" + rcp.ns() + "/recipe/" + rcp.path() + ".json", rcp.ser());
 			
 			if("templates".equals(rcp.group)) recipeAdv.recipeReward(rcp);
 		});
 		//recipe advancement
-		writeJson("data/" + recipeAdv.ns() + "/advancements/" + recipeAdv.path() + ".json", recipeAdv.ser());
+		writeJson("data/" + recipeAdv.ns() + "/advancement/" + recipeAdv.path() + ".json", recipeAdv.ser());
 		
 		//tags
 		Map<Id, Set<AddToTag>> tags = new HashMap<>();

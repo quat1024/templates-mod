@@ -1,18 +1,14 @@
 {
   "group": "templates",
   "result": {
-    "item": "templates:candle"
+    "id": "templates:button"
   },
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "~",
-    "I",
-    "C"
+    "I"
   ],
   "key": {
-    "C": {
-      "tag": "minecraft:candles"
-    },
     "I": {
       "item": "minecraft:bamboo"
     },

@@ -1,21 +1,18 @@
 {
   "group": "templates",
   "result": {
-    "item": "templates:iron_trapdoor",
+    "id": "templates:trapdoor",
     "count": 4
   },
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "III",
     "III",
-    "~X~"
+    "~ ~"
   ],
   "key": {
     "I": {
       "item": "minecraft:bamboo"
-    },
-    "X": {
-      "item": "minecraft:iron_ingot"
     },
     "~": {
       "item": "minecraft:string"

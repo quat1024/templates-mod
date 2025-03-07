@@ -23,6 +23,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.hit.BlockHitResult;
@@ -66,11 +67,10 @@ public class TemplateInteractionUtil {
 		return TemplateEntity.weirdNbtLightLevelStuff(in, ctx.getStack());
 	}
 	
-	public static ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		if(!(world.getBlockEntity(pos) instanceof TemplateEntity be)) return ActionResult.PASS;
-		if(!player.canModifyBlocks() || !world.canPlayerModifyAt(player, pos)) return ActionResult.PASS;
+	public static ItemActionResult onUseWithItem(ItemStack held, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+		if(!(world.getBlockEntity(pos) instanceof TemplateEntity be)) return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		if(!player.canModifyBlocks() || !world.canPlayerModifyAt(player, pos)) return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		
-		ItemStack held = player.getStackInHand(hand);
 		TemplateInteractionUtilExt ext = state.getBlock() instanceof TemplateInteractionUtilExt e ? e : TemplateInteractionUtilExt.Default.INSTANCE;
 		
 		//Glowstone
@@ -80,7 +80,7 @@ public class TemplateInteractionUtil {
 			
 			if(!player.isCreative()) held.decrement(1);
 			world.playSound(player, pos, SoundEvents.BLOCK_GLASS_HIT, SoundCategory.BLOCKS, 1f, 1f);
-			return ActionResult.SUCCESS;
+			return ItemActionResult.success(world.isClient);
 		}
 		
 		//Redstone
@@ -94,7 +94,7 @@ public class TemplateInteractionUtil {
 			
 			if(!player.isCreative()) held.decrement(1);
 			world.playSound(player, pos, SoundEvents.BLOCK_LEVER_CLICK, SoundCategory.BLOCKS, 1f, 1f);
-			return ActionResult.SUCCESS;
+			return ItemActionResult.success(world.isClient);
 		}
 		
 		//Popped chorus fruit
@@ -108,7 +108,7 @@ public class TemplateInteractionUtil {
 			
 			if(!player.isCreative()) held.decrement(1);
 			world.playSound(player, pos, SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT, SoundCategory.BLOCKS, 1f, 1f);
-			return ActionResult.SUCCESS;
+			return ItemActionResult.success(world.isClient);
 		}
 		
 		//Changing the theme
@@ -124,11 +124,17 @@ public class TemplateInteractionUtil {
 				
 				if(!player.isCreative()) held.decrement(1);
 				world.playSound(player, pos, placementState.getSoundGroup().getPlaceSound(), SoundCategory.BLOCKS, 1f, 1.1f);
-				return ActionResult.SUCCESS;
+				return ItemActionResult.success(world.isClient);
 			}
 		}
 		
-		return ActionResult.PASS;
+		return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+	}
+	
+	@Deprecated(forRemoval = true)
+	public static ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+		ItemStack held = player.getStackInHand(hand);
+		return onUseWithItem(held, state, world, pos, player, hand, hit).toActionResult();
 	}
 	
 	//Maybe an odd spot to put this logic but it's consistent w/ vanilla chests, barrels, etc
@@ -154,10 +160,15 @@ public class TemplateInteractionUtil {
 	public static void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
 		//Load the BlockEntityTag clientside, which fixes the template briefly showing its default state when placing it.
 		//I'm surprised this doesn't happen by default; the BlockEntityTag stuff is only done serverside.
-		if(world.isClient && world.getBlockEntity(pos) instanceof TemplateEntity be) {
-			NbtCompound tag = BlockItem.getBlockEntityNbt(stack);
-			if(tag != null) be.readNbt(tag);
-		}
+		//TODO is that still true? Not sure
+//		if(
+//			world.isClient &&
+//			world.getBlockEntity(pos) instanceof TemplateEntity &&
+//			stack.getItem() instanceof BlockItem &&
+//			placer instanceof PlayerEntity player
+//		) {
+//			BlockItem.writeNbtToBlockEntity(world, player, pos, stack);
+//		}
 	}
 	
 	//Returns "null" to signal "no opinion". Imagine it like an InteractionResult.PASS.

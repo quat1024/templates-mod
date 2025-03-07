@@ -1,14 +1,13 @@
 {
   "group": "templates",
   "result": {
-    "item": "templates:slope",
-    "count": 4
+    "id": "templates:fence_gate",
+    "count": 2
   },
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "I  ",
-    "I~ ",
-    "III"
+    "~I~",
+    "~I~"
   ],
   "key": {
     "I": {

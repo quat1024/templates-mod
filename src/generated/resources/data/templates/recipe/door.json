@@ -1,21 +1,18 @@
 {
   "group": "templates",
   "result": {
-    "item": "templates:iron_door",
+    "id": "templates:door",
     "count": 2
   },
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "II ",
     "II~",
-    "IIX"
+    "II "
   ],
   "key": {
     "I": {
       "item": "minecraft:bamboo"
-    },
-    "X": {
-      "item": "minecraft:iron_ingot"
     },
     "~": {
       "item": "minecraft:string"

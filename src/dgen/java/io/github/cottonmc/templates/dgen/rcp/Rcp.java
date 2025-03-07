@@ -36,7 +36,7 @@ public abstract class Rcp<D> extends Idable<D> implements Ser<JsonObject> {
 		if(group != null) obj.addProperty("group", group);
 		
 		JsonObject result = new JsonObject();
-		result.addProperty("item", this.result.toString());
+		result.addProperty("id", this.result.toString()); //changed in 1.21 thank you mojangf
 		if(count != 1) result.addProperty("count", count);
 		obj.add("result", result);
 		

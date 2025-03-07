@@ -1,14 +1,12 @@
 {
   "group": "templates",
   "result": {
-    "item": "templates:stairs",
-    "count": 10
+    "id": "templates:pressure_plate"
   },
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "I~ ",
-    "II~",
-    "III"
+    "~ ",
+    "II"
   ],
   "key": {
     "I": {

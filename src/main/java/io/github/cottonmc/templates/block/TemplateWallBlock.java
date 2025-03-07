@@ -16,8 +16,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -57,9 +57,9 @@ public class TemplateWallBlock extends WallBlock implements BlockEntityProvider 
 	}
 	
 	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		ActionResult r = TemplateInteractionUtil.onUse(state, world, pos, player, hand, hit);
-		if(!r.isAccepted()) r = super.onUse(state, world, pos, player, hand, hit);
+	protected ItemActionResult onUseWithItem(ItemStack held, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+		ItemActionResult r = TemplateInteractionUtil.onUseWithItem(held, state, world, pos, player, hand, hit);
+		if(!r.isAccepted()) r = super.onUseWithItem(held, state, world, pos, player, hand, hit);
 		return r;
 	}
 	

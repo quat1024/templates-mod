@@ -53,7 +53,7 @@ public class UnbakedMeshRetexturedModel implements UnbakedModel, TemplatesClient
 	}
 	
 	@Override
-	public BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> spriteLookup, ModelBakeSettings modelBakeSettings, Identifier identifier) {
+	public BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> spriteLookup, ModelBakeSettings modelBakeSettings) {
 		Mesh transformedBaseMesh = MeshTransformUtil.pretransformMesh(baseMeshFactory.apply(spriteLookup), MeshTransformUtil.applyAffine(modelBakeSettings));
 		
 		return new RetexturingBakedModel(

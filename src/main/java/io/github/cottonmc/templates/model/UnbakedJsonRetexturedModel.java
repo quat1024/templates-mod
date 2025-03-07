@@ -65,7 +65,7 @@ public class UnbakedJsonRetexturedModel implements UnbakedModel, TemplatesClient
 	
 	@Nullable
 	@Override
-	public BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> spriteLookup, ModelBakeSettings modelBakeSettings, Identifier identifier) {
+	public BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> spriteLookup, ModelBakeSettings modelBakeSettings) {
 		Direction[] DIRECTIONS = RetexturingBakedModel.DIRECTIONS;
 		
 		Sprite[] specialSprites = new Sprite[DIRECTIONS.length];

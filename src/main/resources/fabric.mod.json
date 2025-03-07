@@ -30,7 +30,7 @@
 		"templates.mixins.json"
 	],
 	"depends": {
-		"minecraft": "=1.20.4",
+		"minecraft": "=1.21.1",
 		"fabricloader": "*",
 		"fabric-api-base": "*",
 		"fabric-renderer-api-v1": "*",

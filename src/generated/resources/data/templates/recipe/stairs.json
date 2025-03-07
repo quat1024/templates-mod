@@ -1,14 +1,14 @@
 {
   "group": "templates",
   "result": {
-    "item": "templates:post",
-    "count": 8
+    "id": "templates:stairs",
+    "count": 10
   },
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "I~",
-    "I ",
-    "I~"
+    "I~ ",
+    "II~",
+    "III"
   ],
   "key": {
     "I": {

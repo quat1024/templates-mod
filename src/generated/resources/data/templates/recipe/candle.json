@@ -1,16 +1,18 @@
 {
   "group": "templates",
   "result": {
-    "item": "templates:door",
-    "count": 2
+    "id": "templates:candle"
   },
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "II ",
-    "II~",
-    "II "
+    "~",
+    "I",
+    "C"
   ],
   "key": {
+    "C": {
+      "tag": "minecraft:candles"
+    },
     "I": {
       "item": "minecraft:bamboo"
     },

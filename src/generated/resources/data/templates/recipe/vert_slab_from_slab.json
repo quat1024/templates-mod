@@ -1,15 +1,12 @@
 {
   "group": "templates",
   "result": {
-    "item": "templates:post_cross"
+    "id": "templates:vertical_slab"
   },
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "templates:post"
-    },
-    {
-      "item": "templates:post"
+      "item": "templates:slab"
     }
   ]
 }

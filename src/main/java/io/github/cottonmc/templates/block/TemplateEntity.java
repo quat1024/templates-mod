@@ -7,7 +7,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.item.BlockItem;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -16,6 +17,8 @@ import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
@@ -48,23 +51,13 @@ public class TemplateEntity extends BlockEntity implements ThemeableBlockEntity2
 	}
 	
 	@Override
-	public void readNbt(NbtCompound tag) {
-		super.readNbt(tag);
+	public void readNbt(NbtCompound tag, RegistryWrapper.WrapperLookup wrapperLookup) {
+		super.readNbt(tag, wrapperLookup);
 		
 		BlockState lastRenderedState = renderedState;
 		
-		if(tag.contains("BlockState")) { //2.0.4 and earlier
-			renderedState = NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(), tag.getCompound("BlockState"));
-			
-			if(tag.getBoolean("spentglow")) spentGlowstoneDust();
-			if(tag.getBoolean("spentredst")) spentRedstoneTorch();
-			if(tag.getBoolean("spentchor")) spentPoppedChorus();
-			setEmitsRedstone(tag.getBoolean("emitsredst"));
-			setSolidity(!tag.contains("solid") || tag.getBoolean("solid")); //default to "true" if it's nonexistent
-		} else {
-			renderedState = NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(), tag.getCompound(BLOCKSTATE_KEY));
-			bitfield = tag.contains(BITFIELD_KEY) ? tag.getByte(BITFIELD_KEY) : DEFAULT_BITFIELD;
-		}
+		renderedState = NbtHelper.toBlockState(wrapperLookup.getWrapperOrThrow(RegistryKeys.BLOCK), tag.getCompound(BLOCKSTATE_KEY));
+		bitfield = tag.contains(BITFIELD_KEY) ? tag.getByte(BITFIELD_KEY) : DEFAULT_BITFIELD;
 		
 		//Force a chunk remesh on the client if the displayed blockstate has changed
 		if(world != null && world.isClient && !Objects.equals(lastRenderedState, renderedState)) {
@@ -73,15 +66,18 @@ public class TemplateEntity extends BlockEntity implements ThemeableBlockEntity2
 	}
 	
 	@Override
-	public void writeNbt(NbtCompound tag) {
-		super.writeNbt(tag);
+	public void writeNbt(NbtCompound tag, RegistryWrapper.WrapperLookup wrapperLookup) {
+		super.writeNbt(tag, wrapperLookup);
 		
 		if(renderedState != Blocks.AIR.getDefaultState()) tag.put(BLOCKSTATE_KEY, NbtHelper.fromBlockState(renderedState));
 		if(bitfield != DEFAULT_BITFIELD) tag.putByte(BITFIELD_KEY, bitfield);
 	}
 	
 	public static @Nonnull BlockState readStateFromItem(ItemStack stack) {
-		NbtCompound blockEntityTag = BlockItem.getBlockEntityNbt(stack);
+		NbtComponent nbtComponent = stack.getOrDefault(DataComponentTypes.BLOCK_ENTITY_DATA, NbtComponent.DEFAULT);
+		if(nbtComponent.isEmpty()) return Blocks.AIR.getDefaultState();
+		
+		NbtCompound blockEntityTag = nbtComponent.getNbt(); //Deprecated in favor of a "copy" method... but this is called every frame, cmon now
 		if(blockEntityTag == null) return Blocks.AIR.getDefaultState();
 		
 		//slightly paranoid NBT handling cause you never know what mysteries are afoot with items
@@ -102,13 +98,14 @@ public class TemplateEntity extends BlockEntity implements ThemeableBlockEntity2
 	public static @Nullable BlockState weirdNbtLightLevelStuff(@Nullable BlockState state, ItemStack stack) {
 		if(state == null || stack == null) return state;
 		
-		NbtCompound blockEntityTag = BlockItem.getBlockEntityNbt(stack);
-		if(blockEntityTag == null) return state;
+		NbtComponent nbtComponent = stack.getOrDefault(DataComponentTypes.BLOCK_ENTITY_DATA, NbtComponent.DEFAULT);
+		if(nbtComponent.isEmpty()) return state;
+		NbtElement blockEntityTagThing = nbtComponent.getNbt();
+		if(!(blockEntityTagThing instanceof NbtCompound blockEntityTag)) return state;
 		
 		if(state.contains(TemplateInteractionUtil.LIGHT)) {
 			state = state.with(TemplateInteractionUtil.LIGHT,
-				blockEntityTag.getBoolean("spentglow") || //2.0.4
-				((blockEntityTag.contains(BITFIELD_KEY) ? blockEntityTag.getByte(BITFIELD_KEY) : DEFAULT_BITFIELD) & SPENT_GLOWSTONE_DUST_MASK) != 0 || //2.0.5
+				((blockEntityTag.contains(BITFIELD_KEY) ? blockEntityTag.getByte(BITFIELD_KEY) : DEFAULT_BITFIELD) & SPENT_GLOWSTONE_DUST_MASK) != 0 ||
 				readStateFromItem(stack).getLuminance() != 0 //glowstone dust wasn't manually added, the block just emits light
 			);
 		}
@@ -194,10 +191,10 @@ public class TemplateEntity extends BlockEntity implements ThemeableBlockEntity2
 	}
 	
 	@Override
-	public NbtCompound toInitialChunkDataNbt() {
+	public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup wrapperLookup) {
 		//TERRIBLE yarn name, this is "getUpdateTag", it's the nbt that will be sent to clients
 		//and it just calls "writeNbt"
-		return createNbt();
+		return createNbt(wrapperLookup);
 	}
 	
 	protected void dispatch() {

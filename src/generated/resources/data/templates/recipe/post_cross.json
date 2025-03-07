@@ -1,15 +1,15 @@
 {
   "group": "templates",
   "result": {
-    "item": "templates:tnt"
+    "id": "templates:post_cross"
   },
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "templates:cube"
+      "item": "templates:post"
     },
     {
-      "item": "minecraft:tnt"
+      "item": "templates:post"
     }
   ]
 }

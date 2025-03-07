@@ -17,11 +17,11 @@ buildscript {
 
 apply plugin: "fabric-loom"
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 java.withSourcesJar()
 tasks.withType(JavaCompile) {
 	options.encoding = "UTF-8"
-	options.release = 17
+	options.release = 21
 }
 
 sourceSets {
@@ -57,12 +57,12 @@ dependencies {
 	dgenImplementation sourceSets.main.output
 	
 	// https://fabricmc.net/develop/
-	minecraft "com.mojang:minecraft:1.20.4"
-	mappings "net.fabricmc:yarn:1.20.4+build.3"
+	minecraft "com.mojang:minecraft:1.21.1"
+	mappings "net.fabricmc:yarn:1.21.1+build.3"
 	modApi "net.fabricmc:fabric-loader:0.16.10"
 	
 	//See also fabric.mod.json
-	String fapiVer = "0.97.2+1.20.4"
+	String fapiVer = "0.115.1+1.21.1"
 	List<String> modules = [
 		"fabric-api-base",
 		"fabric-renderer-api-v1", //FRAPI
@@ -82,11 +82,8 @@ dependencies {
 		modApi fabricApi.module(module, fapiVer)
 	}
 	
-	//Keeping this deprecated module around to avoid an ABI break, not used throughout the code
-	modCompileOnly fabricApi.module("fabric-rendering-data-attachment-v1", fapiVer)
-	
 	//Some mods I want to test in-dev depend on fabric api though...
-	modLocalRuntime "net.fabricmc.fabric-api:fabric-api:${fapiVer}"
+	//modLocalRuntime "net.fabricmc.fabric-api:fabric-api:${fapiVer}"
 
 	implementation "com.google.code.findbugs:jsr305:3.0.2"
 
