@@ -1,4 +1,9 @@
-# 2.3.0 (Mar 06, 2025)
+# 2.3.1 (Mar 06, 2025, but in the evening)
+
+* Add recipes to craft Slab Templates into Vertical Slab Templates and vice versa.
+* If Templates can't decide on a texture, it'll now fall back to the block's particle texture, instead of displaying the glitchy scaffolding texture.
+
+# 2.3.0 (the wee hours of Mar 06, 2025)
 
 * Fix messed up Fence Template and Post Template items from last update.
 * Add a tooltip to the Slope and Tiny Slope templates reminding you that they can be placed sideways on walls by holding Shift.
