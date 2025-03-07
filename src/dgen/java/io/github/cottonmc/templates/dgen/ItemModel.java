@@ -30,7 +30,7 @@ public abstract class ItemModel<D> extends Idable<D> implements Ser<JsonObject> 
 	
 	public static class TemplatesDummy extends Forwarding {
 		public TemplatesDummy() {
-			super("templates:dummy");
+			super("templates:block/dummy");
 		}
 	}
 	
