@@ -25,13 +25,4 @@ public class TntBlockMixin {
 	private static void templates$primeTnt(World world, BlockPos pos, @Nullable LivingEntity living, CallbackInfo ci, TntEntity tnt) {
 		TntStuff.onTntEsplod(world, pos, tnt);
 	}
-	
-	@Inject(
-		method = "onDestroyedByExplosion",
-		at = @At(value = "INVOKE", target = "net/minecraft/world/World.spawnEntity(Lnet/minecraft/entity/Entity;)Z"),
-		locals = LocalCapture.CAPTURE_FAILSOFT //not a big deal
-	)
-	private static void templates$byExplosion(World world, BlockPos pos, Explosion expl, CallbackInfo ci, TntEntity tnt) {
-		TntStuff.onTntEsplod(world, pos, tnt);
-	}
 }
