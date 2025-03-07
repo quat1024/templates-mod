@@ -90,9 +90,4 @@ public class MeshTransformUtil {
 			return true;
 		};
 	}
-	
-	@Deprecated(forRemoval = true) //2.2.1; renaming this method since i only apply affine transformations
-	public static RenderContext.QuadTransform applyMatrix(Matrix4f mat) {
-		return applyAffine(mat);
-	}
 }

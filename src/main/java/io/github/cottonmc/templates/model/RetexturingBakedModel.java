@@ -1,5 +1,6 @@
 package io.github.cottonmc.templates.model;
 
+import io.github.cottonmc.templates.api.TemplateAppearance;
 import io.github.cottonmc.templates.block.TemplateEntity;
 import io.github.cottonmc.templates.mixin.MinecraftAccessor;
 import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
@@ -130,11 +131,6 @@ public abstract class RetexturingBakedModel extends ForwardingBakedModel {
 			this.ta = ta;
 		}
 		
-		@Deprecated(forRemoval = true) //TODO ABI: Deprecated in 2.2. Use TintingTransformer for retinting, it works better anyway
-		protected RetexturingTransformer(TemplateAppearance ta, int ignoredTint) {
-			this(ta);
-		}
-		
 		protected final TemplateAppearance ta;
 		
 		@Override
@@ -171,11 +167,5 @@ public abstract class RetexturingBakedModel extends ForwardingBakedModel {
 			
 			return true;
 		}
-	}
-	
-	//TODO ABI: From before there was an AO boolean, <2.1.1.
-	@Deprecated(forRemoval = true)
-	public RetexturingBakedModel(BakedModel baseModel, TemplateAppearanceManager tam, ModelBakeSettings settings, BlockState itemModelState) {
-		this(baseModel, tam, settings, itemModelState, true);
 	}
 }
