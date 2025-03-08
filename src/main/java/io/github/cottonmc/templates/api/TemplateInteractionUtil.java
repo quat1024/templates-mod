@@ -7,6 +7,9 @@ import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
@@ -160,15 +163,16 @@ public class TemplateInteractionUtil {
 	public static void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
 		//Load the BlockEntityTag clientside, which fixes the template briefly showing its default state when placing it.
 		//I'm surprised this doesn't happen by default; the BlockEntityTag stuff is only done serverside.
-		//TODO is that still true? Not sure
-//		if(
-//			world.isClient &&
-//			world.getBlockEntity(pos) instanceof TemplateEntity &&
-//			stack.getItem() instanceof BlockItem &&
-//			placer instanceof PlayerEntity player
-//		) {
-//			BlockItem.writeNbtToBlockEntity(world, player, pos, stack);
-//		}
+		if(
+			world.isClient &&
+			world.getBlockEntity(pos) instanceof TemplateEntity te &&
+			stack.getItem() instanceof BlockItem &&
+			placer instanceof PlayerEntity
+		) {
+			//BlockItem.writeNbtToBlockEntity(world, player, pos, stack); //checks MinecraftServer != null, rah rah singleplayer
+			NbtComponent nbtComponent = stack.getOrDefault(DataComponentTypes.BLOCK_ENTITY_DATA, NbtComponent.DEFAULT);
+			if(!nbtComponent.isEmpty()) nbtComponent.applyToBlockEntity(te, world.getRegistryManager());
+		}
 	}
 	
 	//Returns "null" to signal "no opinion". Imagine it like an InteractionResult.PASS.
