@@ -1,3 +1,32 @@
+
+Yeah i'm going cherry-picking so the changelog is becoming a mess.
+
+# 2.4.1 (1.21.1) (Mar 08 2025)
+
+* Remove mixin that did nothing and broke Sinytra Connector
+* Tag template button with `wooden_buttons` again
+* Load nbt tag clientside (preventing flicker of regular template when you place one)
+
+# 2.4.1 (1.20.4) (Mar 08 2025)
+
+* Remove mixin that did nothing and (probably) broke Sinytra Connector
+* Tag template button with `wooden_buttons` again
+
+# 2.3.2 (1.20.1) (Mar 08 2025)
+
+* Remove mixin that did nothing and (probably) broke Sinytra Connector
+* Tag template button with `wooden_buttons` again
+
+# 2.4.0 (1.21.1) (Mar 07 2025)
+
+Port to 1.20.1
+
+# 2.4.0 (1.20.4) (Mar 07 2025)
+
+Port to 1.20.4
+
+# Changelog before it became a mess of nonlinear time
+
 # 2.3.1 (Mar 06, 2025, but in the evening)
 
 * Add recipes to craft Slab Templates into Vertical Slab Templates and vice versa.
