@@ -65,7 +65,7 @@ public class Dgen {
 			enUS("Button Template");
 			selfdrops();
 			shapedT(1).key(key).rows("~", "I");
-			ibTag("minecraft:buttons");
+			ibTag("minecraft:wooden_buttons");
 			mineableAxe();
 			autoRetexture().id("templates:button_special").base("minecraft:block/button");
 			autoRetexture().id("templates:button_pressed_special").base("minecraft:block/button_pressed");
