@@ -30,36 +30,46 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
-//TODO: extract an API for the api package
 public class TemplateAppearanceManager {
-	public TemplateAppearanceManager(Function<SpriteIdentifier, Sprite> spriteLookup) {
-		MaterialFinder finder = TemplatesClientApi.getInstance().getFabricRenderer().materialFinder();
-		for(BlendMode blend : BlendMode.values()) {
-			finder.clear().disableDiffuse(false).blendMode(blend);
-			
-			materialsWithoutAo.put(blend, finder.ambientOcclusion(TriState.FALSE).find());
-			materialsWithAo.put(blend, finder.ambientOcclusion(TriState.DEFAULT).find()); //not "true" since that *forces* AO, i just want to *allow* AO
-		}
-		
-		Sprite defaultSprite = spriteLookup.apply(DEFAULT_SPRITE_ID);
-		if(defaultSprite == null) throw new IllegalStateException("Couldn't locate " + DEFAULT_SPRITE_ID + " !");
-		this.defaultAppearance = new SingleSpriteAppearance(defaultSprite, materialsWithoutAo.get(BlendMode.CUTOUT));
-		
-		Sprite barrier = spriteLookup.apply(BARRIER_SPRITE_ID);
-		if(barrier == null) barrier = defaultSprite; //eh
-		this.barrierItemAppearance = new SingleSpriteAppearance(barrier, materialsWithoutAo.get(BlendMode.CUTOUT));
-	}
-	
 	private static final SpriteIdentifier DEFAULT_SPRITE_ID = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of("minecraft:block/scaffolding_top"));
 	private static final SpriteIdentifier BARRIER_SPRITE_ID = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of("minecraft:item/barrier"));
 	
-	private final TemplateAppearance defaultAppearance;
-	private final TemplateAppearance barrierItemAppearance;
+	private final Object initLock = new Object(); //initializing the rest of the fields protected by this lock
 	
-	private final ConcurrentHashMap<BlockState, TemplateAppearance> appearanceCache = new ConcurrentHashMap<>(); //Mutable, append-only cache
-	
+	private TemplateAppearance defaultAppearance = null;
+	private TemplateAppearance barrierItemAppearance = null;
+	private final ConcurrentHashMap<BlockState, TemplateAppearance> appearanceCache = new ConcurrentHashMap<>();
 	private final EnumMap<BlendMode, RenderMaterial> materialsWithAo = new EnumMap<>(BlendMode.class);
-	private final EnumMap<BlendMode, RenderMaterial> materialsWithoutAo = new EnumMap<>(BlendMode.class); //Immutable contents
+	private final EnumMap<BlendMode, RenderMaterial> materialsWithoutAo = new EnumMap<>(BlendMode.class);
+	
+	public void ready(Function<SpriteIdentifier, Sprite> spriteLookup) {
+		if(barrierItemAppearance != null) return; //Already initialized
+		
+		synchronized(initLock) {
+			if(barrierItemAppearance != null) return; //Initialized by other thread
+			
+			//reset the state.
+			appearanceCache.clear();
+			materialsWithAo.clear();
+			materialsWithoutAo.clear();
+			
+			MaterialFinder finder = TemplatesClientApi.getInstance().getFabricRenderer().materialFinder();
+			for(BlendMode blend : BlendMode.values()) {
+				finder.clear().disableDiffuse(false).blendMode(blend);
+				
+				materialsWithoutAo.put(blend, finder.ambientOcclusion(TriState.FALSE).find());
+				materialsWithAo.put(blend, finder.ambientOcclusion(TriState.DEFAULT).find()); //not "true" since that *forces* AO, i just want to *allow* AO
+			}
+			
+			Sprite defaultSprite = spriteLookup.apply(DEFAULT_SPRITE_ID);
+			if(defaultSprite == null) throw new IllegalStateException("Couldn't locate " + DEFAULT_SPRITE_ID + " !");
+			this.defaultAppearance = new SingleSpriteAppearance(defaultSprite, materialsWithoutAo.get(BlendMode.CUTOUT));
+			
+			Sprite barrier = spriteLookup.apply(BARRIER_SPRITE_ID);
+			if(barrier == null) barrier = defaultSprite; //eh
+			this.barrierItemAppearance = new SingleSpriteAppearance(barrier, materialsWithoutAo.get(BlendMode.CUTOUT));
+		}
+	}
 	
 	public TemplateAppearance getDefaultAppearance() {
 		return defaultAppearance;

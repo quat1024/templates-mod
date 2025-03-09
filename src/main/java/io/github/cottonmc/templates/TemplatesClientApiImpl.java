@@ -62,11 +62,6 @@ public class TemplatesClientApiImpl implements TemplatesClientApi {
 	}
 	
 	@Override
-	public TemplateAppearanceManager getOrCreateTemplateApperanceManager(Function<SpriteIdentifier, Sprite> spriteLookup) {
-		return prov.getOrCreateTemplateApperanceManager(spriteLookup);
-	}
-	
-	@Override
 	public @NotNull Renderer getFabricRenderer() {
 		Renderer obj = RendererAccess.INSTANCE.getRenderer();
 		if(obj != null) return obj;

@@ -64,16 +64,9 @@ public interface TemplatesClientApi {
 	 */
 	TweakableUnbakedModel mesh(Identifier parent, Function<Function<SpriteIdentifier, Sprite>, Mesh> baseMeshFactory);
 	
-	/**
-	 * Get the TemplateAppearanceManager instance. To retexture a template, there has to be some way of determining what texture should
-	 * go on the top, what texture should go on the north side, and the TemplateAppearanceManager is in charge of gleaning this information
-	 * from the target blockmodels. It also caches this information.
-	 * <p>
-	 * There is one TemplateApperanceManager per resource-load. Please obtain a new one every model bake.
-	 *
-	 * @param spriteLookup Something you'll find as part of UnbakedModel#bake.
-	 */
-	TemplateAppearanceManager getOrCreateTemplateApperanceManager(Function<SpriteIdentifier, Sprite> spriteLookup);
+	default TemplateAppearanceManager getOrCreateTemplateApperanceManager(Function<SpriteIdentifier, Sprite> spriteLookup) {
+		throw new UnsupportedOperationException("The global TemplateAppearanceManager has been removed");
+	}
 	
 	/// REGISTERING UNBAKED MODELS ///
 	
@@ -111,6 +104,10 @@ public interface TemplatesClientApi {
 	
 	interface TweakableUnbakedModel extends UnbakedModel {
 		TweakableUnbakedModel disableAo();
-		TweakableUnbakedModel itemModelState(BlockState state);
+		
+		@Deprecated(forRemoval = true)
+		default TweakableUnbakedModel itemModelState(BlockState state) {
+			return this;
+		}
 	}
 }

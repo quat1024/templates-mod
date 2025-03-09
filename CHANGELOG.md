@@ -1,6 +1,17 @@
 
 Yeah i'm going cherry-picking so the changelog is becoming a mess.
 
+# 2.5.0 (1.21.1) (Mar 08 2025 but later in the day)
+
+* Rewrite a lot of the retexturing logic.
+  * Now, only one ready-to-retexture `Mesh` is used per bakedmodel, which is probably how it should have been in the first place.
+  * Should save memory and improve chunk-baking performance a little bit.
+  * There are several ABI breaks related to this. In `io.github.cottonmc.templates.api` (the "official API"):
+    * `getOrCreateTemplateApperanceManager` has been removed. The global template appearance manager has been removed.
+    * `TweakableUnbakedModel.itemModelState` has been stubbed and is no longer necessary to call.
+    * Let me know if you need more information
+* Permute the faces of fewer types of Templates. (This might rotate blocks inside some Templates.)
+
 # 2.4.1 (1.21.1) (Mar 08 2025)
 
 * Remove mixin that did nothing and broke Sinytra Connector

@@ -5,6 +5,7 @@ import io.github.cottonmc.templates.gensupport.ItemOverrideMapping;
 import io.github.cottonmc.templates.gensupport.MagicPaths;
 import io.github.cottonmc.templates.gensupport.TemplateModelMapping;
 import io.github.cottonmc.templates.model.TemplateAppearanceManager;
+import io.github.cottonmc.templates.model.TemplateUnbakedModel;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier;
 import net.fabricmc.fabric.api.client.model.loading.v1.PreparableModelLoadingPlugin;
@@ -22,7 +23,6 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.function.Function;
@@ -38,9 +38,6 @@ public class TemplatesModelProvider implements PreparableModelLoadingPlugin<Temp
 	//Stuff registered thru the code api, ends up underneath all resourcepacks
 	private final Map<Identifier, UnbakedModel> permanentModels = new HashMap<>();
 	private final Map<ModelIdentifier, Identifier> permanentItemAssignments = new HashMap<>();
-	
-	//Cache of all template models, dumped on resource-reload
-	private volatile TemplateAppearanceManager appearanceManager;
 	
 	/// fabric model loading plugin
 	
@@ -98,8 +95,23 @@ public class TemplatesModelProvider implements PreparableModelLoadingPlugin<Temp
 	
 	@Override
 	public void onInitializeModelLoader(DataModels data, ModelLoadingPlugin.Context ctx) {
-		//Dump TAM cache while we're at it
-		dumpCache();
+		//make a new tam
+		TemplateAppearanceManager tam = new TemplateAppearanceManager();
+		
+		//tell unbaked models to use it (TODO: construct new unbakedmodels instead, have some kind of baked-model-factory api)
+		@SuppressWarnings("Convert2Lambda")
+		TemplateUnbakedModel.ReinitContext reinitContext = new TemplateUnbakedModel.ReinitContext() {
+			@Override
+			public TemplateAppearanceManager getTAM(Function<SpriteIdentifier, Sprite> spriteLookup) {
+				tam.ready(spriteLookup);
+				return tam;
+			}
+		};
+		for(UnbakedModel ub : data.models.values()) {
+			if(ub instanceof TemplateUnbakedModel reinitable) {
+				reinitable.reinit(reinitContext);
+			}
+		}
 		
 		//Ensure all special models are referenced.
 		//Fixes weird problems I was having with the Post. Its item model is based off of
@@ -127,38 +139,7 @@ public class TemplatesModelProvider implements PreparableModelLoadingPlugin<Temp
 		});
 	}
 	
-	/// template appearance manager cache
-	//TODO: push this up into the model loading process, the new fabric apis are a lot nicer about this
-	
-	public TemplateAppearanceManager getOrCreateTemplateApperanceManager(Function<SpriteIdentifier, Sprite> spriteLookup) {
-		//This is kind of needlessly sketchy using the "volatile double checked locking" pattern.
-		//I'd like all template models to use the same TemplateApperanceManager, despite the model
-		//baking process happening concurrently on several threads, but I also don't want to
-		//hold up the model baking process too long.
-		
-		//Volatile field read:
-		TemplateAppearanceManager read = appearanceManager;
-		
-		if(read == null) {
-			//Acquire a lock:
-			synchronized(this) {
-				//There's a chance another thread just initialized the object and released the lock
-				//while we were waiting for it, so we do another volatile field read (the "double check"):
-				read = appearanceManager;
-				if(read == null) {
-					//If no-one has initialized it still, I guess it falls to us
-					read = appearanceManager = new TemplateAppearanceManager(spriteLookup);
-				}
-			}
-		}
-		
-		return Objects.requireNonNull(read);
-	}
-	
-	public void dumpCache() {
-		appearanceManager = null; //volatile write
-	}
-	
+	//code models
 	public void addTemplateModel(Identifier id, UnbakedModel unbaked) {
 		permanentModels.put(id, unbaked);
 	}
