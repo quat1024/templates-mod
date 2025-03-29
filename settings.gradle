@@ -2,3 +2,6 @@
 plugins {
 	id "org.gradle.toolchains.foojay-resolver-convention" version "0.8.0"
 }
+
+//lol it's different on my other computer
+rootProject.name = "templates-mod"
