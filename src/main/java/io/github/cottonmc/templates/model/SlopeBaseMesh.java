@@ -5,19 +5,17 @@ import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
+import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.RotationAxis;
 import org.joml.Matrix4f;
 
 public class SlopeBaseMesh {
-	/**
-	 * @see RetexturingBakedModel for why these values were chosen
-	 */
-	public static final int TAG_SLOPE = Direction.UP.ordinal() + 1;
-	public static final int TAG_LEFT = Direction.EAST.ordinal() + 1;
-	public static final int TAG_RIGHT = Direction.WEST.ordinal() + 1;
-	public static final int TAG_BACK = Direction.SOUTH.ordinal() + 1;
-	public static final int TAG_BOTTOM = Direction.DOWN.ordinal() + 1;
+	public static final int TAG_SLOPE = TagPacker.builder().withDir(Direction.UP).withAo(TriState.FALSE).build();
+	public static final int TAG_LEFT = TagPacker.builder().withDir(Direction.EAST).withAo(TriState.FALSE).build();
+	public static final int TAG_RIGHT = TagPacker.builder().withDir(Direction.WEST).withAo(TriState.FALSE).build();
+	public static final int TAG_BACK = TagPacker.builder().withDir(Direction.SOUTH).build();
+	public static final int TAG_BOTTOM = TagPacker.builder().withDir(Direction.DOWN).build();
 	
 	public static Mesh makeUpright() {
 		Renderer renderer = TemplatesClientApi.getInstance().getFabricRenderer();

@@ -84,12 +84,10 @@ public class MeshTransformUtil {
 			}
 			
 			//permute tags
-			int tag = quad.tag();
-			if(tag != 0) {
-				Direction dir = Direction.values()[tag - 1];
-				Direction transformed = Direction.transform(mat, dir);
-				quad.tag(transformed.ordinal() + 1);
-			}
+			TagPacker.Builder tb = new TagPacker.Builder(quad.tag());
+			Direction tagDir = tb.dir();
+			if(tagDir != null) tb.withDir(Direction.transform(mat, tagDir));
+			quad.tag(tb.build());
 			
 			//permute cullface
 			Direction cull = quad.cullFace();
@@ -99,15 +97,15 @@ public class MeshTransformUtil {
 			quad.nominalFace(null);
 			
 //			quad.color(0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF);
-			switch(quad.nominalFace()) {
-				case null  -> {}
-				case EAST  -> quad.color(0xFF0000, 0xFF0000, 0xFF0000, 0xFF0000);
-				case NORTH -> quad.color(0xFFFF00, 0xFFFF00, 0xFFFF00, 0xFFFF00);
-				case UP    -> quad.color(0x00FF00, 0x00FF00, 0x00FF00, 0x00FF00);
-				case WEST  -> quad.color(0x00FFFF, 0x00FFFF, 0x00FFFF, 0x00FFFF);
-				case SOUTH -> quad.color(0x0000FF, 0x0000FF, 0x0000FF, 0x0000FF);
-				case DOWN  -> quad.color(0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF);
-			}
+//			switch(quad.nominalFace()) {
+//				case null  -> {}
+//				case EAST  -> quad.color(0xFF0000, 0xFF0000, 0xFF0000, 0xFF0000);
+//				case NORTH -> quad.color(0xFFFF00, 0xFFFF00, 0xFFFF00, 0xFFFF00);
+//				case UP    -> quad.color(0x00FF00, 0x00FF00, 0x00FF00, 0x00FF00);
+//				case WEST  -> quad.color(0x00FFFF, 0x00FFFF, 0x00FFFF, 0x00FFFF);
+//				case SOUTH -> quad.color(0x0000FF, 0x0000FF, 0x0000FF, 0x0000FF);
+//				case DOWN  -> quad.color(0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF);
+//			}
 			
 			//Output the quad
 			return true;

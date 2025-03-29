@@ -40,7 +40,7 @@ public class UnbakedAutoRetexturedModel extends TemplateUnbakedModel {
 			for(BakedQuad quad : wrapped.getQuads(null, cullFace, rand)) {
 				emitter.fromVanilla(quad, mat, cullFace);
 				QuadUvBounds.read(emitter).normalizeUv(emitter, quad.getSprite());
-				emitter.tag(emitter.lightFace().ordinal() + 1);
+				emitter.tag(TagPacker.withDir(0, emitter.lightFace()));
 				emitter.emit();
 			}
 		}

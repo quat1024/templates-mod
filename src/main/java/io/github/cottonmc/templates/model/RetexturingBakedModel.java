@@ -18,6 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockRenderView;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -135,12 +136,18 @@ public class RetexturingBakedModel extends ForwardingBakedModel {
 		
 		@Override
 		public boolean transform(MutableQuadView quad) {
-			quad.material(ta.getRenderMaterial(ao));
-			
 			int tag = quad.tag();
-			if(tag == 0) return true; //Pass the quad through unmodified.
 			
-			Direction dir = DIRECTIONS[quad.tag() - 1];
+			boolean useAo = switch(TagPacker.ao(tag)) {
+				case TRUE -> true;
+				case FALSE -> false;
+				case DEFAULT -> ao; //from the model settings... TODO maybe deprecate that now that it can be per-quad
+			};
+			quad.material(ta.getRenderMaterial(useAo));
+			
+			@Nullable Direction dir = TagPacker.dir(tag);
+			if(dir == null) return true; //Pass the quad through unmodified.
+			
 			quad.spriteBake(ta.getSprite(dir), MutableQuadView.BAKE_NORMALIZED | ta.getBakeFlags(dir) | (uvlock ? MutableQuadView.BAKE_LOCK_UV : 0));
 			
 			return true;
@@ -160,11 +167,8 @@ public class RetexturingBakedModel extends ForwardingBakedModel {
 		@Override
 		public boolean transform(MutableQuadView quad) {
 			int tag = quad.tag();
-			if(tag == 0) return true;
-			
-			Direction dir = DIRECTIONS[quad.tag() - 1];
-			if(ta.hasColor(dir)) quad.color(tint, tint, tint, tint);
-			
+			@Nullable Direction dir = TagPacker.dir(tag);
+			if(dir != null && ta.hasColor(dir)) quad.color(tint, tint, tint, tint);
 			return true;
 		}
 	}

@@ -64,7 +64,7 @@ public class UnbakedJsonRetexturedModel extends TemplateUnbakedModel {
 						
 						Direction dir = RetexturingBakedModel.DIRECTIONS[i];
 						Direction permutedDir = facePermutation.get(dir);
-						emitter.tag(permutedDir.ordinal() + 1);
+						emitter.tag(TagPacker.withDir(0, permutedDir));
 						break;
 					}
 				}
