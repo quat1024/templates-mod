@@ -24,31 +24,30 @@ public class SlopeBaseMesh {
 		MeshBuilder builder = renderer.meshBuilder();
 		QuadEmitter qu = builder.getEmitter();
 		qu.tag(TAG_SLOPE)
+//			.square(Direction.UP, 0, 0, 1, 1, 0.5f).uvUnitSquare()
 			.pos(0, 0f, 0f, 0f).pos(1, 0f, 1f, 1f).pos(2, 1f, 1f, 1f).pos(3, 1f, 0f, 0f)
-			.color(-1, -1, -1, -1)
 			.uv(0, 0f, 0f).uv(1, 0f, 1f).uv(2, 1f, 1f).uv(3, 1f, 0f)
+			.color(-1, -1, -1, -1)
+			.cullFace(null)
+			.nominalFace(Direction.UP)
 			.emit()
 			.tag(TAG_LEFT)
-			.pos(0, 1f, 0f, 0f).pos(1, 1f, 0.5f, 0.5f).pos(2, 1f, 1f, 1f).pos(3, 1f, 0f, 1f)
+			.square(Direction.WEST, 0, 0, 1, 1, 0).uvUnitSquare() //use square() to set most of the positions
+			.pos(0, 0f, 0.5f, 0.5f).uv(0, 0.5f, 0.5f) //fix the last one manually (it's vertex index 0, found with trial and error)
 			.color(-1, -1, -1, -1)
-			.uv(0, 1f, 1f).uv(1, 0.5f, 0.5f).uv(2, 0f, 0f).uv(3, 0f, 1f)
-			.cullFace(Direction.EAST)
 			.emit()
 			.tag(TAG_RIGHT)
-			.pos(0, 0f, 0.5f, 0.5f).pos(1, 0, 0f, 0f).pos(2, 0f, 0f, 1f).pos(3, 0f, 1f, 1f)
+			.square(Direction.EAST, 0, 0, 1, 1, 0).uvUnitSquare() //use square() to set most of the positions
+			.pos(3, 1f, 0.5f, 0.5f).uv(3, 0.5f, 0.5f) //fix
 			.color(-1, -1, -1, -1)
-			.uv(0, 0.5f, 0.5f).uv(1, 0f, 1f).uv(2, 1f, 1f).uv(3, 1f, 0f)
-			.cullFace(Direction.WEST)
 			.emit()
 			.tag(TAG_BACK)
-			.square(Direction.SOUTH, 0, 0, 1, 1, 0) //sets pos & cullFace
+			.square(Direction.SOUTH, 0, 0, 1, 1, 0).uvUnitSquare()
 			.color(-1, -1, -1, -1)
-			.uvUnitSquare()
 			.emit()
 			.tag(TAG_BOTTOM)
-			.square(Direction.DOWN, 0, 0, 1, 1, 0) //sets pos & cullFace
+			.square(Direction.DOWN, 0, 0, 1, 1, 0).uvUnitSquare()
 			.color(-1, -1, -1, -1)
-			.uvUnitSquare()
 			.emit();
 		return builder.build();
 	}

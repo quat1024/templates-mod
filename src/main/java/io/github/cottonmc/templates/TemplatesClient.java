@@ -42,9 +42,9 @@ public class TemplatesClient implements ClientModInitializer {
 		//they were formerly all done in-code here, but the information is now datagenned and loaded at resource-load time.
 		//see TemplatesModelProvider. there are still a few custom mesh models left over which can't be created from json.
 		TemplatesClientApi api = TemplatesClientApi.getInstance();
-		api.addTemplateModel(Templates.id("slope_special")                , api.mesh(Templates.id("block/slope_base"), SlopeBaseMesh::makeUpright).disableAo());
-		api.addTemplateModel(Templates.id("slope_side_special")           , api.mesh(Templates.id("block/slope_base"), SlopeBaseMesh::makeSide).disableAo());
-		api.addTemplateModel(Templates.id("tiny_slope_special")           , api.mesh(Templates.id("block/tiny_slope_base"), SlopeBaseMesh::makeTinyUpright).disableAo());
-		api.addTemplateModel(Templates.id("tiny_slope_side_special")      , api.mesh(Templates.id("block/tiny_slope_base"), SlopeBaseMesh::makeTinySide).disableAo());
+		api.addTemplateModel(Templates.id("slope_special")                , api.mesh(Templates.id("block/slope_base"), SlopeBaseMesh::makeUpright));
+		api.addTemplateModel(Templates.id("slope_side_special")           , api.mesh(Templates.id("block/slope_base"), SlopeBaseMesh::makeSide));
+		api.addTemplateModel(Templates.id("tiny_slope_special")           , api.mesh(Templates.id("block/tiny_slope_base"), SlopeBaseMesh::makeTinyUpright));
+		api.addTemplateModel(Templates.id("tiny_slope_side_special")      , api.mesh(Templates.id("block/tiny_slope_base"), SlopeBaseMesh::makeTinySide));
 	}
 }
