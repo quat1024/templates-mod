@@ -3,11 +3,13 @@ package io.github.cottonmc.templates.model;
 import io.github.cottonmc.templates.api.TemplatesClientApi;
 import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
+import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.minecraft.client.render.model.ModelBakeSettings;
 import net.minecraft.util.math.Direction;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -107,8 +109,73 @@ public class MeshTransformUtil {
 //				case DOWN  -> quad.color(0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF);
 //			}
 			
+//			fixWinding(quad);
+			
 			//Output the quad
 			return true;
 		};
 	}
+	
+//	private static void fixWinding(MutableQuadView e) {
+//		//todo JANK JANK JANK JANK
+//		if(!e.lightFace().getAxis().isVertical()) return;
+//
+//		//find the vert with the lowest position
+//		Vector3f best = new Vector3f(999, 999, 999);
+//		Vector3f scratch = new Vector3f();
+//		int bestId = -1;
+//		for(int i = 0; i < 4; i++) {
+//			e.copyPos(i, scratch);
+//			if(scratch.x <= best.x && scratch.y <= best.y && scratch.z <= best.z) {
+//				bestId = i;
+//				best = new Vector3f(scratch);
+//			}
+//		}
+//
+//		if(e.y(bestId) > 0.5) {
+//			if(bestId == 1) {
+//				cycleVerts(e, scratch, 3, 2, 1, 0);
+//			} else if(bestId == 2) {
+//				for(int i = 0; i < 2; i++)
+//					cycleVerts(e, scratch, 0, 1, 2, 3);
+//			} else if(bestId == 3) {
+//				cycleVerts(e, scratch, 0, 1, 2, 3);
+//			}
+//		} else if(bestId == 0) {
+//			cycleVerts(e, scratch, 0, 1, 2, 3);
+//		} else if(bestId == 1) {
+//			//leave it
+//		} else if(bestId == 2) {
+//			cycleVerts(e, scratch, 3, 2, 1, 0);
+//		} else {
+//			for(int i = 0; i < 2; i++)
+//				cycleVerts(e, scratch, 0, 1, 2, 3);
+//		}
+//	}
+//
+//	private static void cycleVerts(MutableQuadView e, Vector3f scratch, int... order) {
+//		//pass 0 1 2 3
+//		//means 0 should go to 1, 1 should go to 2, 2 should to go 3, 3 should go to 0
+//		//a. back up the contents of 3
+//		//b. 2 to 3, then 1 to 2, then 0 to 1
+//		//c. load the backup onto 0
+//
+//		int first = order[0];
+//		int last = order[order.length - 1];
+//		Vector2f oldUv = e.copyUv(last, null);
+//		Vector3f oldPos = e.copyPos(last, null);
+//		Vector3f oldNormal = e.copyNormal(last, null);
+//		int oldColor = e.color(last);
+//
+//		for(int i = order.length - 2; i >= 0; i--) {
+//			int from = order[i];
+//			int to = order[i + 1];
+//
+//			e.uv(to, e.u(from), e.v(from))
+//				.pos(to, e.copyPos(from, scratch))
+//				.normal(to, e.copyNormal(from, scratch))
+//				.color(to, e.color(from));
+//		}
+//		e.uv(first, oldUv).pos(first, oldPos).normal(first, oldNormal).color(first, oldColor);
+//	}
 }

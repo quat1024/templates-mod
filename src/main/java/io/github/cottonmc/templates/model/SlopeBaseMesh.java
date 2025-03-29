@@ -11,11 +11,12 @@ import net.minecraft.util.math.RotationAxis;
 import org.joml.Matrix4f;
 
 public class SlopeBaseMesh {
+	//TODO: figure out how to enable AO without it looking like shit.
 	public static final int TAG_SLOPE = TagPacker.builder().withDir(Direction.UP).withAo(TriState.FALSE).build();
 	public static final int TAG_LEFT = TagPacker.builder().withDir(Direction.EAST).withAo(TriState.FALSE).build();
 	public static final int TAG_RIGHT = TagPacker.builder().withDir(Direction.WEST).withAo(TriState.FALSE).build();
-	public static final int TAG_BACK = TagPacker.builder().withDir(Direction.SOUTH).build();
-	public static final int TAG_BOTTOM = TagPacker.builder().withDir(Direction.DOWN).build();
+	public static final int TAG_BACK = TagPacker.builder().withDir(Direction.SOUTH).withAo(TriState.FALSE).build();
+	public static final int TAG_BOTTOM = TagPacker.builder().withDir(Direction.DOWN).withAo(TriState.FALSE).build();
 	
 	public static Mesh makeUpright() {
 		Renderer renderer = TemplatesClientApi.getInstance().getFabricRenderer();
