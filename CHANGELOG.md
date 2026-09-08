@@ -1,6 +1,10 @@
 
 Yeah i'm going cherry-picking so the changelog is becoming a mess.
 
+# 2.5.1 (1.21.1) (Sep 07 2026)
+
+* Fix the Lever Template's recipe being the same as the Candle Template's.
+
 # 2.5.0 (1.21.1) (Mar 08 2025 but later in the day)
 
 * Rewrite a lot of the retexturing logic.

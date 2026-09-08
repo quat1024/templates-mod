@@ -7,14 +7,14 @@
   "pattern": [
     "~",
     "I",
-    "C"
+    "L"
   ],
   "key": {
-    "C": {
-      "tag": "minecraft:candles"
-    },
     "I": {
       "item": "minecraft:bamboo"
+    },
+    "L": {
+      "item": "minecraft:lever"
     },
     "~": {
       "item": "minecraft:string"
