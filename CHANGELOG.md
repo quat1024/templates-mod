@@ -1,3 +1,49 @@
+
+Yeah i'm going cherry-picking so the changelog is becoming a mess.
+
+# 2.5.1 (1.21.1) (Sep 07 2026)
+
+* Fix the Lever Template's recipe being the same as the Candle Template's.
+
+(Also cherrypicked to 1.20.1)
+
+# 2.5.0 (1.21.1) (Mar 08 2025 but later in the day)
+
+* Rewrite a lot of the retexturing logic.
+  * Now, only one ready-to-retexture `Mesh` is used per bakedmodel, which is probably how it should have been in the first place.
+  * Should save memory and improve chunk-baking performance a little bit.
+  * There are several ABI breaks related to this. In `io.github.cottonmc.templates.api` (the "official API"):
+    * `getOrCreateTemplateApperanceManager` has been removed. The global template appearance manager has been removed.
+    * `TweakableUnbakedModel.itemModelState` has been stubbed and is no longer necessary to call.
+    * Let me know if you need more information
+* Permute the faces of fewer types of Templates. (This might rotate blocks inside some Templates.)
+
+# 2.4.1 (1.21.1) (Mar 08 2025)
+
+* Remove mixin that did nothing and broke Sinytra Connector
+* Tag template button with `wooden_buttons` again
+* Load nbt tag clientside (preventing flicker of regular template when you place one)
+
+# 2.4.1 (1.20.4) (Mar 08 2025)
+
+* Remove mixin that did nothing and (probably) broke Sinytra Connector
+* Tag template button with `wooden_buttons` again
+
+# 2.3.2 (1.20.1) (Mar 08 2025)
+
+* Remove mixin that did nothing and (probably) broke Sinytra Connector
+* Tag template button with `wooden_buttons` again
+
+# 2.4.0 (1.21.1) (Mar 07 2025)
+
+Port to 1.20.1
+
+# 2.4.0 (1.20.4) (Mar 07 2025)
+
+Port to 1.20.4
+
+# Changelog before it became a mess of nonlinear time
+
 # 2.3.1 (Mar 06, 2025, but in the evening)
 
 * Add recipes to craft Slab Templates into Vertical Slab Templates and vice versa.

@@ -48,6 +48,7 @@ public class Dgen {
 			'I', Ingr.parse("minecraft:bamboo"),
 			
 			'C', Ingr.parse("#minecraft:candles"),
+			'L', Ingr.parse("minecraft:lever"),
 			'X', Ingr.parse("minecraft:iron_ingot"),
 			'S', Ingr.parse("minecraft:cobblestone")
 		);
@@ -175,7 +176,7 @@ public class Dgen {
 		Tmpl lever = add(templates, new Tmpl("lever") {{
 			enUS("Lever Template");
 			selfdrops();
-			shapedT(1).key(key).rows("~", "I", "C");
+			shapedT(1).key(key).rows("~", "I", "L");
 			mineableAxe();
 			jsonRetexture().id("templates:lever_special").base("templates:block/lever");
 			jsonRetexture().id("templates:lever_on_special").base("templates:block/lever_on");
