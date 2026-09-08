@@ -1,9 +1,18 @@
 
 Yeah i'm going cherry-picking so the changelog is becoming a mess.
 
-# 2.5.1 (1.21.1) (Sep 07 2026)
+# 2.5.2 (1.21.1) (Sep 07 2026)
 
 * Fix the Lever Template's recipe being the same as the Candle Template's.
+
+Also cherry-picked to 1.20.
+
+# 2.5.1 (1.21.1) (Mar 29, 2025)
+
+(I guess I never wrote this in the changelog.md? It's on modrinth.)
+
+* Fix faces on the Slope disappearing with Sodium (i had a wrong cullface set)
+* Try to fix AO on the slope but fail
 
 # 2.5.0 (1.21.1) (Mar 08 2025 but later in the day)
 
